@@ -1,0 +1,12 @@
+<FindBugsFilter>
+    <Match>
+        <Or>
+            <Bug category="PERFORMANCE" />
+            <Bug pattern="HE_INHERITS_EQUALS_USE_HASHCODE" />
+            <!-- We use Spring so this is common -->
+            <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" />
+            <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
+            <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
+        </Or>
+    </Match>
+</FindBugsFilter>

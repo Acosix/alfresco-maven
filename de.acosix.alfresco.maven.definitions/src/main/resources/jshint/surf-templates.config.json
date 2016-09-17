@@ -1,0 +1,36 @@
+{
+	"bitwise": true,
+	"curly": true,
+	"eqeqeq": true,
+	"forin": true,
+	"freeze": true,
+	"latedef": true,
+	"undef": true,
+	"noarg": true,
+	"nonew": true,
+	"strict": true,
+	"unused": true,
+	"laxbreak": true,
+	"globals": {
+		"guest": false,
+		"server": false,
+		"model": false,
+		
+		"args": false,
+		"argsM": false,
+		"cache": false,
+		"headers": false,
+		"headersM": false,
+		"session": false,
+		"url": false,
+		
+		"json": false,
+		"status": false,
+		"config": false,
+		
+		"page": false,
+		"site": false,
+		
+		"widgetUtils": false"
+	}
+}

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.acosix.alfresco.maven</groupId>
+	<artifactId>de.acosix.alfresco.maven.parent</artifactId>
+	<version>1.0.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Acosix Alfresco Maven Parent</name>
+	<description>Parent POM for Acosix Alfresco Maven Support</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Java 7 is out of support - everything will be built for Java 8 by 
+			default even if Alfresco up to 5.0 officially supports Java 7 -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<maven.enforcer.version>1.4.1</maven.enforcer.version>
+		<maven.compiler.version>3.5.1</maven.compiler.version>
+		<maven.source.version>3.0.1</maven.source.version>
+		<maven.javadoc.version>2.10.4</maven.javadoc.version>
+		<maven.resources.version>3.0.1</maven.resources.version>
+		<maven.forbiddenapis.version>2.2</maven.forbiddenapis.version>
+		<maven.assembly.version>2.6</maven.assembly.version>
+		<maven.alfresco.version>1.1.1</maven.alfresco.version>
+		<maven.jslint.version>2.0.5</maven.jslint.version>
+		<maven.jshint.version>1.6.0</maven.jshint.version>
+		<maven.findbugs.version>3.0.4</maven.findbugs.version>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.version}</version>
+					<configuration>
+						<source>${maven.compiler.target}</source>
+						<target>${maven.compiler.target}</target>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven.source.version}</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				
+				<plugin>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven.javadoc.version}</version>
+					<executions>
+						<execution>
+							<id>attach-javadoc</id>
+							<goals>
+								<goal>javadoc-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>de.thetaphi</groupId>
+					<artifactId>forbiddenapis</artifactId>
+					<version>${maven.forbiddenapis.version}</version>
+					<configuration>
+						<internalRuntimeForbidden>true</internalRuntimeForbidden>
+						<failOnUnsupportedJava>false</failOnUnsupportedJava>
+						<failOnMissingClasses>false</failOnMissingClasses>
+						<failOnUnresolvableSignatures>false</failOnUnresolvableSignatures>
+						<bundledSignatures>
+							<bundledSignature>jdk-unsafe</bundledSignature>
+							<bundledSignature>jdk-deprecated</bundledSignature>
+							<bundledSignature>jdk-internal</bundledSignature>
+							<bundledSignature>jdk-system-out</bundledSignature>
+							<bundledSignature>jdk-non-portable</bundledSignature>
+							<bundledSignature>jdk-reflection</bundledSignature>
+						</bundledSignatures>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>check</goal>
+								<goal>testCheck</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<modules>
+		<module>de.acosix.alfresco.maven.definitions</module>
+		<module>de.acosix.alfresco.maven.plugins</module>
+		<module>de.acosix.alfresco.maven.module.parent</module>
+	</modules>
+
+	<profiles>
+	</profiles>
+
+</project>
