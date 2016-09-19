@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Axel Faust
+ * Copyright 2016 Acosix GmbH
  *
  * Licensed under the Eclipse Public License (EPL), Version 1.0 (the "License"); you may not use
  * this file except in compliance with the License. You may obtain a copy of the License at
@@ -28,7 +28,7 @@ import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * @author Axel Faust
+ * @author Axel Faust, <a href="http://acosix.de">Acosix GmbH</a>
  *
  * @goal duplicateI18nResources
  * @phase generate-sources
