@@ -9,13 +9,13 @@
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<componentDescriptors>
-		<componentDescriptor>assemblies/lib-component.xml</componentDescriptor>
-		<componentDescriptor>assemblies/config-component.xml</componentDescriptor>
-		<componentDescriptor>assemblies/messages-component.xml</componentDescriptor>
-		<componentDescriptor>assemblies/repo-webscript-component.xml</componentDescriptor>
-		<componentDescriptor>assemblies/surf-webscript-component.xml</componentDescriptor>
-		<componentDescriptor>assemblies/templates-component.xml</componentDescriptor>
-		<componentDescriptor>assemblies/webapp-component.xml</componentDescriptor>
+		<componentDescriptor>assemblies/amp-lib-component.xml</componentDescriptor>
+		<componentDescriptor>assemblies/amp-config-component.xml</componentDescriptor>
+		<componentDescriptor>assemblies/amp-messages-component.xml</componentDescriptor>
+		<componentDescriptor>assemblies/amp-repo-webscript-component.xml</componentDescriptor>
+		<componentDescriptor>assemblies/amp-surf-webscript-component.xml</componentDescriptor>
+		<componentDescriptor>assemblies/amp-templates-component.xml</componentDescriptor>
+		<componentDescriptor>assemblies/amp-webapp-component.xml</componentDescriptor>
 	</componentDescriptors>
 	<fileSets>
 		<fileSet>

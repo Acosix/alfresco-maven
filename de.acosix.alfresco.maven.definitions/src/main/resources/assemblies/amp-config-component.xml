@@ -95,7 +95,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.basedir}/src/main/config</directory>
-			<outputDirectory>config/alfresco/module/${project.artifactId}</outputDirectory>
+			<outputDirectory>config/alfresco/module/${moduleId}</outputDirectory>
 			<excludes>
 				<exclude>**/*.jpg</exclude>
 				<exclude>**/*.png</exclude>
@@ -137,7 +137,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.basedir}/src/main/config</directory>
-			<outputDirectory>config/alfresco/module/${project.artifactId}</outputDirectory>
+			<outputDirectory>config/alfresco/module/${moduleId}</outputDirectory>
 			<includes>
 				<include>**/*.svg</include>
 
@@ -150,7 +150,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.basedir}/src/main/config</directory>
-			<outputDirectory>config/alfresco/module/${project.artifactId}</outputDirectory>
+			<outputDirectory>config/alfresco/module/${moduleId}</outputDirectory>
 			<includes>
 				<include>**/*.jpg</include>
 				<include>**/*.png</include>

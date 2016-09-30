@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<component
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.3 http://maven.apache.org/xsd/component-1.1.3.xsd">
+	<fileSets>
+		<fileSet>
+			<directory>${project.basedir}/src/main/webscripts</directory>
+			<outputDirectory>alfresco/templates/webscripts</outputDirectory>
+			<excludes>
+				<exclude>.gitkeep</exclude>
+				<exclude>**/.gitkeep</exclude>
+
+				<exclude>**/*.ftl</exclude>
+				<exclude>**/*.js</exclude>
+			</excludes>
+			<filtered>true</filtered>
+			<lineEnding>crlf</lineEnding>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/src/main/webscripts</directory>
+			<outputDirectory>alfresco/templates/webscripts</outputDirectory>
+			<includes>
+				<include>**/*.ftl</include>
+				<include>**/*.js</include>
+			</includes>
+			<filtered>false</filtered>
+			<lineEnding>crlf</lineEnding>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/i18n-resources/webscripts</directory>
+			<outputDirectory>alfresco/templates/webscripts</outputDirectory>
+			<includes>
+				<include>**/*.properties</include>
+			</includes>
+			<filtered>true</filtered>
+			<lineEnding>crlf</lineEnding>
+		</fileSet>
+	</fileSets>
+</component>
