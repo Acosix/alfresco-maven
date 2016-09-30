@@ -302,7 +302,7 @@
                             <artifactId>maven-assembly-plugin</artifactId>
                             <executions>
                                 <execution>
-                                    <id>buildAMP</id>
+                                    <id>buildDefaultAMP</id>
                                     <phase>package</phase>
                                     <goals>
                                         <goal>single</goal>
@@ -336,7 +336,7 @@
                             <artifactId>maven-assembly-plugin</artifactId>
                             <executions>
                                 <execution>
-                                    <id>buildAMP</id>
+                                    <id>buildSpecificAMP</id>
                                     <phase>package</phase>
                                     <goals>
                                         <goal>single</goal>
