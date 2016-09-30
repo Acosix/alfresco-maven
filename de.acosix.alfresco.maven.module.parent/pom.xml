@@ -277,6 +277,7 @@
                                 <descriptorRefs>
                                     <descriptorRef>installable-jar</descriptorRef>
                                 </descriptorRefs>
+                                <escapeString>\</escapeString>
                             </configuration>
                         </execution>
                     </executions>
@@ -312,6 +313,7 @@
                                             <descriptorRef>default-amp</descriptorRef>
                                         </descriptorRefs>
                                         <appendAssemblyId>false</appendAssemblyId>
+                                        <escapeString>\</escapeString>
                                     </configuration>
                                 </execution>
                             </executions>
@@ -346,6 +348,7 @@
                                             <descriptor>src/main/assembly/amp.xml</descriptor>
                                         </descriptors>
                                         <appendAssemblyId>false</appendAssemblyId>
+                                        <escapeString>\</escapeString>
                                     </configuration>
                                 </execution>
                             </executions>
