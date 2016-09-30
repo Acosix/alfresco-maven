@@ -41,7 +41,7 @@
 				<exclude>**/*.woff</exclude>
 				<exclude>**/*.woff2</exclude>
 
-				<exclude>**/dummy.txt</exclude>
+				<exclude>**/.gitkeep</exclude>
 			</excludes>
 			<filtered>true</filtered>
 			<lineEnding>crlf</lineEnding>
@@ -130,7 +130,7 @@
 				<exclude>**/*.woff</exclude>
 				<exclude>**/*.woff2</exclude>
 
-				<exclude>**/dummy.txt</exclude>
+				<exclude>**/.gitkeep</exclude>
 			</excludes>
 			<filtered>true</filtered>
 			<lineEnding>crlf</lineEnding>

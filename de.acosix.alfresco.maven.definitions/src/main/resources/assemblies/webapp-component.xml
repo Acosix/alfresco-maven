@@ -8,8 +8,8 @@
 			<directory>${project.basedir}/src/main/webapp</directory>
 			<outputDirectory>web</outputDirectory>
 			<excludes>
-				<exclude>dummy.txt</exclude>
-				<exclude>**/dummy.txt</exclude>
+				<exclude>.gitkeep</exclude>
+				<exclude>**/.gitkeep</exclude>
 
 				<exclude>**/*.jpg</exclude>
 				<exclude>**/*.png</exclude>
@@ -60,8 +60,8 @@
 			<directory>${project.build.directory}/web</directory>
 			<outputDirectory>web</outputDirectory>
 			<excludes>
-				<exclude>dummy.txt</exclude>
-				<exclude>**/dummy.txt</exclude>
+				<exclude>.gitkeep</exclude>
+				<exclude>**/.gitkeep</exclude>
 
 				<exclude>**/*.jpg</exclude>
 				<exclude>**/*.png</exclude>

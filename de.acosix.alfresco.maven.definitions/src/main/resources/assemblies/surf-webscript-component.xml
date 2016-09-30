@@ -8,8 +8,8 @@
 			<directory>${project.basedir}/src/main/site-webscripts</directory>
 			<outputDirectory>config/alfresco/site-webscripts</outputDirectory>
 			<excludes>
-				<exclude>dummy.txt</exclude>
-				<exclude>**/dummy.txt</exclude>
+				<exclude>.gitkeep</exclude>
+				<exclude>**/.gitkeep</exclude>
 
 				<exclude>**/*.ftl</exclude>
 				<exclude>**/*.js</exclude>

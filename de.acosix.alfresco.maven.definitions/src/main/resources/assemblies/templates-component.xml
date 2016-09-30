@@ -8,8 +8,8 @@
 			<directory>${project.basedir}/src/main/templates</directory>
 			<outputDirectory>config/alfresco/templates</outputDirectory>
 			<excludes>
-				<exclude>dummy.txt</exclude>
-				<exclude>**/dummy.txt</exclude>
+				<exclude>.gitkeep</exclude>
+				<exclude>**/.gitkeep</exclude>
 
 				<exclude>**/*.ftl</exclude>
 				<exclude>**/*.js</exclude>
