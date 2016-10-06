@@ -56,7 +56,8 @@
         <moduleId>${project.artifactId}</moduleId>
 
         <alfresco.distribution.version>5.1.g</alfresco.distribution.version>
-        <spring.version>3.2.10.RELEASE</spring.version>
+        <spring.version>3.2.14.RELEASE</spring.version>
+        <surf.version>6.5</surf.version>
         <slf4j.version>1.7.21</slf4j.version>
         <logback.version>1.1.3</logback.version>
     </properties>
@@ -83,6 +84,22 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            
+            <!-- somewhere in 5.1.g a POM is lacking proper version for this -->
+            <dependency>
+                <groupId>org.alfresco.surf</groupId>
+                <artifactId>spring-surf</artifactId>
+                <version>${surf.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            
+            <!-- somewhere in 5.1.g a POM is lacking proper version for this -->
+            <dependency>
+                <groupId>org.alfresco.surf</groupId>
+                <artifactId>spring-surf-api</artifactId>
+                <version>${surf.version}</version>
                 <scope>provided</scope>
             </dependency>
 
