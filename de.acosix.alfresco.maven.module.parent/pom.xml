@@ -86,7 +86,7 @@
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>
-            
+
             <!-- somewhere in 5.1.g a POM is lacking proper version for this -->
             <dependency>
                 <groupId>org.alfresco.surf</groupId>
@@ -94,7 +94,7 @@
                 <version>${surf.version}</version>
                 <scope>provided</scope>
             </dependency>
-            
+
             <!-- somewhere in 5.1.g a POM is lacking proper version for this -->
             <dependency>
                 <groupId>org.alfresco.surf</groupId>
@@ -225,9 +225,9 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>com.cj.jshintmojo</groupId>
+                    <groupId>de.acosix.maven</groupId>
                     <artifactId>jshint-maven-plugin</artifactId>
-                    <version>${maven.jshint.version}</version>
+                    <version>${maven.acosix.jshint.version}</version>
                     <dependencies>
                         <!-- TODO Find out how to make plugin use definitions contained in dependency -->
                         <dependency>
@@ -387,22 +387,18 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>com.cj.jshintmojo</groupId>
+                            <groupId>de.acosix.maven</groupId>
                             <artifactId>jshint-maven-plugin</artifactId>
                             <executions>
                                 <execution>
                                     <id>Validate Webapp</id>
-                                    <phase>initialize</phase>
                                     <goals>
-                                        <goal>lint</goal>
+                                        <goal>jshint</goal>
                                     </goals>
                                     <configuration>
-                                        <configFile>jshint/webapp.config.js</configFile>
-                                        <directories>
-                                            <directory>src/main/webapp</directory>
-                                        </directories>
-                                        <reporter>jslint</reporter>
-                                        <reportFile>target/webapp-jshint.xml</reportFile>
+                                        <jsHintDefaultConfigFile>jshint/webapp.jshintrc</jsHintDefaultConfigFile>
+                                        <sourceDirectory>${project.basedir}/src/main/webapp</sourceDirectory>
+                                        <checkstyleReportFile>webapp-checkstyle.xml</checkstyleReportFile>
                                     </configuration>
                                 </execution>
                             </executions>
@@ -424,22 +420,18 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>com.cj.jshintmojo</groupId>
+                            <groupId>de.acosix.maven</groupId>
                             <artifactId>jshint-maven-plugin</artifactId>
                             <executions>
                                 <execution>
-                                    <id>Validate Site WebScripts</id>
-                                    <phase>initialize</phase>
+                                    <id>Validate Repo WebScripts</id>
                                     <goals>
-                                        <goal>lint</goal>
+                                        <goal>jshint</goal>
                                     </goals>
                                     <configuration>
-                                        <configFile>jshint/repo-webscripts.config.js</configFile>
-                                        <directories>
-                                            <directory>src/main/webscripts</directory>
-                                        </directories>
-                                        <reporter>jslint</reporter>
-                                        <reportFile>target/repo-webscripts-jshint.xml</reportFile>
+                                        <jsHintDefaultConfigFile>jshint/repo-webscripts.jshintrc</jsHintDefaultConfigFile>
+                                        <sourceDirectory>${project.basedir}/src/main/webscripts</sourceDirectory>
+                                        <checkstyleReportFile>repo-webscripts-checkstyle.xml</checkstyleReportFile>
                                     </configuration>
                                 </execution>
                             </executions>
@@ -461,22 +453,18 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>com.cj.jshintmojo</groupId>
+                            <groupId>de.acosix.maven</groupId>
                             <artifactId>jshint-maven-plugin</artifactId>
                             <executions>
                                 <execution>
                                     <id>Validate Site WebScripts</id>
-                                    <phase>initialize</phase>
                                     <goals>
-                                        <goal>lint</goal>
+                                        <goal>jshint</goal>
                                     </goals>
                                     <configuration>
-                                        <configFile>jshint/surf-webscripts.config.js</configFile>
-                                        <directories>
-                                            <directory>src/main/site-webscripts</directory>
-                                        </directories>
-                                        <reporter>jslint</reporter>
-                                        <reportFile>target/surf-webscripts-jshint.xml</reportFile>
+                                        <jsHintDefaultConfigFile>jshint/site-webscripts.jshintrc</jsHintDefaultConfigFile>
+                                        <sourceDirectory>${project.basedir}/src/main/site-webscripts</sourceDirectory>
+                                        <checkstyleReportFile>site-webscripts-checkstyle.xml</checkstyleReportFile>
                                     </configuration>
                                 </execution>
                             </executions>
@@ -487,7 +475,7 @@
         </profile>
 
         <profile>
-            <id>Has Surf Templates</id>
+            <id>Has Share Templates</id>
             <activation>
                 <file>
                     <exists>src/main/templates</exists>
@@ -498,22 +486,18 @@
                 <pluginManagement>
                     <plugins>
                         <plugin>
-                            <groupId>com.cj.jshintmojo</groupId>
+                            <groupId>de.acosix.maven</groupId>
                             <artifactId>jshint-maven-plugin</artifactId>
                             <executions>
                                 <execution>
-                                    <id>Validate Templates</id>
-                                    <phase>initialize</phase>
+                                    <id>Validate Share Templates</id>
                                     <goals>
-                                        <goal>lint</goal>
+                                        <goal>jshint</goal>
                                     </goals>
                                     <configuration>
-                                        <configFile>jshint/surf-templates.config.json</configFile>
-                                        <directories>
-                                            <directory>src/main/templates</directory>
-                                        </directories>
-                                        <reporter>jslint</reporter>
-                                        <reportFile>target/surf-templates-jshint.xml</reportFile>
+                                        <jsHintDefaultConfigFile>jshint/share-templates.jshintrc</jsHintDefaultConfigFile>
+                                        <sourceDirectory>${project.basedir}/src/main/templates</sourceDirectory>
+                                        <checkstyleReportFile>share-templates-checkstyle.xml</checkstyleReportFile>
                                     </configuration>
                                 </execution>
                             </executions>

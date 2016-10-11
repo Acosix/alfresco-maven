@@ -10,6 +10,10 @@
 			<excludes>
 				<exclude>.gitkeep</exclude>
 				<exclude>**/.gitkeep</exclude>
+                <exclude>.jshintrc</exclude>
+                <exclude>**/.jshintrc</exclude>
+                <exclude>.jshintignore</exclude>
+                <exclude>**/.jshintignore</exclude>
 
 				<exclude>**/*.ftl</exclude>
 				<exclude>**/*.js</exclude>

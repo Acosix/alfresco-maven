@@ -1,0 +1,24 @@
+{
+	"bitwise" : true,
+    "curly" : true,
+    "eqeqeq" : true,
+    "forin" : true,
+    "freeze" : true,
+    "immed" : true,
+    "latedef" : true,
+    "undef" : true,
+    "noarg" : true,
+    "nonew" : true,
+    "strict" : false,
+    "unused" : true,
+    "laxbreak" : true,
+    "esversion" : 5,
+    "browser" : true,
+	"globals": {
+		"YAHOO": false,
+		"Alfresco": false,
+		"Acosix": false,
+		"require": false,
+		"define": false
+	}
+}

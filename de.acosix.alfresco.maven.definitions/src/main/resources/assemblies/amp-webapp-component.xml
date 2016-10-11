@@ -10,6 +10,10 @@
 			<excludes>
 				<exclude>.gitkeep</exclude>
 				<exclude>**/.gitkeep</exclude>
+                <exclude>.jshintrc</exclude>
+                <exclude>**/.jshintrc</exclude>
+                <exclude>.jshintignore</exclude>
+                <exclude>**/.jshintignore</exclude>
 
 				<exclude>**/*.jpg</exclude>
 				<exclude>**/*.png</exclude>
@@ -62,6 +66,10 @@
 			<excludes>
 				<exclude>.gitkeep</exclude>
 				<exclude>**/.gitkeep</exclude>
+                <exclude>.jshintrc</exclude>
+                <exclude>**/.jshintrc</exclude>
+                <exclude>.jshintignore</exclude>
+                <exclude>**/.jshintignore</exclude>
 
 				<exclude>**/*.jpg</exclude>
 				<exclude>**/*.png</exclude>

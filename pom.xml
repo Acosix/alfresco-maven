@@ -57,6 +57,7 @@
 		<maven.alfresco.version>1.1.1</maven.alfresco.version>
 		<maven.jslint.version>2.0.5</maven.jslint.version>
 		<maven.jshint.version>1.6.0</maven.jshint.version>
+        <maven.acosix.jshint.version>1.0.0</maven.acosix.jshint.version>
 		<maven.findbugs.version>3.0.4</maven.findbugs.version>
 	</properties>
 
