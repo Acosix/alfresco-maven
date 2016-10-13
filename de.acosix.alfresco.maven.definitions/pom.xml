@@ -1,42 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>de.acosix.alfresco.maven</groupId>
-		<artifactId>de.acosix.alfresco.maven.parent</artifactId>
-		<version>1.0.0.0-SNAPSHOT</version>
-	</parent>
-	<artifactId>de.acosix.alfresco.maven.definitions</artifactId>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.acosix.alfresco.maven</groupId>
+        <artifactId>de.acosix.alfresco.maven.parent</artifactId>
+        <version>1.0.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
 
-	<name>Acosix Alfresco Common Build Definitions</name>
+    <name>Acosix Alfresco Common Build Definitions</name>
 
-	<licenses>
-		<license>
-			<name>Eclipse Public License - v 1.0</name>
-			<url>https://www.eclipse.org/legal/epl-v10.html</url>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
-	<scm>
-		<connection>scm:git:git@github.com:Acosix/alfresco-maven.git</connection>
-		<developerConnection>scm:git:git@github.com:Acosix/alfresco-maven.git</developerConnection>
-		<url>git@github.com:Acosix/alfresco-maven.git</url>
-	</scm>
+    <scm>
+        <connection>scm:git:git@github.com:Acosix/alfresco-maven.git</connection>
+        <developerConnection>scm:git:git@github.com:Acosix/alfresco-maven.git</developerConnection>
+        <url>git@github.com:Acosix/alfresco-maven.git</url>
+    </scm>
 
-	<developers>
-		<developer>
-			<id>AFaust</id>
-			<name>Axel Faust</name>
-			<email>axel.faust@acosix.de</email>
-			<organization>Acosix GmbH</organization>
-			<roles>
-				<role>Founder</role>
-				<role>Architect</role>
-				<role>Developer</role>
-			</roles>
-			<properties>
-				<twitter>twitter.com/ReluctantBird83</twitter>
-			</properties>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>AFaust</id>
+            <name>Axel Faust</name>
+            <email>axel.faust@acosix.de</email>
+            <organization>Acosix GmbH</organization>
+            <roles>
+                <role>Founder</role>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+            <properties>
+                <twitter>twitter.com/ReluctantBird83</twitter>
+            </properties>
+        </developer>
+    </developers>
 </project>
