@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.0.0.0-SNAPSHOT</version>
+        <version>1.0.0.0</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
@@ -226,7 +226,7 @@
                 <plugin>
                     <groupId>de.acosix.alfresco.maven</groupId>
                     <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
-                    <version>1.0.0.0-SNAPSHOT</version>
+                    <version>1.0.0.0</version>
                     <executions>
                         <execution>
                             <goals>
@@ -261,7 +261,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>1.0.0.0-SNAPSHOT</version>
+                            <version>1.0.0.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -283,7 +283,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>1.0.0.0-SNAPSHOT</version>
+                            <version>1.0.0.0</version>
                         </dependency>
                     </dependencies>
                     <executions>
@@ -335,7 +335,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>1.0.0.0-SNAPSHOT</version>
+                            <version>1.0.0.0</version>
                         </dependency>
                     </dependencies>
                     <executions>
