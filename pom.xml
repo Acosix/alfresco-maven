@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>
+    <url>https://github.com/Acosix/alfresco-maven</url>
 
     <licenses>
         <license>
