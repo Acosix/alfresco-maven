@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Acosix/alfresco-maven.svg?branch=master)](https://travis-ci.org/Acosix/alfresco-maven)
+
 # About
 This project defines the Maven build framework used by Acosix GmbH for building Alfresco-related libraries and modules.
 
