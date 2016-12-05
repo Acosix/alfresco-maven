@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
+    <version>1.0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Acosix Alfresco Module Parent</name>
@@ -73,6 +74,8 @@
         <alfresco.db.params>AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=10000;MVCC=FALSE;LOCK_MODE=0</alfresco.db.params>
         <alfresco.db.username>alfresco</alfresco.db.username>
         <alfresco.db.password>alfresco</alfresco.db.password>
+        
+        <acosix.definitions.version>1.0.0.1-SNAPSHOT</acosix.definitions.version>
     </properties>
 
     <dependencyManagement>
@@ -257,11 +260,10 @@
                     <artifactId>jshint-maven-plugin</artifactId>
                     <version>${maven.acosix.jshint.version}</version>
                     <dependencies>
-                        <!-- TODO Find out how to make plugin use definitions contained in dependency -->
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>1.0.0.0</version>
+                            <version>${acosix.definitions.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -283,7 +285,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>1.0.0.0</version>
+                            <version>${acosix.definitions.version}</version>
                         </dependency>
                     </dependencies>
                     <executions>
@@ -335,7 +337,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>1.0.0.0</version>
+                            <version>${acosix.definitions.version}</version>
                         </dependency>
                     </dependencies>
                     <executions>

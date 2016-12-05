@@ -17,7 +17,7 @@
 	"globals": {
 		"YAHOO": false,
 		"Alfresco": false,
-		"Acosix": false,
+		"Acosix": true,
 		"require": false,
 		"define": false
 	}

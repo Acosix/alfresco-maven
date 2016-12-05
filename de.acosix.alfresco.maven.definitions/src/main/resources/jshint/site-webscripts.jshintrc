@@ -30,7 +30,10 @@
 		"json": false,
 		"status": false,
 		"config": false,
+		"page": false,
+		"remote": false,
+		"instance": false,
 		
-		"widgetUtils": false"
+		"widgetUtils": false
 	}
 }

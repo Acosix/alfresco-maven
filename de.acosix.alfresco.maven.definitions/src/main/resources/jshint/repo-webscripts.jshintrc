@@ -59,6 +59,7 @@
 		"slingshotDocLib": false,
 		"utils": false,
 		"webprojects": false,
-		"workflow": false
+		"workflow": false,
+		"siteService" : false
 	}
 }
