@@ -73,7 +73,7 @@
         <alfresco.db.params>AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=10000;MVCC=FALSE;LOCK_MODE=0</alfresco.db.params>
         <alfresco.db.username>alfresco</alfresco.db.username>
         <alfresco.db.password>alfresco</alfresco.db.password>
-        
+
         <acosix.definitions.version>1.0.0.1-SNAPSHOT</acosix.definitions.version>
         <acosix.plugins.version>1.0.0.1-SNAPSHOT</acosix.plugins.version>
     </properties>
@@ -307,18 +307,6 @@
                                 <excludes>
                                     <exclude>**/integration/**</exclude>
                                 </excludes>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>integration-test</id>
-                            <phase>integration-test</phase>
-                            <goals>
-                                <goal>test</goal>
-                            </goals>
-                            <configuration>
-                                <includes>
-                                    <include>**/integration/**</include>
-                                </includes>
                             </configuration>
                         </execution>
                     </executions>
@@ -561,6 +549,31 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>run-integration-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>integration-test</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>**/integration/**</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
 
