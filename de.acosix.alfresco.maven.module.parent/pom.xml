@@ -5,11 +5,10 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.0.0.0</version>
+        <version>1.0.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
-    <version>1.0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Acosix Alfresco Module Parent</name>
@@ -76,6 +75,7 @@
         <alfresco.db.password>alfresco</alfresco.db.password>
         
         <acosix.definitions.version>1.0.0.1-SNAPSHOT</acosix.definitions.version>
+        <acosix.plugins.version>1.0.0.1-SNAPSHOT</acosix.plugins.version>
     </properties>
 
     <dependencyManagement>
@@ -229,7 +229,7 @@
                 <plugin>
                     <groupId>de.acosix.alfresco.maven</groupId>
                     <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
-                    <version>1.0.0.0</version>
+                    <version>${acosix.plugins.version}</version>
                     <executions>
                         <execution>
                             <goals>
