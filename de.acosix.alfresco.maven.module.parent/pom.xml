@@ -344,6 +344,11 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>net.alchim31.maven</groupId>
+                    <artifactId>yuicompressor-maven-plugin</artifactId>
+                    <version>1.5.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -444,6 +449,30 @@
                                         <jsHintDefaultConfigFile>jshint/webapp.jshintrc</jsHintDefaultConfigFile>
                                         <sourceDirectory>${project.basedir}/src/main/webapp</sourceDirectory>
                                         <checkstyleReportFile>webapp-checkstyle.xml</checkstyleReportFile>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <groupId>net.alchim31.maven</groupId>
+                            <artifactId>yuicompressor-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>compress-js</id>
+                                    <phase>process-resources</phase>
+                                    <goals>
+                                        <goal>compress</goal>
+                                    </goals>
+                                    <configuration>
+                                        <excludes>
+                                            <exclude>**/*.lib.js</exclude>
+                                            <exclude>**/*.css</exclude>
+                                        </excludes>
+                                        <sourceDirectory>${project.basedir}/src/main/webapp</sourceDirectory>
+                                        <outputDirectory>${project.build.directory}/web</outputDirectory>
+                                        <!-- Exclude resources so we don't get an extra dir structure with -min.js files -->
+                                        <excludeResources>true</excludeResources>
+                                        <jswarn>false</jswarn>
                                     </configuration>
                                 </execution>
                             </executions>
