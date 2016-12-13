@@ -10,6 +10,7 @@
     <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
 
     <name>Acosix Alfresco Common Build Definitions</name>
+    <description>Consolidated definitions for various build tools, e.g. FindBug, JSHint, Maven Assembly Plugin</description>
 
     <licenses>
         <license>
