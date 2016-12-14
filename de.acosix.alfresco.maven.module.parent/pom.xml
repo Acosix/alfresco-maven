@@ -230,6 +230,17 @@
                 </plugin>
 
                 <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
                     <groupId>de.acosix.alfresco.maven</groupId>
                     <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
                     <version>${acosix.plugins.version}</version>
@@ -307,8 +318,12 @@
                         <execution>
                             <id>default-test</id>
                             <configuration>
+                                <includes>
+                                    <include>${project.artifactId}.*</include>
+                                </includes>
                                 <excludes>
-                                    <exclude>**/integration/**</exclude>
+                                    <exclude>${project.artifactId}.integration.*</exclude>
+                                    <exclude>${project.artifactId}.*.integration.*</exclude>
                                 </excludes>
                             </configuration>
                         </execution>
@@ -600,7 +615,8 @@
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <include>**/integration/**</include>
+                                        <include>${project.artifactId}.integration.*</include>
+                                        <include>${project.artifactId}.*.integration.*</include>
                                     </includes>
                                 </configuration>
                             </execution>
