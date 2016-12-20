@@ -27,6 +27,11 @@
 		"session": false,
 		"url": false,
 		
+		"format": false,
+        "jsonUtils": false,
+        "logger": false,
+        "msg": false,
+		
 		"json": false,
 		"status": false,
 		"config": false,
