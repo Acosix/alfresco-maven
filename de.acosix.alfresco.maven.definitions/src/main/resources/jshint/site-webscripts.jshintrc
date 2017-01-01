@@ -38,6 +38,7 @@
 		"page": false,
 		"remote": false,
 		"instance": false,
+		"sitedata": false,
 		
 		"widgetUtils": false
 	}
