@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.0.0.1-SNAPSHOT</version>
+        <version>1.0.0.1</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
@@ -74,8 +74,8 @@
         <alfresco.db.username>alfresco</alfresco.db.username>
         <alfresco.db.password>alfresco</alfresco.db.password>
 
-        <acosix.definitions.version>1.0.0.1-SNAPSHOT</acosix.definitions.version>
-        <acosix.plugins.version>1.0.0.1-SNAPSHOT</acosix.plugins.version>
+        <acosix.definitions.version>1.0.0.1</acosix.definitions.version>
+        <acosix.plugins.version>1.0.0.1</acosix.plugins.version>
 
         <arquillian.rest.version>1.0.0.Alpha4</arquillian.rest.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
