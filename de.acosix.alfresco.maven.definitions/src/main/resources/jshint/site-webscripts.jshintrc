@@ -1,5 +1,5 @@
 {
-	"bitwise" : true,
+    "bitwise" : true,
     "curly" : true,
     "eqeqeq" : true,
     "forin" : true,
@@ -14,32 +14,34 @@
     "laxbreak" : true,
     "esversion" : 5,
     "rhino" : true,
-	"globals": {
-		"guest": false,
-		"server": false,
-		"model": false,
-		
-		"args": false,
-		"argsM": false,
-		"cache": false,
-		"headers": false,
-		"headersM": false,
-		"session": false,
-		"url": false,
-		
-		"format": false,
+    "globals": {
+        "guest": false,
+        "server": false,
+        "model": false,
+        
+        "args": false,
+        "argsM": false,
+        "cache": false,
+        "headers": false,
+        "headersM": false,
+        "session": false,
+        "url": false,
+        
+        "format": false,
         "jsonUtils": false,
         "logger": false,
         "msg": false,
-		
-		"json": false,
-		"status": false,
-		"config": false,
-		"page": false,
-		"remote": false,
-		"instance": false,
-		"sitedata": false,
-		
-		"widgetUtils": false
-	}
+        "preferences": false,
+        
+        "json": false,
+        "status": false,
+        "config": false,
+        "page": false,
+        "remote": false,
+        "instance": false,
+        "sitedata": false,
+        "user": false,
+        
+        "widgetUtils": false
+    }
 }

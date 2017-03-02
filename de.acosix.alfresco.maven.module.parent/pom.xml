@@ -135,6 +135,12 @@
                 <artifactId>arquillian-tomcat-embedded-7</artifactId>
                 <version>1.0.0.CR7</version>
                 <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss.arquillian.testenricher</groupId>
+                        <artifactId>arquillian-testenricher-cdi</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>

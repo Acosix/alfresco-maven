@@ -23,6 +23,7 @@
             <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" />
             <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
             <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
+            <Bug pattern="NM_SAME_SIMPLE_NAME_AS_INTERFACE" />
         </Or>
     </Match>
 </FindBugsFilter>

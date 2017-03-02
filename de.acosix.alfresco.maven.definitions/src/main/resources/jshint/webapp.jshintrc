@@ -1,5 +1,5 @@
 {
-	"bitwise" : true,
+    "bitwise" : true,
     "curly" : true,
     "eqeqeq" : true,
     "forin" : true,
@@ -14,11 +14,11 @@
     "laxbreak" : true,
     "esversion" : 5,
     "browser" : true,
-	"globals": {
-		"YAHOO": false,
-		"Alfresco": false,
-		"Acosix": true,
-		"require": false,
-		"define": false
-	}
+    "globals": {
+        "YAHOO": false,
+        "Alfresco": false,
+        "Acosix": true,
+        "require": false,
+        "define": false
+    }
 }
