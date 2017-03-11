@@ -323,13 +323,19 @@
                     <executions>
                         <execution>
                             <id>default-test</id>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
                             <configuration>
                                 <includes>
                                     <include>${project.artifactId}.*</include>
+                                    <include>${project.artifactId}.*.*</include>
                                 </includes>
                                 <excludes>
                                     <exclude>${project.artifactId}.integration.*</exclude>
+                                    <exclude>${project.artifactId}.integration.*.*</exclude>
                                     <exclude>${project.artifactId}.*.integration.*</exclude>
+                                    <exclude>${project.artifactId}.*.integration.*.*</exclude>
                                 </excludes>
                             </configuration>
                         </execution>
@@ -622,7 +628,9 @@
                                 <configuration>
                                     <includes>
                                         <include>${project.artifactId}.integration.*</include>
+                                        <include>${project.artifactId}.integration.*.*</include>
                                         <include>${project.artifactId}.*.integration.*</include>
+                                        <include>${project.artifactId}.*.integration.*.*</include>
                                     </includes>
                                 </configuration>
                             </execution>
