@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.acosix.alfresco.maven</groupId>
     <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-    <version>1.0.0.2-SNAPSHOT</version>
+    <version>1.0.0.2</version>
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>
@@ -48,10 +48,13 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <maven.enforcer.version>1.4.1</maven.enforcer.version>
-        <maven.compiler.version>3.5.1</maven.compiler.version>
+        <maven.compiler.version>3.6.1</maven.compiler.version>
         <maven.source.version>3.0.1</maven.source.version>
         <maven.javadoc.version>2.10.4</maven.javadoc.version>
+        <maven.jar.version>3.0.2</maven.jar.version>
         <maven.resources.version>3.0.1</maven.resources.version>
+        <maven.toolchain.version>1.1</maven.toolchain.version>
+        <maven.plugin.version>3.5</maven.plugin.version>
         <maven.forbiddenapis.version>2.2</maven.forbiddenapis.version>
         <maven.assembly.version>2.6</maven.assembly.version>
         <maven.alfresco.version>1.1.1</maven.alfresco.version>
@@ -155,6 +158,36 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven.jar.version}</version>
+                </plugin>
+                
+                <plugin>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>${maven.plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-toolchains-plugin</artifactId>
+                    <version>${maven.toolchain.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>toolchain</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <toolchains>
+                            <jdk>
+                                <version>${maven.compiler.target}</version>
+                            </jdk>
+                        </toolchains>
+                    </configuration>
                 </plugin>
 
                 <plugin>
