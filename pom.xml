@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.acosix.alfresco.maven</groupId>
     <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-    <version>1.0.0.2</version>
+    <version>1.0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>
@@ -164,7 +164,7 @@
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${maven.jar.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <artifactId>maven-plugin-plugin</artifactId>
                     <version>${maven.plugin.version}</version>
@@ -241,6 +241,24 @@
     </modules>
 
     <profiles>
+        <profile>
+            <id>Toolchains</id>
+
+            <activation>
+                <file>
+                    <exists>${user.home}/.m2/toolchains.xml</exists>
+                </file>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>release</id>
             <build>
