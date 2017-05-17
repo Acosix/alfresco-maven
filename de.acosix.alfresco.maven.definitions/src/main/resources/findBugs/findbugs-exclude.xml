@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- 
- Copyright 2016 Acosix GmbH
+ Copyright 2016, 2017 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@
             <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR" />
             <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
             <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
+            <Bug pattern="SE_TRANSIENT_FIELD_NOT_RESTORED" />
             <Bug pattern="NM_SAME_SIMPLE_NAME_AS_INTERFACE" />
         </Or>
     </Match>
