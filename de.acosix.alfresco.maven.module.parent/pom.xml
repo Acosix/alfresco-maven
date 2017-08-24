@@ -213,31 +213,150 @@
                             <nonFilteredFileExtension>js</nonFilteredFileExtension>
                             <nonFilteredFileExtension>css</nonFilteredFileExtension>
 
-                            <nonFilteredFileExtension>acp</nonFilteredFileExtension>
                             <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
                             <nonFilteredFileExtension>png</nonFilteredFileExtension>
                             <nonFilteredFileExtension>gif</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>ico</nonFilteredFileExtension>
                             <nonFilteredFileExtension>svg</nonFilteredFileExtension>
+
+                            <nonFilteredFileExtension>bin</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>exe</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>lic</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>acp</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>zip</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>jar</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>keystore</nonFilteredFileExtension>
+
                             <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+                            <nonFilteredFileExtension>swf</nonFilteredFileExtension>
                             <nonFilteredFileExtension>doc</nonFilteredFileExtension>
                             <nonFilteredFileExtension>docx</nonFilteredFileExtension>
                             <nonFilteredFileExtension>xls</nonFilteredFileExtension>
                             <nonFilteredFileExtension>xlsx</nonFilteredFileExtension>
                             <nonFilteredFileExtension>ppt</nonFilteredFileExtension>
                             <nonFilteredFileExtension>pptx</nonFilteredFileExtension>
-                            <nonFilteredFileExtension>bin</nonFilteredFileExtension>
-                            <nonFilteredFileExtension>lic</nonFilteredFileExtension>
-                            <nonFilteredFileExtension>swf</nonFilteredFileExtension>
-                            <nonFilteredFileExtension>zip</nonFilteredFileExtension>
+
                             <nonFilteredFileExtension>msg</nonFilteredFileExtension>
-                            <nonFilteredFileExtension>jar</nonFilteredFileExtension>
                             <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
                             <nonFilteredFileExtension>eot</nonFilteredFileExtension>
                             <nonFilteredFileExtension>woff</nonFilteredFileExtension>
                             <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
-                            <nonFilteredFileExtension>ico</nonFilteredFileExtension>
                         </nonFilteredFileExtensions>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <id>prepareTest-copyGlobalResources</id>
+                            <phase>generate-test-resources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/test-resources/alfresco</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>src/main/globalConfig</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>prepareTest-copyModuleResources</id>
+                            <phase>generate-test-resources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/test-resources/alfresco/module/${moduleId}</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>src/main/config</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>prepareTest-copyModuleMessages</id>
+                            <phase>generate-test-resources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/test-resources/alfresco/messages/${messages.path}</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>src/main/messages</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                    <resource>
+                                        <directory>${project.build.directory}/i18n-resources/messages</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>prepareTest-copyModuleTemplates</id>
+                            <phase>generate-test-resources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/test-resources/alfresco/templates</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>src/main/templates</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                    <resource>
+                                        <directory>${project.build.directory}/i18n-resources/templates</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>prepareTest-copyModuleWebScripts</id>
+                            <phase>generate-test-resources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/test-resources/alfresco/templates/webscripts</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>src/main/webscripts</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                    <resource>
+                                        <directory>${project.build.directory}/i18n-resources/webscripts</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>prepareTest-copyModuleSiteWebScripts</id>
+                            <phase>generate-test-resources</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/test-resources/alfresco/site-webscripts</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>src/main/site-webscripts</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                    <resource>
+                                        <directory>${project.build.directory}/i18n-resources/site-webscripts</directory>
+                                        <filtering>true</filtering>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>

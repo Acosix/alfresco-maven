@@ -26,9 +26,9 @@
 	<componentDescriptors>
 		<componentDescriptor>assemblies/jar-config-component.xml</componentDescriptor>
 		<componentDescriptor>assemblies/jar-messages-component.xml</componentDescriptor>
+		<componentDescriptor>assemblies/jar-templates-component.xml</componentDescriptor>
 		<componentDescriptor>assemblies/jar-repo-webscript-component.xml</componentDescriptor>
 		<componentDescriptor>assemblies/jar-surf-webscript-component.xml</componentDescriptor>
-		<componentDescriptor>assemblies/jar-templates-component.xml</componentDescriptor>
 		<componentDescriptor>assemblies/jar-webapp-component.xml</componentDescriptor>
 	</componentDescriptors>
 	<fileSets>

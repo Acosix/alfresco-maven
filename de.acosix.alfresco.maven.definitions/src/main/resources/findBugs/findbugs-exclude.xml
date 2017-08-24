@@ -25,6 +25,9 @@
             <Bug pattern="SE_COMPARATOR_SHOULD_BE_SERIALIZABLE" />
             <Bug pattern="SE_TRANSIENT_FIELD_NOT_RESTORED" />
             <Bug pattern="NM_SAME_SIMPLE_NAME_AS_INTERFACE" />
+            
+            <!-- produces potential false-positives due to Java 8 Lambdas, e.g. on forEach() for collections -->
+            <Bug pattern="UC_USELESS_OBJECT" />
         </Or>
     </Match>
 </FindBugsFilter>
