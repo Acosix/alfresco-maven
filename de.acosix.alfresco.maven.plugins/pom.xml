@@ -11,6 +11,9 @@
 
     <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
     <packaging>maven-plugin</packaging>
+    
+    <name>Acosix Alfresco Maven Plugins</name>
+    <description>Maven Plugins for builds of Acosix Alfresco projects</description>
 
     <licenses>
         <license>
