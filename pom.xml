@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.acosix.alfresco.maven</groupId>
     <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-    <version>1.0.0.3</version>
+    <version>1.0.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>
@@ -43,9 +43,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Java 7 is out of support - everything will be built for Java 8 by default even if Alfresco up to 5.0 officially supports Java 7 -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- Only target Java 7 to support any builds in backporting branches for Alfresco 4.2/5.0 -->
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
 
         <maven.enforcer.version>1.4.1</maven.enforcer.version>
         <maven.compiler.version>3.6.1</maven.compiler.version>
@@ -244,6 +244,20 @@
                                         <versionRange>[${maven.toolchain.version},)</versionRange>
                                         <goals>
                                             <goal>toolchain</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-plugin-plugin</artifactId>
+                                        <versionRange>[${maven.plugin.version},)</versionRange>
+                                        <goals>
+                                            <goal>descriptor</goal>
+                                            <goal>helpmojo</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>

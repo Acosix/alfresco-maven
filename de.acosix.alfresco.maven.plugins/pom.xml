@@ -6,12 +6,12 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.0.0.3</version>
+        <version>1.0.0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
     <packaging>maven-plugin</packaging>
-    
+
     <name>Acosix Alfresco Maven Plugins</name>
     <description>Maven Plugins for builds of Acosix Alfresco projects</description>
 
