@@ -62,6 +62,7 @@
         <maven.jshint.version>1.6.0</maven.jshint.version>
         <maven.acosix.jshint.version>1.0.0</maven.acosix.jshint.version>
         <maven.findbugs.version>3.0.4</maven.findbugs.version>
+        <maven.surefire.version>2.21.0</maven.surefire.version>
 
         <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
     </properties>
@@ -228,7 +229,12 @@
                         <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     </configuration>
                 </plugin>
-                
+
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.version}</version>
+                </plugin>
+
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
