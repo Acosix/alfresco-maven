@@ -28,6 +28,9 @@
             
             <!-- produces potential false-positives due to Java 8 Lambdas, e.g. on forEach() for collections -->
             <Bug pattern="UC_USELESS_OBJECT" />
+
+            <!-- produces potential false-positives due to implicit type specialisation (i.e. undeclared Exception as RuntimeException) -->
+            <Bug pattern="BC_VACUOUS_INSTANCEOF" />
         </Or>
     </Match>
 </FindBugsFilter>
