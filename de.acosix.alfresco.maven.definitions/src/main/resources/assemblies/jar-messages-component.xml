@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- 
- Copyright 2016, 2017 Acosix GmbH
+ Copyright 2016 - 2018 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
 				<include>**/*.properties</include>
 			</includes>
 			<filtered>true</filtered>
-			<lineEnding>crlf</lineEnding>
+			<lineEnding>lf</lineEnding>
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/i18n-resources/messages</directory>
@@ -35,7 +35,7 @@
 				<include>**/*.properties</include>
 			</includes>
 			<filtered>true</filtered>
-			<lineEnding>crlf</lineEnding>
+			<lineEnding>lf</lineEnding>
 		</fileSet>
 	</fileSets>
 </component>

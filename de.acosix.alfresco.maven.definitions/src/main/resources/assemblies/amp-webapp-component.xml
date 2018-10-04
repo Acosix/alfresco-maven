@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- 
- Copyright 2016, 2017 Acosix GmbH
+ Copyright 2016 - 2018 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@
 				<exclude>**/*.css</exclude>
 			</excludes>
 			<filtered>true</filtered>
-			<lineEnding>crlf</lineEnding>
+			<lineEnding>lf</lineEnding>
 		</fileSet>
 		<fileSet>
 			<directory>${project.basedir}/src/main/webapp</directory>
@@ -50,7 +50,7 @@
 				<include>**/*.css</include>
 			</includes>
 			<filtered>false</filtered>
-			<lineEnding>crlf</lineEnding>
+			<lineEnding>lf</lineEnding>
 		</fileSet>
 		<fileSet>
 			<directory>${project.basedir}/src/main/webapp</directory>
@@ -73,7 +73,7 @@
 				<exclude>WEB-INF/**/*</exclude>
 			</excludes>
 			<filtered>true</filtered>
-			<lineEnding>crlf</lineEnding>
+			<lineEnding>lf</lineEnding>
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/web</directory>
@@ -95,7 +95,7 @@
 				<exclude>**/*.css</exclude>
 			</excludes>
 			<filtered>false</filtered>
-			<lineEnding>crlf</lineEnding>
+			<lineEnding>lf</lineEnding>
 		</fileSet>
 	</fileSets>
 </component>

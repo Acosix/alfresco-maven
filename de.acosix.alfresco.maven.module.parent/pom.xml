@@ -1,4 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!-- 
+ Copyright 2016 - 2018 Acosix GmbH
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -12,7 +27,7 @@
     <packaging>pom</packaging>
 
     <name>Acosix Alfresco Module Parent</name>
-    <description>Parent POM for Acosix Alfresco Modules</description>
+    <description>Parent POM for Alfresco extension modules</description>
 
     <licenses>
         <license>
@@ -57,14 +72,6 @@
         <moduleId>${project.artifactId}</moduleId>
 
         <alfresco.distribution.version>5.1.g</alfresco.distribution.version>
-        <surf.version>6.5</surf.version>
-
-        <!-- baselines for independent <dependencies> for 5.0.d+ -->
-        <spring.version>3.2.10.RELEASE</spring.version>
-        <slf4j.version>1.7.7</slf4j.version>
-
-        <!-- not provided with Alfresco but define similar baseline -->
-        <logback.version>1.1.3</logback.version>
 
         <!-- common properties for embedded tests -->
         <alfresco.data.location>${project.build.directory}/alf_data_dev</alfresco.data.location>
@@ -90,92 +97,40 @@
         <dependencies>
 
             <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-platform-distribution</artifactId>
-                <version>${alfresco.distribution.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- somewhere in 5.1.g a POM is lacking proper version for this -->
-            <dependency>
-                <groupId>org.alfresco.surf</groupId>
-                <artifactId>spring-surf</artifactId>
-                <version>${surf.version}</version>
-                <scope>provided</scope>
-                <!-- can mess with tests using a Servlet 3.0 container -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <!-- somewhere in 5.1.g a POM is lacking proper version for this -->
-            <dependency>
-                <groupId>org.alfresco.surf</groupId>
-                <artifactId>spring-surf-api</artifactId>
-                <version>${surf.version}</version>
-                <scope>provided</scope>
-                <!-- can mess with tests using a Servlet 3.0 container -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>1.1.11.Final</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-
-            <dependency>
-                <groupId>org.jboss.arquillian.container</groupId>
-                <artifactId>arquillian-tomcat-embedded-7</artifactId>
-                <version>1.0.0.CR7</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.jboss.arquillian.testenricher</groupId>
-                        <artifactId>arquillian-testenricher-cdi</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>7.0.69</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-jasper</artifactId>
-                <version>7.0.69</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-logging-juli</artifactId>
-                <version>7.0.69</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.eclipse.jdt.core.compiler</groupId>
-                <artifactId>ecj</artifactId>
-                <version>4.2.2</version>
-                <scope>test</scope>
-            </dependency>
             
+            <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-rest-client-api</artifactId>
+                    <version>${arquillian.rest.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-rest-client-impl-3x</artifactId>
+                    <version>${arquillian.rest.version}</version>
+                    <scope>test</scope>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.slf4j</groupId>
+                            <artifactId>slf4j-simple</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-jackson-provider</artifactId>
+                    <version>${resteasy.version}</version>
+                    <scope>test</scope>
+                </dependency>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -194,7 +149,7 @@
                     <version>${maven.enforcer.version}</version>
                     <executions>
                         <execution>
-                            <id>Enforce Alfresco Requirements</id>
+                            <id>Enforce Requirements</id>
                             <goals>
                                 <goal>enforce</goal>
                             </goals>
@@ -869,6 +824,52 @@
                     <exists>src/test/resources/arquillian.xml</exists>
                 </file>
             </activation>
+            
+            <dependencyManagement>
+            <dependencies>
+                <dependency>
+                <groupId>org.jboss.arquillian.container</groupId>
+                <artifactId>arquillian-tomcat-embedded-7</artifactId>
+                <version>1.0.0.CR7</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jboss.arquillian.testenricher</groupId>
+                        <artifactId>arquillian-testenricher-cdi</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>7.0.69</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+                <version>7.0.69</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-logging-juli</artifactId>
+                <version>7.0.69</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jdt.core.compiler</groupId>
+                <artifactId>ecj</artifactId>
+                <version>4.2.2</version>
+                <scope>test</scope>
+            </dependency>
+            
+            </dependencies>
+            </dependencyManagement>
 
             <dependencies>
                 <dependency>
@@ -911,28 +912,17 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.extension</groupId>
                     <artifactId>arquillian-rest-client-api</artifactId>
-                    <version>${arquillian.rest.version}</version>
                     <scope>test</scope>
                 </dependency>
 
                 <dependency>
                     <groupId>org.jboss.arquillian.extension</groupId>
                     <artifactId>arquillian-rest-client-impl-3x</artifactId>
-                    <version>${arquillian.rest.version}</version>
-                    <scope>test</scope>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>slf4j-simple</artifactId>
-                        </exclusion>
-                    </exclusions>
                 </dependency>
 
                 <dependency>
                     <groupId>org.jboss.resteasy</groupId>
                     <artifactId>resteasy-jackson-provider</artifactId>
-                    <version>${resteasy.version}</version>
-                    <scope>test</scope>
                 </dependency>
 
                 <dependency>
@@ -941,33 +931,7 @@
                     <scope>test</scope>
                     <type>pom</type>
                 </dependency>
-
-                <dependency>
-                    <groupId>org.alfresco</groupId>
-                    <artifactId>alfresco-repository</artifactId>
-                    <version>${alfresco.distribution.version}</version>
-                    <type>jar</type>
-                    <classifier>h2scripts</classifier>
-                    <scope>test</scope>
-                    <!-- can mess with tests using a Servlet 3.0 container -->
-                    <exclusions>
-                        <exclusion>
-                            <groupId>javax.servlet</groupId>
-                            <artifactId>servlet-api</artifactId>
-                        </exclusion>
-                        <exclusion>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>slf4j-log4j12</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.190</version>
-                    <scope>test</scope>
-                </dependency>
+                
             </dependencies>
 
             <build>
@@ -985,7 +949,8 @@
                                 </goals>
                                 <configuration>
                                     <tasks>
-                                        <copy file="${project.build.directory}/${project.build.finalName}-installable.jar" tofile="${project.build.directory}/test-classes/installable-${project.artifactId}.jar" />
+                                        <copy file="${project.build.directory}/${project.build.finalName}-installable.jar"
+                                            tofile="${project.build.directory}/test-classes/installable-${project.artifactId}.jar" />
                                     </tasks>
                                 </configuration>
                             </execution>
@@ -1009,4 +974,9 @@
         </profile>
 
     </profiles>
+
+    <modules>
+        <module>5.0.d</module>
+        <module>5.2.g</module>
+    </modules>
 </project>
