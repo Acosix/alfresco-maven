@@ -26,7 +26,7 @@
     <artifactId>de.acosix.alfresco.maven.module.parent-5.0.d</artifactId>
     <packaging>pom</packaging>
 
-    <name>Acosix Alfresco 5.0.d Module Parent)</name>
+    <name>Acosix Alfresco 5.0.d Module Parent</name>
     <description>Parent POM for extension modules based on Alfresco 5.0.d</description>
 
     <licenses>
