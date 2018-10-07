@@ -9,5 +9,6 @@ Due to the varying differences between Alfresco versions and their quality of Ma
 
 The following Alfresco versions are currently supported via the following parent POMs:
 
+* Alfresco 4.2.f - POM coordinates: de.acosix.alfresco.maven:de.acosix.alfresco.maven.module.parent-4.2.f:&lt;version&gt;
 * Alfresco 5.0.d - POM coordinates: de.acosix.alfresco.maven:de.acosix.alfresco.maven.module.parent-5.0.d:&lt;version&gt;
 * Alfresco 5.2.g (Repository 5.2.g and Share 5.2.f) - POM coordinates: de.acosix.alfresco.maven:de.acosix.alfresco.maven.module.parent-5.2.g:&lt;version&gt;

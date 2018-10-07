@@ -976,6 +976,7 @@
     </profiles>
 
     <modules>
+        <module>4.2.f</module>
         <module>5.0.d</module>
         <module>5.2.g</module>
     </modules>
