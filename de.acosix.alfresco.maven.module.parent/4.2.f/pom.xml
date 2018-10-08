@@ -64,6 +64,7 @@
         <spring.version>3.0.5.RELEASE</spring.version>
         <slf4j.version>1.5.11</slf4j.version>
         <surf.groupId>org.springframework.extensions.surf</surf.groupId>
+        <surf.version>1.2.1-M1</surf.version>
     </properties>
 
     <dependencyManagement>
@@ -166,6 +167,34 @@
                 <version>${alfresco.distribution.version}</version>
                 <classifier>classes</classifier>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>${surf.groupId}</groupId>
+                <artifactId>spring-surf</artifactId>
+                <version>${surf.version}</version>
+                <scope>provided</scope>
+                <!-- can mess with tests using a Servlet 3.0 container -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>${surf.groupId}</groupId>
+                <artifactId>spring-surf-api</artifactId>
+                <version>${surf.version}</version>
+                <scope>provided</scope>
+                <!-- can mess with tests using a Servlet 3.0 container -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Alfresco distribution POM does not define versions for following libraries -->
