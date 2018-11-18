@@ -79,6 +79,8 @@
         <maven.findbugs.version>3.0.4</maven.findbugs.version>
         <maven.surefire.version>2.21.0</maven.surefire.version>
 
+        <fabric8io.docker.version>0.27.2</fabric8io.docker.version>
+
         <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
     </properties>
 

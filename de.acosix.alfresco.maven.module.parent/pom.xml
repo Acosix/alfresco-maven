@@ -71,26 +71,29 @@
 
         <moduleId>${project.artifactId}</moduleId>
 
-        <alfresco.distribution.version>5.1.g</alfresco.distribution.version>
-
-        <!-- common properties for embedded tests -->
-        <alfresco.data.location>${project.build.directory}/alf_data_dev</alfresco.data.location>
-        <alfresco.db.datasource.class>org.h2.jdbcx.JdbcDataSource</alfresco.db.datasource.class>
-        <alfresco.db.name>alf_dev</alfresco.db.name>
-        <alfresco.db.params>AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=10000;MVCC=FALSE;LOCK_MODE=0</alfresco.db.params>
-        <alfresco.db.username>alfresco</alfresco.db.username>
-        <alfresco.db.password>alfresco</alfresco.db.password>
-
         <acosix.definitions.version>1.0.0.4-SNAPSHOT</acosix.definitions.version>
         <acosix.plugins.version>1.0.0.4-SNAPSHOT</acosix.plugins.version>
 
         <arquillian.rest.version>1.0.0.Alpha4</arquillian.rest.version>
-        <resteasy.version>3.0.19.Final</resteasy.version>
+        <resteasy.version>3.6.2.Final</resteasy.version>
 
         <assembly.build.skipAmp>false</assembly.build.skipAmp>
         <assembly.build.skipInstallableJar>false</assembly.build.skipInstallableJar>
         <assembly.attach.amp>true</assembly.attach.amp>
         <assembly.attach.installableJar>true</assembly.attach.installableJar>
+
+        <docker.tests.enabled>false</docker.tests.enabled>
+        <docker.tests.repositoryBaseImage></docker.tests.repositoryBaseImage>
+        <docker.tests.repositoryWebappPath></docker.tests.repositoryWebappPath>
+        <docker.tests.repositoryStartupWaitTime>180000</docker.tests.repositoryStartupWaitTime>
+        <docker.tests.shareBaseImage></docker.tests.shareBaseImage>
+        <docker.tests.searchBaseImage></docker.tests.searchBaseImage>
+        <docker.tests.searchStartupWaitTime>30000</docker.tests.searchStartupWaitTime>
+        <docker.tests.skipShareImage>true</docker.tests.skipShareImage>
+        <docker.tests.skipSearchImage>true</docker.tests.skipSearchImage>
+        <docker.tests.searchSubsystem></docker.tests.searchSubsystem>
+        <docker.tests.searchPort></docker.tests.searchPort>
+        <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
     </properties>
 
     <dependencyManagement>
@@ -103,33 +106,54 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-            
+
             <dependency>
-                    <groupId>org.jboss.arquillian.extension</groupId>
-                    <artifactId>arquillian-rest-client-api</artifactId>
-                    <version>${arquillian.rest.version}</version>
-                    <scope>test</scope>
-                </dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-rest-client-api</artifactId>
+                <version>${arquillian.rest.version}</version>
+                <scope>test</scope>
+            </dependency>
 
-                <dependency>
-                    <groupId>org.jboss.arquillian.extension</groupId>
-                    <artifactId>arquillian-rest-client-impl-3x</artifactId>
-                    <version>${arquillian.rest.version}</version>
-                    <scope>test</scope>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>org.slf4j</groupId>
-                            <artifactId>slf4j-simple</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-rest-client-impl-3x</artifactId>
+                <version>${arquillian.rest.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-simple</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-                <dependency>
-                    <groupId>org.jboss.resteasy</groupId>
-                    <artifactId>resteasy-jackson-provider</artifactId>
-                    <version>${resteasy.version}</version>
-                    <scope>test</scope>
-                </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jackson-provider</artifactId>
+                <version>${resteasy.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-client</artifactId>
+                <version>${resteasy.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxb-provider</artifactId>
+                <version>${resteasy.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jackson2-provider</artifactId>
+                <version>${resteasy.version}</version>
+                <scope>test</scope>
+            </dependency>
 
             <dependency>
                 <groupId>junit</groupId>
@@ -449,6 +473,12 @@
                     <groupId>net.alchim31.maven</groupId>
                     <artifactId>yuicompressor-maven-plugin</artifactId>
                     <version>1.5.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${fabric8io.docker.version}</version>
                 </plugin>
 
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
@@ -817,6 +847,178 @@
         </profile>
 
         <profile>
+            <id>docker-repository-it</id>
+            <activation>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>true</value>
+                </property>
+                <file>
+                    <missing>src/test/resources/arquillian.xml</missing>
+                    <exists>src/main/config/alfresco-global.properties</exists>
+                </file>
+            </activation>
+
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>io.fabric8</groupId>
+                            <artifactId>docker-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>build-test-image</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>build</goal>
+                                    </goals>
+                                </execution>
+                                <execution>
+                                    <id>start-test-containers</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>start</goal>
+                                    </goals>
+                                </execution>
+                                <execution>
+                                    <id>stop-test-containers</id>
+                                    <phase>post-integration-test</phase>
+                                    <goals>
+                                        <goal>stop</goal>
+                                        <goal>remove</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>de.acosix.alfresco.maven</groupId>
+                                    <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
+                                    <version>${acosix.definitions.version}</version>
+                                </dependency>
+                            </dependencies>
+                            <configuration>
+                                <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+                                <images>
+                                    <image>
+                                        <name>postgres:10.1</name>
+                                        <alias>postgres</alias>
+                                        <run>
+                                            <hostname>postgres</hostname>
+                                            <env>
+                                                <POSTGRES_PASSWORD>alfresco</POSTGRES_PASSWORD>
+                                                <POSTGRES_USER>alfresco</POSTGRES_USER>
+                                                <POSTGRES_DB>alfresco</POSTGRES_DB>
+                                            </env>
+                                            <cmd>postgres -c max_connections=300 -c log_min_messages=LOG</cmd>
+                                            <network>
+                                                <mode>custom</mode>
+                                                <name>${moduleId}-test</name>
+                                                <alias>postgres</alias>
+                                            </network>
+                                        </run>
+                                    </image>
+                                    <image>
+                                        <name>${moduleId}-test</name>
+                                        <alias>repository</alias>
+                                        <build>
+                                            <from>${docker.tests.repositoryBaseImage}</from>
+                                            <assembly>
+                                                <targetDir>${docker.tests.repositoryWebappPath}</targetDir>
+                                                <descriptorRef>default-docker</descriptorRef>
+                                            </assembly>
+                                            <tags>
+                                                <tag>test</tag>
+                                            </tags>
+                                        </build>
+                                        <run>
+                                            <hostname>repository</hostname>
+                                            <env>
+                                                <JAVA_OPTS><![CDATA[
+                                                    -Ddb.driver=org.postgresql.Driver
+                                                    -Ddb.username=alfresco
+                                                    -Ddb.password=alfresco
+                                                    -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
+                                                    -Dsolr.host=search
+                                                    -Dsolr.port=${docker.tests.searchPort}
+                                                    -Dsolr.secureComms=none
+                                                    -Dsolr.base.url=${docker.tests.searchBaseUrl}
+                                                    -Dindex.subsystem.name=${docker.tests.searchSubsystem}
+                                                    -Dcsrf.filter.enabled=false
+                                                    -Xms1g -Xmx1g
+                                                ]]></JAVA_OPTS>
+                                            </env>
+                                            <ports>
+                                                <port>8082:8080</port>
+                                            </ports>
+                                            <network>
+                                                <mode>custom</mode>
+                                                <name>${moduleId}-test</name>
+                                                <alias>repository</alias>
+                                            </network>
+                                            <dependsOn>
+                                                <container>postgres</container>
+                                            </dependsOn>
+                                            <wait>
+                                                <http>
+                                                    <url>http://localhost:8082/alfresco/favicon.ico</url>
+                                                    <method>GET</method>
+                                                    <status>200</status>
+                                                </http>
+                                                <time>${docker.tests.repositoryStartupWaitTime}</time>
+                                            </wait>
+                                        </run>
+                                    </image>
+                                    <image>
+                                        <name>${docker.tests.searchBaseImage}</name>
+                                        <alias>search</alias>
+                                        <run>
+                                            <skip>${docker.tests.skipSearchImage}</skip>
+                                            <hostname>search</hostname>
+                                            <env>
+                                                <SOLR_ALFRESCO_HOST>repository</SOLR_ALFRESCO_HOST>
+                                                <SOLR_ALFRESCO_PORT>8080</SOLR_ALFRESCO_PORT>
+                                                <SOLR_SOLR_HOST>search</SOLR_SOLR_HOST>
+                                                <SOLR_SOLR_PORT>${docker.tests.searchPort}</SOLR_SOLR_PORT>
+                                                <SOLR_CREATE_ALFRESCO_DEFAULTS>alfresco,archive</SOLR_CREATE_ALFRESCO_DEFAULTS>
+                                                <SOLR_JAVA_MEM>-Xms512M -Xmx512M</SOLR_JAVA_MEM>
+                                            </env>
+                                            <ports>
+                                                <port>8083:${docker.tests.searchPort}</port>
+                                            </ports>
+                                            <network>
+                                                <mode>custom</mode>
+                                                <name>${moduleId}-test</name>
+                                                <alias>search</alias>
+                                            </network>
+                                            <dependsOn>
+                                                <container>repository</container>
+                                            </dependsOn>
+                                            <wait>
+                                                <http>
+                                                    <url>http://localhost:8083/solr/</url>
+                                                    <method>GET</method>
+                                                    <status>200</status>
+                                                </http>
+                                                <time>${docker.tests.searchStartupWaitTime}</time>
+                                            </wait>
+                                        </run>
+                                    </image>
+                                </images>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
             <id>arquillian</id>
 
             <activation>
@@ -824,51 +1026,51 @@
                     <exists>src/test/resources/arquillian.xml</exists>
                 </file>
             </activation>
-            
+
             <dependencyManagement>
-            <dependencies>
-                <dependency>
-                <groupId>org.jboss.arquillian.container</groupId>
-                <artifactId>arquillian-tomcat-embedded-7</artifactId>
-                <version>1.0.0.CR7</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.jboss.arquillian.testenricher</groupId>
-                        <artifactId>arquillian-testenricher-cdi</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jboss.arquillian.container</groupId>
+                        <artifactId>arquillian-tomcat-embedded-7</artifactId>
+                        <version>1.0.0.CR7</version>
+                        <scope>test</scope>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.jboss.arquillian.testenricher</groupId>
+                                <artifactId>arquillian-testenricher-cdi</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
 
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>7.0.69</version>
-                <scope>test</scope>
-            </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat.embed</groupId>
+                        <artifactId>tomcat-embed-core</artifactId>
+                        <version>7.0.69</version>
+                        <scope>test</scope>
+                    </dependency>
 
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-jasper</artifactId>
-                <version>7.0.69</version>
-                <scope>test</scope>
-            </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat.embed</groupId>
+                        <artifactId>tomcat-embed-jasper</artifactId>
+                        <version>7.0.69</version>
+                        <scope>test</scope>
+                    </dependency>
 
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-logging-juli</artifactId>
-                <version>7.0.69</version>
-                <scope>test</scope>
-            </dependency>
+                    <dependency>
+                        <groupId>org.apache.tomcat.embed</groupId>
+                        <artifactId>tomcat-embed-logging-juli</artifactId>
+                        <version>7.0.69</version>
+                        <scope>test</scope>
+                    </dependency>
 
-            <dependency>
-                <groupId>org.eclipse.jdt.core.compiler</groupId>
-                <artifactId>ecj</artifactId>
-                <version>4.2.2</version>
-                <scope>test</scope>
-            </dependency>
-            
-            </dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.jdt.core.compiler</groupId>
+                        <artifactId>ecj</artifactId>
+                        <version>4.2.2</version>
+                        <scope>test</scope>
+                    </dependency>
+
+                </dependencies>
             </dependencyManagement>
 
             <dependencies>
@@ -931,7 +1133,7 @@
                     <scope>test</scope>
                     <type>pom</type>
                 </dependency>
-                
+
             </dependencies>
 
             <build>
@@ -979,5 +1181,6 @@
         <module>4.2.f</module>
         <module>5.0.d</module>
         <module>5.2.g</module>
+        <module>6.0.7</module>
     </modules>
 </project>

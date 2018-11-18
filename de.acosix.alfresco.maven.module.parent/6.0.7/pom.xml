@@ -23,11 +23,11 @@
         <version>1.0.0.4-SNAPSHOT</version>
     </parent>
 
-    <artifactId>de.acosix.alfresco.maven.module.parent-5.0.d</artifactId>
+    <artifactId>de.acosix.alfresco.maven.module.parent-6.0.7</artifactId>
     <packaging>pom</packaging>
 
-    <name>Acosix Alfresco 5.0.d Module Parent</name>
-    <description>Parent POM for extension modules based on Alfresco 5.0.d</description>
+    <name>Acosix Alfresco 6.0 Module Parent</name>
+    <description>Parent POM for extension modules based on Alfresco 6.0.7-ga</description>
 
     <licenses>
         <license>
@@ -63,29 +63,36 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <alfresco.distribution.version>5.0.d</alfresco.distribution.version>
-        <spring.version>3.2.10.RELEASE</spring.version>
-        <slf4j.version>1.7.7</slf4j.version>
-        <surf.groupId>org.springframework.extensions.surf</surf.groupId>
-        <surf.version>${alfresco.distribution.version}</surf.version>
+        <alfresco.core.version>7.3</alfresco.core.version>
+        <alfresco.data-model.version>8.8</alfresco.data-model.version>
+        <alfresco.repository.version>6.55</alfresco.repository.version>
+        <alfresco.remote-api.version>6.38</alfresco.remote-api.version>
+        <alfresco.share-services.version>6.0.b</alfresco.share-services.version>
+        <alfresco.share.version>6.0.b</alfresco.share.version>
 
-        <logback.version>1.1.3</logback.version>
+        <spring.version>5.0.4.RELEASE</spring.version>
+        <surf.groupId>org.alfresco.surf</surf.groupId>
+        <surf.version>6.19</surf.version>
+        <slf4j.version>1.7.24</slf4j.version>
+
+        <logback.version>1.2.3</logback.version>
+        
+        <docker.tests.repositoryBaseImage>alfresco/alfresco-content-repository-community:6.0.7-ga</docker.tests.repositoryBaseImage>
+        <docker.tests.repositoryWebappPath>/usr/local/tomcat/webapps/alfresco</docker.tests.repositoryWebappPath>
+        <docker.tests.shareBaseImage>alfresco/alfresco-share:6.0.b</docker.tests.shareBaseImage>
+        <docker.tests.searchBaseImage>alfresco/alfresco-search-services:1.1.1</docker.tests.searchBaseImage>
+        <docker.tests.searchSubsystem>solr6</docker.tests.searchSubsystem>
+        <docker.tests.searchPort>8983</docker.tests.searchPort>
+        <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-platform-distribution</artifactId>
-                <version>${alfresco.distribution.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-remote-api</artifactId>
-                <version>${alfresco.distribution.version}</version>
+                <artifactId>alfresco-core</artifactId>
+                <version>${alfresco.core.version}</version>
                 <scope>provided</scope>
                 <!-- exclude broken / irrelevant transitive dependencies -->
                 <exclusions>
@@ -93,26 +100,19 @@
                         <groupId>org.springframework.social</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-data-model</artifactId>
+                <version>${alfresco.data-model.version}</version>
+                <scope>provided</scope>
+                <!-- exclude broken / irrelevant transitive dependencies -->
+                <exclusions>
                     <exclusion>
-                        <groupId>org.openoffice</groupId>
+                        <groupId>org.springframework.social</groupId>
                         <artifactId>*</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.artofsolving</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                    <!-- can mess with tests using a Servlet 3.0 container -->
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -120,7 +120,7 @@
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-repository</artifactId>
-                <version>${alfresco.distribution.version}</version>
+                <version>${alfresco.repository.version}</version>
                 <scope>provided</scope>
                 <!-- exclude broken / irrelevant transitive dependencies -->
                 <exclusions>
@@ -154,8 +154,8 @@
 
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-core</artifactId>
-                <version>${alfresco.distribution.version}</version>
+                <artifactId>alfresco-remote-api</artifactId>
+                <version>${alfresco.remote-api.version}</version>
                 <scope>provided</scope>
                 <!-- exclude broken / irrelevant transitive dependencies -->
                 <exclusions>
@@ -163,64 +163,43 @@
                         <groupId>org.springframework.social</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.openoffice</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.artofsolving</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <!-- can mess with tests using a Servlet 3.0 container -->
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>share</artifactId>
-                <version>${alfresco.distribution.version}</version>
+                <artifactId>alfresco-share-services</artifactId>
+                <version>${alfresco.share-services.version}</version>
                 <classifier>classes</classifier>
                 <scope>provided</scope>
             </dependency>
 
             <dependency>
-                <groupId>${surf.groupId}</groupId>
-                <artifactId>spring-surf</artifactId>
-                <version>${surf.version}</version>
-                <scope>provided</scope>
-                <!-- can mess with tests using a Servlet 3.0 container -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>${surf.groupId}</groupId>
-                <artifactId>spring-surf-api</artifactId>
-                <version>${surf.version}</version>
-                <scope>provided</scope>
-                <!-- can mess with tests using a Servlet 3.0 container -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <!-- Alfresco distribution POM does not define versions for following libraries -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>${spring.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>${surf.groupId}</groupId>
-                <artifactId>spring-webscripts</artifactId>
-                <version>${surf.version}</version>
+                <groupId>org.alfresco</groupId>
+                <artifactId>share</artifactId>
+                <version>${alfresco.share.version}</version>
+                <classifier>classes</classifier>
                 <scope>provided</scope>
             </dependency>
 
@@ -238,7 +217,7 @@
                 <version>${logback.version}</version>
                 <scope>test</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
@@ -257,28 +236,6 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>log4j-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-repository</artifactId>
-                <version>${alfresco.distribution.version}</version>
-                <type>jar</type>
-                <classifier>h2scripts</classifier>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>1.4.190</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

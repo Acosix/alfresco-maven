@@ -60,6 +60,9 @@
     </developers>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
         <alfresco.distribution.version>5.2.g</alfresco.distribution.version>
         <alfresco.core.version>6.13</alfresco.core.version>
         <share.distribution.version>5.2.f</share.distribution.version>
