@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- 
- Copyright 2016 - 2018 Acosix GmbH
+ Copyright 2016 - 2019 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -65,6 +65,8 @@
         <slf4j.version>1.5.11</slf4j.version>
         <surf.groupId>org.springframework.extensions.surf</surf.groupId>
         <surf.version>1.2.1-M1</surf.version>
+
+        <logback.version>0.9.20</logback.version>
     </properties>
 
     <dependencyManagement>
@@ -227,6 +229,13 @@
             </dependency>
 
             <!-- prepare libraries for logging in local tests -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <scope>test</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- 
- Copyright 2016 - 2018 Acosix GmbH
+ Copyright 2016 - 2019 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -83,6 +83,7 @@
         <assembly.attach.installableJar>true</assembly.attach.installableJar>
 
         <docker.tests.enabled>false</docker.tests.enabled>
+        <docker.tests.skipRepositoryImageBuild>true</docker.tests.skipRepositoryImageBuild>
         <docker.tests.repositoryBaseImage></docker.tests.repositoryBaseImage>
         <docker.tests.repositoryWebappPath></docker.tests.repositoryWebappPath>
         <docker.tests.repositoryStartupWaitTime>180000</docker.tests.repositoryStartupWaitTime>
@@ -479,6 +480,122 @@
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>${fabric8io.docker.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>de.acosix.alfresco.maven</groupId>
+                            <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
+                            <version>${acosix.definitions.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+                        <images>
+                            <image>
+                                <name>postgres:10.1</name>
+                                <alias>postgres</alias>
+                                <run>
+                                    <hostname>postgres</hostname>
+                                    <env>
+                                        <POSTGRES_PASSWORD>alfresco</POSTGRES_PASSWORD>
+                                        <POSTGRES_USER>alfresco</POSTGRES_USER>
+                                        <POSTGRES_DB>alfresco</POSTGRES_DB>
+                                    </env>
+                                    <cmd>postgres -c max_connections=300 -c log_min_messages=LOG</cmd>
+                                    <network>
+                                        <mode>custom</mode>
+                                        <name>${moduleId}-test</name>
+                                        <alias>postgres</alias>
+                                    </network>
+                                </run>
+                            </image>
+                            <image>
+                                <name>maven-repository-test</name>
+                                <alias>repository</alias>
+                                <build>
+                                    <from>${docker.tests.repositoryBaseImage}</from>
+                                    <skip>${docker.tests.skipRepositoryImageBuild}</skip>
+                                    <assembly>
+                                        <targetDir>${docker.tests.repositoryWebappPath}</targetDir>
+                                        <descriptorRef>${docker.tests.repositoryDescriptorRef}</descriptorRef>
+                                        <descriptor>${docker.tests.repositoryDescriptor}</descriptor>
+                                    </assembly>
+                                </build>
+                                <run>
+                                    <hostname>repository</hostname>
+                                    <env>
+                                        <JAVA_OPTS><![CDATA[
+                                            -Ddb.driver=org.postgresql.Driver
+                                            -Ddb.username=alfresco
+                                            -Ddb.password=alfresco
+                                            -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
+                                            -Dsolr.host=search
+                                            -Dsolr.port=${docker.tests.searchPort}
+                                            -Dsolr.secureComms=none
+                                            -Dsolr.base.url=${docker.tests.searchBaseUrl}
+                                            -Dindex.subsystem.name=${docker.tests.searchSubsystem}
+                                            -Dcsrf.filter.enabled=false
+                                            -Xms1g -Xmx1g
+                                        ]]></JAVA_OPTS>
+                                    </env>
+                                    <ports>
+                                        <port>8082:8080</port>
+                                    </ports>
+                                    <network>
+                                        <mode>custom</mode>
+                                        <name>${moduleId}-test</name>
+                                        <alias>repository</alias>
+                                    </network>
+                                    <dependsOn>
+                                        <container>postgres</container>
+                                    </dependsOn>
+                                    <wait>
+                                        <http>
+                                            <url>http://localhost:8082/alfresco/favicon.ico</url>
+                                            <method>GET</method>
+                                            <status>200</status>
+                                        </http>
+                                        <time>${docker.tests.repositoryStartupWaitTime}</time>
+                                    </wait>
+                                </run>
+                            </image>
+                            <!-- TODO Share test image -->
+                            <image>
+                                <name>${docker.tests.searchBaseImage}</name>
+                                <alias>search</alias>
+                                <run>
+                                    <skip>${docker.tests.skipSearchImage}</skip>
+                                    <hostname>search</hostname>
+                                    <env>
+                                        <SOLR_ALFRESCO_HOST>repository</SOLR_ALFRESCO_HOST>
+                                        <SOLR_ALFRESCO_PORT>8080</SOLR_ALFRESCO_PORT>
+                                        <SOLR_SOLR_HOST>search</SOLR_SOLR_HOST>
+                                        <SOLR_SOLR_PORT>${docker.tests.searchPort}</SOLR_SOLR_PORT>
+                                        <SOLR_CREATE_ALFRESCO_DEFAULTS>alfresco,archive</SOLR_CREATE_ALFRESCO_DEFAULTS>
+                                        <SOLR_JAVA_MEM>-Xms512M -Xmx512M</SOLR_JAVA_MEM>
+                                    </env>
+                                    <ports>
+                                        <port>8083:${docker.tests.searchPort}</port>
+                                    </ports>
+                                    <network>
+                                        <mode>custom</mode>
+                                        <name>${moduleId}-test</name>
+                                        <alias>search</alias>
+                                    </network>
+                                    <dependsOn>
+                                        <container>repository</container>
+                                    </dependsOn>
+                                    <wait>
+                                        <http>
+                                            <url>http://localhost:8083/solr/</url>
+                                            <method>GET</method>
+                                            <status>200</status>
+                                        </http>
+                                        <time>${docker.tests.searchStartupWaitTime}</time>
+                                    </wait>
+                                </run>
+                            </image>
+                        </images>
+                    </configuration>
                 </plugin>
 
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
@@ -818,6 +935,7 @@
         </profile>
 
         <profile>
+            <!-- TODO Rename and adapt readmes in specific modules -->
             <id>run-integration-tests</id>
 
             <build>
@@ -845,9 +963,52 @@
                 </plugins>
             </build>
         </profile>
+        
+        <profile>
+            <id>RepositoryDockerITDefaults</id>
+
+            <activation>
+                <file>
+                    <exists>src/main/docker/repository-it.xml</exists>
+                </file>
+            </activation>
+            
+            <properties>
+                <docker.tests.skipRepositoryImageBuild>false</docker.tests.skipRepositoryImageBuild>
+            </properties>
+
+        </profile>
+        
+        <profile>
+            <id>HasNoSpecificRepositoryDockerITAssembly</id>
+            
+            <activation>
+                <file>
+                    <missing>src/main/docker/repository-it.xml</missing>
+                </file>
+            </activation>
+            
+            <properties>
+                <docker.tests.repositoryDescriptorRef>default-docker</docker.tests.repositoryDescriptorRef>
+            </properties>
+        </profile>
 
         <profile>
-            <id>docker-repository-it</id>
+            <id>HasSpecificRepositoryDockerITAssembly</id>
+            
+            <activation>
+                <file>
+                    <exists>src/main/docker/repository-it.xml</exists>
+                </file>
+            </activation>
+            
+            <properties>
+                <docker.tests.repositoryDescriptor>repository-it.xml</docker.tests.repositoryDescriptor>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>RunIntegrationTestsWithDocker</id>
             <activation>
                 <property>
                     <name>docker.tests.enabled</name>
@@ -855,7 +1016,6 @@
                 </property>
                 <file>
                     <missing>src/test/resources/arquillian.xml</missing>
-                    <exists>src/main/config/alfresco-global.properties</exists>
                 </file>
             </activation>
 
@@ -889,122 +1049,6 @@
                                     </goals>
                                 </execution>
                             </executions>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>de.acosix.alfresco.maven</groupId>
-                                    <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                                    <version>${acosix.definitions.version}</version>
-                                </dependency>
-                            </dependencies>
-                            <configuration>
-                                <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
-                                <images>
-                                    <image>
-                                        <name>postgres:10.1</name>
-                                        <alias>postgres</alias>
-                                        <run>
-                                            <hostname>postgres</hostname>
-                                            <env>
-                                                <POSTGRES_PASSWORD>alfresco</POSTGRES_PASSWORD>
-                                                <POSTGRES_USER>alfresco</POSTGRES_USER>
-                                                <POSTGRES_DB>alfresco</POSTGRES_DB>
-                                            </env>
-                                            <cmd>postgres -c max_connections=300 -c log_min_messages=LOG</cmd>
-                                            <network>
-                                                <mode>custom</mode>
-                                                <name>${moduleId}-test</name>
-                                                <alias>postgres</alias>
-                                            </network>
-                                        </run>
-                                    </image>
-                                    <image>
-                                        <name>${moduleId}-test</name>
-                                        <alias>repository</alias>
-                                        <build>
-                                            <from>${docker.tests.repositoryBaseImage}</from>
-                                            <assembly>
-                                                <targetDir>${docker.tests.repositoryWebappPath}</targetDir>
-                                                <descriptorRef>default-docker</descriptorRef>
-                                            </assembly>
-                                            <tags>
-                                                <tag>test</tag>
-                                            </tags>
-                                        </build>
-                                        <run>
-                                            <hostname>repository</hostname>
-                                            <env>
-                                                <JAVA_OPTS><![CDATA[
-                                                    -Ddb.driver=org.postgresql.Driver
-                                                    -Ddb.username=alfresco
-                                                    -Ddb.password=alfresco
-                                                    -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
-                                                    -Dsolr.host=search
-                                                    -Dsolr.port=${docker.tests.searchPort}
-                                                    -Dsolr.secureComms=none
-                                                    -Dsolr.base.url=${docker.tests.searchBaseUrl}
-                                                    -Dindex.subsystem.name=${docker.tests.searchSubsystem}
-                                                    -Dcsrf.filter.enabled=false
-                                                    -Xms1g -Xmx1g
-                                                ]]></JAVA_OPTS>
-                                            </env>
-                                            <ports>
-                                                <port>8082:8080</port>
-                                            </ports>
-                                            <network>
-                                                <mode>custom</mode>
-                                                <name>${moduleId}-test</name>
-                                                <alias>repository</alias>
-                                            </network>
-                                            <dependsOn>
-                                                <container>postgres</container>
-                                            </dependsOn>
-                                            <wait>
-                                                <http>
-                                                    <url>http://localhost:8082/alfresco/favicon.ico</url>
-                                                    <method>GET</method>
-                                                    <status>200</status>
-                                                </http>
-                                                <time>${docker.tests.repositoryStartupWaitTime}</time>
-                                            </wait>
-                                        </run>
-                                    </image>
-                                    <image>
-                                        <name>${docker.tests.searchBaseImage}</name>
-                                        <alias>search</alias>
-                                        <run>
-                                            <skip>${docker.tests.skipSearchImage}</skip>
-                                            <hostname>search</hostname>
-                                            <env>
-                                                <SOLR_ALFRESCO_HOST>repository</SOLR_ALFRESCO_HOST>
-                                                <SOLR_ALFRESCO_PORT>8080</SOLR_ALFRESCO_PORT>
-                                                <SOLR_SOLR_HOST>search</SOLR_SOLR_HOST>
-                                                <SOLR_SOLR_PORT>${docker.tests.searchPort}</SOLR_SOLR_PORT>
-                                                <SOLR_CREATE_ALFRESCO_DEFAULTS>alfresco,archive</SOLR_CREATE_ALFRESCO_DEFAULTS>
-                                                <SOLR_JAVA_MEM>-Xms512M -Xmx512M</SOLR_JAVA_MEM>
-                                            </env>
-                                            <ports>
-                                                <port>8083:${docker.tests.searchPort}</port>
-                                            </ports>
-                                            <network>
-                                                <mode>custom</mode>
-                                                <name>${moduleId}-test</name>
-                                                <alias>search</alias>
-                                            </network>
-                                            <dependsOn>
-                                                <container>repository</container>
-                                            </dependsOn>
-                                            <wait>
-                                                <http>
-                                                    <url>http://localhost:8083/solr/</url>
-                                                    <method>GET</method>
-                                                    <status>200</status>
-                                                </http>
-                                                <time>${docker.tests.searchStartupWaitTime}</time>
-                                            </wait>
-                                        </run>
-                                    </image>
-                                </images>
-                            </configuration>
                         </plugin>
                     </plugins>
                 </pluginManagement>
@@ -1019,7 +1063,7 @@
         </profile>
 
         <profile>
-            <id>arquillian</id>
+            <id>RunIntegrationTestsWithArquillian</id>
 
             <activation>
                 <file>
