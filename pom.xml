@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
- Copyright 2016 - 2018 Acosix GmbH
+ Copyright 2016 - 2019 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,7 +69,6 @@
         <maven.jar.version>3.0.2</maven.jar.version>
         <maven.resources.version>3.0.1</maven.resources.version>
         <maven.toolchain.version>1.1</maven.toolchain.version>
-        <maven.plugin.version>3.5</maven.plugin.version>
         <maven.forbiddenapis.version>2.2</maven.forbiddenapis.version>
         <maven.assembly.version>2.6</maven.assembly.version>
         <maven.alfresco.version>1.1.1</maven.alfresco.version>
@@ -78,6 +77,12 @@
         <maven.acosix.jshint.version>1.0.0</maven.acosix.jshint.version>
         <maven.findbugs.version>3.0.4</maven.findbugs.version>
         <maven.surefire.version>2.21.0</maven.surefire.version>
+
+        <maven.plugin.version>3.5</maven.plugin.version>
+        <maven.plugin.api.version>${maven.plugin.version}.0</maven.plugin.api.version>
+        <maven.artifact.version>${maven.plugin.version}.0</maven.artifact.version>
+        <maven.archiver.version>3.3.0</maven.archiver.version>
+        <plexus.archiver.version>${maven.plugin.version}</plexus.archiver.version>
 
         <fabric8io.docker.version>0.27.2</fabric8io.docker.version>
 

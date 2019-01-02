@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2017 Acosix GmbH
+ * Copyright 2016 - 2019 Acosix GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,19 +26,19 @@ import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * @author Axel Faust, <a href="http://acosix.de">Acosix GmbH</a>
+ * @author Axel Faust
  *
- * @goal duplicateI18nResources
- * @phase generate-sources
- * @requiresProject
- * @threadSafe
  * @description Duplicates existing resource bundles to provide basic support for locales without falling back to the default locale
  *              bundles.
  */
+@Mojo(name = "duplicateI18nResources", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class DuplicateI18nResourcesMojo extends AbstractMojo
 {
 
@@ -51,33 +51,39 @@ public class DuplicateI18nResourcesMojo extends AbstractMojo
      * @parameter default-value="${basedir}/src/main"
      * @required
      */
+    @Parameter(defaultValue = "${basedir}/src/main", required = true)
     protected File sourceDirectory;
 
     /**
      * @parameter default-value="${project.build.directory}/i18n-resources"
      * @required
      */
+    @Parameter(defaultValue = "${project.build.directory}/i18n-resources", required = true)
     protected File outputDirectory;
 
     /**
      * @parameter
      */
+    @Parameter
     protected List<String> includes;
 
     /**
      * @parameter
      */
+    @Parameter
     protected List<String> excludes;
 
     /**
      * @parameter
      */
+    @Parameter
     protected String sourceLocale;
 
     /**
      * @parameter default-value="en"
      * @required
      */
+    @Parameter(defaultValue = "en")
     protected String targetLocale;
 
     /**
@@ -86,15 +92,17 @@ public class DuplicateI18nResourcesMojo extends AbstractMojo
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
-        final List<String> propertyFileNames = getPropertyFileNamesToProcess();
+        final List<String> propertyFileNames = this.getPropertyFileNamesToProcess();
         for (final String propertyFileName : propertyFileNames)
         {
             if (propertyFileName.endsWith(PROPERTIES_EXTENSION))
             {
                 final String fileName = propertyFileName.indexOf('/') != -1
-                        ? propertyFileName.substring(propertyFileName.lastIndexOf('/') + 1) : propertyFileName;
+                        ? propertyFileName.substring(propertyFileName.lastIndexOf('/') + 1)
+                        : propertyFileName;
                 final String relativePath = propertyFileName.indexOf('/') != -1
-                        ? propertyFileName.substring(0, propertyFileName.lastIndexOf('/') + 1) : "";
+                        ? propertyFileName.substring(0, propertyFileName.lastIndexOf('/') + 1)
+                        : "";
                 final String fileBaseName = fileName.substring(0, fileName.length() - PROPERTIES_EXTENSION.length());
 
                 final StringBuilder localeBuilder = new StringBuilder();
@@ -115,7 +123,8 @@ public class DuplicateI18nResourcesMojo extends AbstractMojo
                         || (this.sourceLocale != null && this.sourceLocale.equals(localeBuilder.toString())))
                 {
                     final String targetResourceName = this.targetLocale.trim().length() > 0
-                            ? MessageFormat.format("{0}_{1}", resourceName, this.targetLocale) : resourceName;
+                            ? MessageFormat.format("{0}_{1}", resourceName, this.targetLocale)
+                            : resourceName;
                     final String targetFileName = targetResourceName + PROPERTIES_EXTENSION;
                     final String targetPropertyFileName = relativePath + targetFileName;
 
