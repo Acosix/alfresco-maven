@@ -78,6 +78,8 @@
         <maven.findbugs.version>3.0.4</maven.findbugs.version>
         <maven.surefire.version>2.21.0</maven.surefire.version>
 
+        <maven.oss.staging.version>1.6.7</maven.oss.staging.version>
+
         <maven.plugin.version>3.5</maven.plugin.version>
         <maven.plugin.api.version>${maven.plugin.version}.0</maven.plugin.api.version>
         <maven.artifact.version>${maven.plugin.version}.0</maven.artifact.version>
@@ -242,7 +244,7 @@
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.7</version>
+                    <version>${maven.oss.staging.version}</version>
                     <extensions>true</extensions>
                     <configuration>
                         <serverId>ossrh</serverId>

@@ -71,6 +71,7 @@
 
         <moduleId>${project.artifactId}</moduleId>
 
+        <acosix.i18n.version>1.0.0.0-SNAPSHOT</acosix.i18n.version>
         <acosix.definitions.version>1.0.0.4-SNAPSHOT</acosix.definitions.version>
         <acosix.plugins.version>1.0.0.4-SNAPSHOT</acosix.plugins.version>
 
@@ -358,13 +359,43 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>de.acosix.alfresco.maven</groupId>
-                    <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
-                    <version>${acosix.plugins.version}</version>
+                    <groupId>de.acosix.maven</groupId>
+                    <artifactId>i18n-resources-plugin</artifactId>
+                    <version>${acosix.i18n.version}</version>
+                    <configuration>
+                        <sourceDirectory>${basedir}/src/main</sourceDirectory>
+                        <outputDirectory>${project.build.directory}/i18n-resources</outputDirectory>
+                        <includes>
+                            <include>messages/*.properties</include>
+                            <include>messages/**/*.properties</include>
+                            <include>webscripts/*.properties</include>
+                            <include>webscripts/**/*.properties</include>
+                            <include>site-webscripts/*.properties</include>
+                            <include>site-webscripts/**/*.properties</include>
+                            <include>templates/*.properties</include>
+                            <include>templates/**/*.properties</include>
+                            <include>webapp/*.properties</include>
+                            <include>webapp/**/*.properties</include>
+                        </includes>
+                        <copyForLocales>
+                            <copyForLocale>en</copyForLocale>
+                        </copyForLocales>
+                        <validationDirectories>
+                            <validationDirectory>${basedir}/src/main</validationDirectory>
+                            <validationDirectory>${project.build.directory}/i18n-resources</validationDirectory>
+                        </validationDirectories>
+                        <requiredLocales>
+                            <requiredLocale>de</requiredLocale>
+                            <requiredLocale>en</requiredLocale>
+                        </requiredLocales>
+                        <failOnMissingLocaleBundles>true</failOnMissingLocaleBundles>
+                        <failOnInconsistentMessageKeys>true</failOnInconsistentMessageKeys>
+                    </configuration>
                     <executions>
                         <execution>
                             <goals>
                                 <goal>duplicateI18nResources</goal>
+                                <goal>validateI18nResources</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -647,11 +678,12 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>de.acosix.alfresco.maven</groupId>
-                                        <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
-                                        <versionRange>[${acosix.plugins.version},)</versionRange>
+                                        <groupId>de.acosix.maven</groupId>
+                                        <artifactId>i18n-resources-plugin</artifactId>
+                                        <versionRange>[${acosix.i18n.version},)</versionRange>
                                         <goals>
                                             <goal>duplicateI18nResources</goal>
+                                            <goal>validateI18nResources</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
