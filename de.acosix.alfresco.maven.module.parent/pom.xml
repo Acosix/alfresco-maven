@@ -454,20 +454,22 @@
 
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>default-test</id>
-                            <goals>
-                                <goal>test</goal>
-                            </goals>
-                            <configuration>
-                                <excludes>
-                                    <exclude>**/integration/*.java</exclude>
-                                    <exclude>**/integration/**/*.java</exclude>
-                                </excludes>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <configuration>
+                        <excludes>
+                            <exclude>**/integration/*.java</exclude>
+                            <exclude>**/integration/**/*.java</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/integration/*.java</include>
+                            <include>**/integration/**/*.java</include>
+                        </includes>
+                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -961,20 +963,13 @@
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>integration-test</id>
-                                <phase>integration-test</phase>
                                 <goals>
-                                    <goal>test</goal>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
                                 </goals>
-                                <configuration>
-                                    <includes>
-                                        <include>**/integration/*.java</include>
-                                        <include>**/integration/**/*.java</include>
-                                    </includes>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

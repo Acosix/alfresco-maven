@@ -76,7 +76,8 @@
         <maven.jshint.version>1.6.0</maven.jshint.version>
         <maven.acosix.jshint.version>1.0.0</maven.acosix.jshint.version>
         <maven.findbugs.version>3.0.4</maven.findbugs.version>
-        <maven.surefire.version>2.21.0</maven.surefire.version>
+        <maven.surefire.version>2.22.1</maven.surefire.version>
+        <maven.failsafe.version>2.22.1</maven.failsafe.version>
 
         <maven.oss.staging.version>1.6.7</maven.oss.staging.version>
 
@@ -295,6 +296,11 @@
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.version}</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.version}</version>
                 </plugin>
 
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
