@@ -41,7 +41,9 @@
         "instance": false,
         "sitedata": false,
         "user": false,
+        "context": false,
         
-        "widgetUtils": false
+        "widgetUtils": false,
+        "theme": false
     }
 }

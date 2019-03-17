@@ -67,12 +67,12 @@
         <alfresco.data-model.version>8.8</alfresco.data-model.version>
         <alfresco.repository.version>6.55</alfresco.repository.version>
         <alfresco.remote-api.version>6.38</alfresco.remote-api.version>
+        <alfresco.jlan.version>7.1</alfresco.jlan.version>
         <alfresco.share-services.version>6.0.b</alfresco.share-services.version>
         <alfresco.share.version>6.0.b</alfresco.share.version>
 
         <spring.version>5.0.4.RELEASE</spring.version>
         <surf.groupId>org.alfresco.surf</surf.groupId>
-        <surf.version>6.19</surf.version>
         <slf4j.version>1.7.24</slf4j.version>
 
         <logback.version>1.2.3</logback.version>
@@ -185,6 +185,13 @@
                         <artifactId>slf4j-log4j12</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-jlan-embed</artifactId>
+                <version>${alfresco.jlan.version}</version>
+                <scope>provided</scope>
             </dependency>
 
             <dependency>

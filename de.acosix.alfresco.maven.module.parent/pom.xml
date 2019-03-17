@@ -29,7 +29,7 @@
     <name>Acosix Alfresco Module Parent</name>
     <description>Parent POM for Alfresco extension modules</description>
 
-    <licenses>
+    <licenses>  
         <license>
             <name>Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
@@ -154,13 +154,6 @@
                 <groupId>org.jboss.resteasy</groupId>
                 <artifactId>resteasy-jackson2-provider</artifactId>
                 <version>${resteasy.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
                 <scope>test</scope>
             </dependency>
 
@@ -468,15 +461,9 @@
                                 <goal>test</goal>
                             </goals>
                             <configuration>
-                                <includes>
-                                    <include>${project.artifactId}.*</include>
-                                    <include>${project.artifactId}.*.*</include>
-                                </includes>
                                 <excludes>
-                                    <exclude>${project.artifactId}.integration.*</exclude>
-                                    <exclude>${project.artifactId}.integration.*.*</exclude>
-                                    <exclude>${project.artifactId}.*.integration.*</exclude>
-                                    <exclude>${project.artifactId}.*.integration.*.*</exclude>
+                                    <exclude>**/integration/*.java</exclude>
+                                    <exclude>**/integration/**/*.java</exclude>
                                 </excludes>
                             </configuration>
                         </execution>
@@ -519,6 +506,7 @@
                         </dependency>
                     </dependencies>
                     <configuration>
+                        <sourceDirectory>src/test/docker</sourceDirectory>
                         <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                         <images>
                             <image>
@@ -983,10 +971,8 @@
                                 </goals>
                                 <configuration>
                                     <includes>
-                                        <include>${project.artifactId}.integration.*</include>
-                                        <include>${project.artifactId}.integration.*.*</include>
-                                        <include>${project.artifactId}.*.integration.*</include>
-                                        <include>${project.artifactId}.*.integration.*.*</include>
+                                        <include>**/integration/*.java</include>
+                                        <include>**/integration/**/*.java</include>
                                     </includes>
                                 </configuration>
                             </execution>
@@ -1001,7 +987,7 @@
 
             <activation>
                 <file>
-                    <exists>src/main/docker/repository-it.xml</exists>
+                    <exists>src/test/docker/repository-it.xml</exists>
                 </file>
             </activation>
             
@@ -1016,7 +1002,7 @@
             
             <activation>
                 <file>
-                    <missing>src/main/docker/repository-it.xml</missing>
+                    <missing>src/test/docker/repository-it.xml</missing>
                 </file>
             </activation>
             
@@ -1030,7 +1016,7 @@
             
             <activation>
                 <file>
-                    <exists>src/main/docker/repository-it.xml</exists>
+                    <exists>src/test/docker/repository-it.xml</exists>
                 </file>
             </activation>
             
@@ -1047,7 +1033,7 @@
                     <value>true</value>
                 </property>
                 <file>
-                    <missing>src/test/resources/arquillian.xml</missing>
+                    <exists>module.properties</exists>
                 </file>
             </activation>
 
@@ -1069,6 +1055,7 @@
                                     <id>start-test-containers</id>
                                     <phase>pre-integration-test</phase>
                                     <goals>
+                                        <goal>volume-create</goal>
                                         <goal>start</goal>
                                     </goals>
                                 </execution>
@@ -1078,6 +1065,7 @@
                                     <goals>
                                         <goal>stop</goal>
                                         <goal>remove</goal>
+                                        <goal>volume-remove</goal>
                                     </goals>
                                 </execution>
                             </executions>
