@@ -63,23 +63,25 @@
         <maven.compiler.target>1.7</maven.compiler.target>
 
         <maven.enforcer.version>1.4.1</maven.enforcer.version>
-        <maven.compiler.version>3.6.1</maven.compiler.version>
+        <maven.clean.version>3.1.0</maven.clean.version>
+        <maven.resources.version>3.1.0</maven.resources.version>
+        <maven.dependency.version>3.1.1</maven.dependency.version>
+        <maven.compiler.version>3.8.0</maven.compiler.version>
         <maven.source.version>3.0.1</maven.source.version>
-        <maven.javadoc.version>2.10.4</maven.javadoc.version>
-        <maven.jar.version>3.0.2</maven.jar.version>
-        <maven.resources.version>3.0.1</maven.resources.version>
+        <maven.javadoc.version>3.1.0</maven.javadoc.version>
+        <maven.jar.version>3.1.1</maven.jar.version>
         <maven.toolchain.version>1.1</maven.toolchain.version>
-        <maven.forbiddenapis.version>2.2</maven.forbiddenapis.version>
-        <maven.assembly.version>2.6</maven.assembly.version>
+        <maven.forbiddenapis.version>2.6</maven.forbiddenapis.version>
+        <maven.assembly.version>3.1.1</maven.assembly.version>
         <maven.alfresco.version>1.1.1</maven.alfresco.version>
-        <maven.jslint.version>2.0.5</maven.jslint.version>
-        <maven.jshint.version>1.6.0</maven.jshint.version>
         <maven.acosix.jshint.version>1.0.0</maven.acosix.jshint.version>
         <maven.findbugs.version>3.0.4</maven.findbugs.version>
         <maven.surefire.version>2.22.1</maven.surefire.version>
         <maven.failsafe.version>2.22.1</maven.failsafe.version>
+        <maven.install.version>2.5.2</maven.install.version>
+        <maven.deploy.version>2.8.2</maven.deploy.version>
 
-        <maven.oss.staging.version>1.6.7</maven.oss.staging.version>
+        <maven.oss.staging.version>1.6.8</maven.oss.staging.version>
 
         <maven.plugin.version>3.5</maven.plugin.version>
         <maven.plugin.api.version>${maven.plugin.version}.0</maven.plugin.api.version>
@@ -88,7 +90,7 @@
         <plexus.archiver.version>${maven.plugin.version}</plexus.archiver.version>
 
         <fabric8io.docker.version>0.27.2</fabric8io.docker.version>
-        
+
         <junit.version>4.12</junit.version>
 
         <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
@@ -148,7 +150,7 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -186,8 +188,18 @@
                 </plugin>
 
                 <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven.clean.version}</version>
+                </plugin>
+
+                <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>${maven.resources.version}</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven.dependency.version}</version>
                 </plugin>
 
                 <plugin>
@@ -303,6 +315,16 @@
                     <version>${maven.failsafe.version}</version>
                 </plugin>
 
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven.install.version}</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven.deploy.version}</version>
+                </plugin>
+
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
@@ -344,6 +366,13 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
     <modules>

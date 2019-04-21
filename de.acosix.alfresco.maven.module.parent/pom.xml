@@ -29,7 +29,7 @@
     <name>Acosix Alfresco Module Parent</name>
     <description>Parent POM for Alfresco extension modules</description>
 
-    <licenses>  
+    <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
             <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
@@ -338,6 +338,17 @@
                             </configuration>
                         </execution>
                     </executions>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>de.acosix.alfresco.maven</groupId>
+                            <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
+                            <version>${acosix.plugins.version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
 
                 <plugin>
@@ -976,7 +987,7 @@
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>RepositoryDockerITDefaults</id>
 
@@ -985,22 +996,22 @@
                     <exists>src/test/docker/repository-it.xml</exists>
                 </file>
             </activation>
-            
+
             <properties>
                 <docker.tests.skipRepositoryImageBuild>false</docker.tests.skipRepositoryImageBuild>
             </properties>
 
         </profile>
-        
+
         <profile>
             <id>HasNoSpecificRepositoryDockerITAssembly</id>
-            
+
             <activation>
                 <file>
                     <missing>src/test/docker/repository-it.xml</missing>
                 </file>
             </activation>
-            
+
             <properties>
                 <docker.tests.repositoryDescriptorRef>default-docker</docker.tests.repositoryDescriptorRef>
             </properties>
@@ -1008,13 +1019,13 @@
 
         <profile>
             <id>HasSpecificRepositoryDockerITAssembly</id>
-            
+
             <activation>
                 <file>
                     <exists>src/test/docker/repository-it.xml</exists>
                 </file>
             </activation>
-            
+
             <properties>
                 <docker.tests.repositoryDescriptor>repository-it.xml</docker.tests.repositoryDescriptor>
             </properties>
