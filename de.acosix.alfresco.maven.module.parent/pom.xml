@@ -20,7 +20,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.0.0.4-SNAPSHOT</version>
+        <version>1.1.0</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
@@ -71,12 +71,12 @@
 
         <moduleId>${project.artifactId}</moduleId>
 
-        <acosix.i18n.version>1.0.0.0-SNAPSHOT</acosix.i18n.version>
-        <acosix.definitions.version>1.0.0.4-SNAPSHOT</acosix.definitions.version>
-        <acosix.plugins.version>1.0.0.4-SNAPSHOT</acosix.plugins.version>
+        <acosix.i18n.version>1.0.2</acosix.i18n.version>
+        <acosix.definitions.version>1.1.0</acosix.definitions.version>
+        <acosix.plugins.version>1.1.0</acosix.plugins.version>
 
         <arquillian.rest.version>1.0.0.Alpha4</arquillian.rest.version>
-        <resteasy.version>3.6.2.Final</resteasy.version>
+        <resteasy.version>3.6.3.Final</resteasy.version>
 
         <assembly.build.skipAmp>false</assembly.build.skipAmp>
         <assembly.build.skipInstallableJar>false</assembly.build.skipInstallableJar>
@@ -1102,7 +1102,7 @@
                     <dependency>
                         <groupId>org.jboss.arquillian.container</groupId>
                         <artifactId>arquillian-tomcat-embedded-7</artifactId>
-                        <version>1.0.0.CR7</version>
+                        <version>1.1.0.Final</version>
                         <scope>test</scope>
                         <exclusions>
                             <exclusion>
@@ -1115,21 +1115,21 @@
                     <dependency>
                         <groupId>org.apache.tomcat.embed</groupId>
                         <artifactId>tomcat-embed-core</artifactId>
-                        <version>7.0.69</version>
+                        <version>7.0.94</version>
                         <scope>test</scope>
                     </dependency>
 
                     <dependency>
                         <groupId>org.apache.tomcat.embed</groupId>
                         <artifactId>tomcat-embed-jasper</artifactId>
-                        <version>7.0.69</version>
+                        <version>7.0.94</version>
                         <scope>test</scope>
                     </dependency>
 
                     <dependency>
                         <groupId>org.apache.tomcat.embed</groupId>
                         <artifactId>tomcat-embed-logging-juli</artifactId>
-                        <version>7.0.69</version>
+                        <version>7.0.94</version>
                         <scope>test</scope>
                     </dependency>
 
