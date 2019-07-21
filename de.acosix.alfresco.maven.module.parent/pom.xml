@@ -20,7 +20,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
@@ -71,9 +71,9 @@
 
         <moduleId>${project.artifactId}</moduleId>
 
-        <acosix.i18n.version>1.0.2</acosix.i18n.version>
-        <acosix.definitions.version>1.1.0</acosix.definitions.version>
-        <acosix.plugins.version>1.1.0</acosix.plugins.version>
+        <maven.acosix.i18n.version>1.0.3</maven.acosix.i18n.version>
+        <maven.acosix.definitions.version>1.2.0-SNAPSHOT</maven.acosix.definitions.version>
+        <maven.acosix.plugins.version>1.2.0-SNAPSHOT</maven.acosix.plugins.version>
 
         <arquillian.rest.version>1.0.0.Alpha4</arquillian.rest.version>
         <resteasy.version>3.6.3.Final</resteasy.version>
@@ -88,7 +88,10 @@
         <docker.tests.repositoryBaseImage></docker.tests.repositoryBaseImage>
         <docker.tests.repositoryWebappPath></docker.tests.repositoryWebappPath>
         <docker.tests.repositoryStartupWaitTime>180000</docker.tests.repositoryStartupWaitTime>
+        <docker.tests.skipShareImageBuild>true</docker.tests.skipShareImageBuild>
         <docker.tests.shareBaseImage></docker.tests.shareBaseImage>
+        <docker.tests.shareWebappPath></docker.tests.shareWebappPath>
+        <docker.tests.shareStartupWaitTime>90000</docker.tests.shareStartupWaitTime>
         <docker.tests.searchBaseImage></docker.tests.searchBaseImage>
         <docker.tests.searchStartupWaitTime>30000</docker.tests.searchStartupWaitTime>
         <docker.tests.skipShareImage>true</docker.tests.skipShareImage>
@@ -346,26 +349,15 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
-                            <version>${acosix.plugins.version}</version>
+                            <version>${maven.acosix.plugins.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
 
                 <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>test-jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
                     <groupId>de.acosix.maven</groupId>
                     <artifactId>i18n-resources-plugin</artifactId>
-                    <version>${acosix.i18n.version}</version>
+                    <version>${maven.acosix.i18n.version}</version>
                     <configuration>
                         <sourceDirectory>${basedir}/src/main</sourceDirectory>
                         <outputDirectory>${project.build.directory}/i18n-resources</outputDirectory>
@@ -429,7 +421,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>${acosix.definitions.version}</version>
+                            <version>${maven.acosix.definitions.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -451,7 +443,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>${acosix.definitions.version}</version>
+                            <version>${maven.acosix.definitions.version}</version>
                         </dependency>
                     </dependencies>
                     <executions>
@@ -496,7 +488,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>${acosix.definitions.version}</version>
+                            <version>${maven.acosix.definitions.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -504,7 +496,7 @@
                 <plugin>
                     <groupId>net.alchim31.maven</groupId>
                     <artifactId>yuicompressor-maven-plugin</artifactId>
-                    <version>1.5.1</version>
+                    <version>${maven.alchim.yuicompressor.version}</version>
                 </plugin>
 
                 <plugin>
@@ -515,7 +507,7 @@
                         <dependency>
                             <groupId>de.acosix.alfresco.maven</groupId>
                             <artifactId>de.acosix.alfresco.maven.definitions</artifactId>
-                            <version>${acosix.definitions.version}</version>
+                            <version>${maven.acosix.definitions.version}</version>
                         </dependency>
                     </dependencies>
                     <configuration>
@@ -681,7 +673,7 @@
                                     <pluginExecutionFilter>
                                         <groupId>de.acosix.maven</groupId>
                                         <artifactId>i18n-resources-plugin</artifactId>
-                                        <versionRange>[${acosix.i18n.version},)</versionRange>
+                                        <versionRange>[${maven.acosix.i18n.version},)</versionRange>
                                         <goals>
                                             <goal>duplicateI18nResources</goal>
                                             <goal>validateI18nResources</goal>
@@ -1032,6 +1024,49 @@
         </profile>
 
         <profile>
+            <id>shareDockerITDefaults</id>
+
+            <activation>
+                <file>
+                    <exists>src/test/docker/share-it.xml</exists>
+                </file>
+            </activation>
+
+            <properties>
+                <docker.tests.skipShareImageBuild>false</docker.tests.skipShareImageBuild>
+            </properties>
+
+        </profile>
+
+        <profile>
+            <id>HasNoSpecificShareDockerITAssembly</id>
+
+            <activation>
+                <file>
+                    <missing>src/test/docker/share-it.xml</missing>
+                </file>
+            </activation>
+
+            <properties>
+                <docker.tests.shareDescriptorRef>default-docker</docker.tests.shareDescriptorRef>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>HasSpecificShareDockerITAssembly</id>
+
+            <activation>
+                <file>
+                    <exists>src/test/docker/share-it.xml</exists>
+                </file>
+            </activation>
+
+            <properties>
+                <docker.tests.shareDescriptor>share-it.xml</docker.tests.shareDescriptor>
+            </properties>
+        </profile>
+
+        <profile>
             <id>RunIntegrationTestsWithDocker</id>
             <activation>
                 <property>
@@ -1102,7 +1137,7 @@
                     <dependency>
                         <groupId>org.jboss.arquillian.container</groupId>
                         <artifactId>arquillian-tomcat-embedded-7</artifactId>
-                        <version>1.1.0.Final</version>
+                        <version>1.2.0-SNAPSHOT.Final</version>
                         <scope>test</scope>
                         <exclusions>
                             <exclusion>

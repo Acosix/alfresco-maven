@@ -20,7 +20,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.module.parent-6.0.7</artifactId>
@@ -63,13 +63,15 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
+        <alfresco.distribution.version>6.0.7-ga</alfresco.distribution.version>
+        <share.distribution.version>6.0.b</share.distribution.version>
+
         <alfresco.core.version>7.3</alfresco.core.version>
         <alfresco.data-model.version>8.8</alfresco.data-model.version>
         <alfresco.repository.version>6.55</alfresco.repository.version>
         <alfresco.remote-api.version>6.38</alfresco.remote-api.version>
         <alfresco.jlan.version>7.1</alfresco.jlan.version>
         <alfresco.share-services.version>6.0.b</alfresco.share-services.version>
-        <alfresco.share.version>6.0.b</alfresco.share.version>
 
         <spring.version>5.0.4.RELEASE</spring.version>
         <surf.groupId>org.alfresco.surf</surf.groupId>
@@ -83,10 +85,11 @@
         <slf4j.version>1.7.24</slf4j.version>
 
         <logback.version>1.2.3</logback.version>
-        
+
         <docker.tests.repositoryBaseImage>alfresco/alfresco-content-repository-community:6.0.7-ga</docker.tests.repositoryBaseImage>
         <docker.tests.repositoryWebappPath>/usr/local/tomcat/webapps/alfresco</docker.tests.repositoryWebappPath>
         <docker.tests.shareBaseImage>alfresco/alfresco-share:6.0.b</docker.tests.shareBaseImage>
+        <docker.tests.shareWebappPath>/usr/local/tomcat/webapps/share</docker.tests.shareWebappPath>
         <docker.tests.searchBaseImage>alfresco/alfresco-search-services:1.1.1</docker.tests.searchBaseImage>
         <docker.tests.searchSubsystem>solr6</docker.tests.searchSubsystem>
         <docker.tests.searchPort>8983</docker.tests.searchPort>
@@ -212,16 +215,16 @@
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>share</artifactId>
-                <version>${alfresco.share.version}</version>
+                <version>${share.distribution.version}</version>
                 <classifier>classes</classifier>
                 <scope>provided</scope>
             </dependency>
-            
+
             <dependency>
-               <groupId>javax.servlet</groupId>
-               <artifactId>javax.servlet-api</artifactId>
-               <version>3.0.1</version>
-               <scope>provided</scope>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.0.1</version>
+                <scope>provided</scope>
             </dependency>
 
             <dependency>
@@ -261,5 +264,112 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>RepoFixedDependencies</id>
+
+            <!-- there is no file that every Repository extension really must have which sets it apart from a Share extension, so we use a common file -->
+            <activation>
+                <file>
+                    <exists>src/main/config/alfresco-global.properties</exists>
+                </file>
+            </activation>
+
+            <!-- fix (some) dependencies specifically for Repository tier extension projects -->
+            <dependencyManagement>
+                <dependencies>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-surf-core</artifactId>
+                        <version>${surf.repo.core.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-surf-core-configservice</artifactId>
+                        <version>${surf.repo.core.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-webscripts</artifactId>
+                        <version>${surf.repo.webscripts.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-webscripts-api</artifactId>
+                        <version>${surf.repo.webscripts.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <id>ShareFixedDependencies</id>
+
+            <!-- there is no file that every Share extension really must have which sets it apart from a Repository extension, so we have to define our own (based on assumption that most Acosix projects will use this Acosix Utility module feature) -->
+            <activation>
+                <file>
+                    <exists>src/main/config/share-global.properties</exists>
+                </file>
+            </activation>
+
+            <!-- fix (some) dependencies specifically for Share tier extension projects -->
+            <dependencyManagement>
+                <dependencies>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-surf</artifactId>
+                        <version>${surf.share.api.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-surf-api</artifactId>
+                        <version>${surf.share.api.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-surf-core</artifactId>
+                        <version>${surf.share.core.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-surf-core-configservice</artifactId>
+                        <version>${surf.share.core.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-webscripts</artifactId>
+                        <version>${surf.share.webscripts.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>${surf.groupId}</groupId>
+                        <artifactId>spring-webscripts-api</artifactId>
+                        <version>${surf.share.webscripts.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
 
 </project>

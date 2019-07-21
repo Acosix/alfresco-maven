@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.acosix.alfresco.maven</groupId>
     <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>
@@ -80,6 +80,8 @@
         <maven.failsafe.version>2.22.1</maven.failsafe.version>
         <maven.install.version>2.5.2</maven.install.version>
         <maven.deploy.version>2.8.2</maven.deploy.version>
+        
+        <maven.alchim.yuicompressor.version>1.5.1</maven.alchim.yuicompressor.version>
 
         <maven.oss.staging.version>1.6.8</maven.oss.staging.version>
 
@@ -89,7 +91,7 @@
         <maven.archiver.version>3.3.0</maven.archiver.version>
         <plexus.archiver.version>${maven.plugin.version}</plexus.archiver.version>
 
-        <fabric8io.docker.version>0.27.2</fabric8io.docker.version>
+        <fabric8io.docker.version>0.30.0</fabric8io.docker.version>
 
         <junit.version>4.12</junit.version>
 
@@ -240,6 +242,13 @@
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${maven.jar.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>

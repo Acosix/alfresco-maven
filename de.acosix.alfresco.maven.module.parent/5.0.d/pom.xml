@@ -20,7 +20,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.module.parent-5.0.d</artifactId>
@@ -64,10 +64,11 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <alfresco.distribution.version>5.0.d</alfresco.distribution.version>
+        <share.distribution.version>5.0.d</share.distribution.version>
         <spring.version>3.2.10.RELEASE</spring.version>
         <slf4j.version>1.7.7</slf4j.version>
         <surf.groupId>org.springframework.extensions.surf</surf.groupId>
-        <surf.version>${alfresco.distribution.version}</surf.version>
+        <surf.version>${share.distribution.version}</surf.version>
 
         <logback.version>1.1.3</logback.version>
     </properties>
@@ -169,7 +170,7 @@
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>share</artifactId>
-                <version>${alfresco.distribution.version}</version>
+                <version>${share.distribution.version}</version>
                 <classifier>classes</classifier>
                 <scope>provided</scope>
             </dependency>
