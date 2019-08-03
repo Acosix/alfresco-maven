@@ -19,15 +19,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
-        <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
+        <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>de.acosix.alfresco.maven.module.parent-5.0.d</artifactId>
+    <artifactId>de.acosix.alfresco.maven.project.parent-5.0.d</artifactId>
     <packaging>pom</packaging>
 
-    <name>Acosix Alfresco 5.0.d Module Parent</name>
-    <description>Parent POM for extension modules based on Alfresco 5.0.d</description>
+    <name>Acosix Alfresco 5.0.d Project Parent</name>
+    <description>Parent POM for projects based on Alfresco 5.0.d</description>
 
     <licenses>
         <license>
@@ -173,6 +173,20 @@
                 <version>${share.distribution.version}</version>
                 <classifier>classes</classifier>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco</artifactId>
+                <version>${alfresco.distribution.version}</version>
+                <type>war</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>share</artifactId>
+                <version>${share.distribution.version}</version>
+                <type>war</type>
             </dependency>
 
             <dependency>

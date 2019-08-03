@@ -23,11 +23,11 @@
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
+    <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Acosix Alfresco Module Parent</name>
-    <description>Parent POM for Alfresco extension modules</description>
+    <name>Acosix Alfresco Project Parent</name>
+    <description>Parent POM for Alfresco projects</description>
 
     <licenses>
         <license>
@@ -71,12 +71,10 @@
 
         <moduleId>${project.artifactId}</moduleId>
 
-        <maven.acosix.i18n.version>1.0.3</maven.acosix.i18n.version>
         <maven.acosix.definitions.version>1.2.0-SNAPSHOT</maven.acosix.definitions.version>
         <maven.acosix.plugins.version>1.2.0-SNAPSHOT</maven.acosix.plugins.version>
 
-        <arquillian.rest.version>1.0.0.Alpha4</arquillian.rest.version>
-        <resteasy.version>3.6.3.Final</resteasy.version>
+        <resteasy.version>4.1.1.Final</resteasy.version>
 
         <assembly.build.skipAmp>false</assembly.build.skipAmp>
         <assembly.build.skipInstallableJar>false</assembly.build.skipInstallableJar>
@@ -99,38 +97,15 @@
         <docker.tests.searchSubsystem></docker.tests.searchSubsystem>
         <docker.tests.searchPort></docker.tests.searchPort>
         <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
+
+        <war.alfresco.artifactId>alfresco</war.alfresco.artifactId>
+        <war.share.artifactId>share</war.share.artifactId>
+        <webapp.source.artifactId>${war.alfresco.artifactId}</webapp.source.artifactId>
+        <webapp.name>${webapp.source.artifactId}</webapp.name>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.1.11.Final</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-rest-client-api</artifactId>
-                <version>${arquillian.rest.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-rest-client-impl-3x</artifactId>
-                <version>${arquillian.rest.version}</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-simple</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
@@ -227,120 +202,6 @@
                             <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
                         </nonFilteredFileExtensions>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <id>prepareTest-copyGlobalResources</id>
-                            <phase>generate-test-resources</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.build.directory}/test-resources/alfresco</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>src/main/globalConfig</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>prepareTest-copyModuleResources</id>
-                            <phase>generate-test-resources</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.build.directory}/test-resources/alfresco/module/${moduleId}</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>src/main/config</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>prepareTest-copyModuleMessages</id>
-                            <phase>generate-test-resources</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.build.directory}/test-resources/alfresco/messages/${messages.path}</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>src/main/messages</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                    <resource>
-                                        <directory>${project.build.directory}/i18n-resources/messages</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>prepareTest-copyModuleTemplates</id>
-                            <phase>generate-test-resources</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.build.directory}/test-resources/alfresco/templates</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>src/main/templates</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                    <resource>
-                                        <directory>${project.build.directory}/i18n-resources/templates</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>prepareTest-copyModuleWebScripts</id>
-                            <phase>generate-test-resources</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.build.directory}/test-resources/alfresco/templates/webscripts</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>src/main/webscripts</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                    <resource>
-                                        <directory>${project.build.directory}/i18n-resources/webscripts</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>prepareTest-copyModuleSiteWebScripts</id>
-                            <phase>generate-test-resources</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.build.directory}/test-resources/alfresco/site-webscripts</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>src/main/site-webscripts</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                    <resource>
-                                        <directory>${project.build.directory}/i18n-resources/site-webscripts</directory>
-                                        <filtering>true</filtering>
-                                    </resource>
-                                </resources>
-                            </configuration>
-                        </execution>
-                    </executions>
                 </plugin>
 
                 <plugin>
@@ -359,42 +220,10 @@
                     <artifactId>i18n-resources-plugin</artifactId>
                     <version>${maven.acosix.i18n.version}</version>
                     <configuration>
-                        <sourceDirectory>${basedir}/src/main</sourceDirectory>
-                        <outputDirectory>${project.build.directory}/i18n-resources</outputDirectory>
-                        <includes>
-                            <include>messages/*.properties</include>
-                            <include>messages/**/*.properties</include>
-                            <include>webscripts/*.properties</include>
-                            <include>webscripts/**/*.properties</include>
-                            <include>site-webscripts/*.properties</include>
-                            <include>site-webscripts/**/*.properties</include>
-                            <include>templates/*.properties</include>
-                            <include>templates/**/*.properties</include>
-                            <include>webapp/*.properties</include>
-                            <include>webapp/**/*.properties</include>
-                        </includes>
-                        <copyForLocales>
-                            <copyForLocale>en</copyForLocale>
-                        </copyForLocales>
-                        <validationDirectories>
-                            <validationDirectory>${basedir}/src/main</validationDirectory>
-                            <validationDirectory>${project.build.directory}/i18n-resources</validationDirectory>
-                        </validationDirectories>
                         <requiredLocales>
-                            <requiredLocale>de</requiredLocale>
                             <requiredLocale>en</requiredLocale>
                         </requiredLocales>
-                        <failOnMissingLocaleBundles>true</failOnMissingLocaleBundles>
-                        <failOnInconsistentMessageKeys>true</failOnInconsistentMessageKeys>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>duplicateI18nResources</goal>
-                                <goal>validateI18nResources</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
 
                 <plugin>
@@ -407,7 +236,7 @@
                                 <goal>set-version</goal>
                             </goals>
                             <configuration>
-                                <snapshotToTimestamp>true</snapshotToTimestamp>
+                                <snapshotToTimestamp>false</snapshotToTimestamp>
                             </configuration>
                         </execution>
                     </executions>
@@ -415,7 +244,7 @@
 
                 <plugin>
                     <groupId>de.acosix.maven</groupId>
-                    <artifactId>jshint-maven-plugin</artifactId>
+                    <artifactId>jshint-plugin</artifactId>
                     <version>${maven.acosix.jshint.version}</version>
                     <dependencies>
                         <dependency>
@@ -494,6 +323,40 @@
                 </plugin>
 
                 <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven.war.version}</version>
+                    <configuration>
+                        <archiveClasses>false</archiveClasses>
+                        <webappDirectory>${project.build.directory}/${webapp.name}</webappDirectory>
+                        <archive>
+                            <addMavenDescriptor>false</addMavenDescriptor>
+                            <!-- TODO pack into dynamically activated profile -->
+                            <!--
+                                <manifestFile>${project.build.directory}/dep-${webapp.source.artifactId}/META-INF/MANIFEST.MF</manifestFile>
+                             -->
+                        </archive>
+                        <overlays>
+                            <overlay />
+
+                            <overlay>
+                                <groupId>org.alfresco</groupId>
+                                <artifactId>${webapp.source.artifactId}</artifactId>
+                                <type>war</type>
+                                <excludes />
+                            </overlay>
+                        </overlays>
+                        <!-- TODO Install AMP dependencies in correct order -->
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>de.acosix.alfresco.maven</groupId>
+                            <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
+                            <version>${maven.acosix.plugins.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
                     <groupId>net.alchim31.maven</groupId>
                     <artifactId>yuicompressor-maven-plugin</artifactId>
                     <version>${maven.alchim.yuicompressor.version}</version>
@@ -515,7 +378,7 @@
                         <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                         <images>
                             <image>
-                                <name>postgres:10.1</name>
+                                <name>postgres:11.4</name>
                                 <alias>postgres</alias>
                                 <run>
                                     <hostname>postgres</hostname>
@@ -659,7 +522,7 @@
                                 <pluginExecution>
                                     <pluginExecutionFilter>
                                         <groupId>de.acosix.maven</groupId>
-                                        <artifactId>jshint-maven-plugin</artifactId>
+                                        <artifactId>jshint-plugin</artifactId>
                                         <versionRange>[${maven.acosix.jshint.version},)</versionRange>
                                         <goals>
                                             <goal>jshint</goal>
@@ -692,6 +555,284 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>IsModuleProject</id>
+            <activation>
+                <file>
+                    <exists>module.properties</exists>
+                </file>
+            </activation>
+
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <excludes>
+                            <exclude>.gitkeep</exclude>
+                        </excludes>
+                    </resource>
+                    <!-- the following are only for mapping source folders in Eclipse -->
+                    <resource>
+                        <directory>src/main/config</directory>
+                        <excludes>
+                            <exclude>**/*</exclude>
+                        </excludes>
+                    </resource>
+                    <resource>
+                        <directory>src/main/globalConfig</directory>
+                        <excludes>
+                            <exclude>**/*</exclude>
+                        </excludes>
+                    </resource>
+                    <resource>
+                        <directory>src/main/messages</directory>
+                        <excludes>
+                            <exclude>**/*</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                        <filtering>true</filtering>
+                        <excludes>
+                            <exclude>.gitkeep</exclude>
+                        </excludes>
+                    </testResource>
+                </testResources>
+
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-resources-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>prepareTest-copyGlobalResources</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/test-resources/alfresco</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>src/main/globalConfig</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>prepareTest-copyModuleResources</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/test-resources/alfresco/module/${moduleId}</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>src/main/config</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>prepareTest-copyModuleMessages</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/test-resources/alfresco/messages/${messages.path}</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>src/main/messages</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                            <resource>
+                                                <directory>${project.build.directory}/i18n-resources/messages</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>prepareTest-copyModuleTemplates</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/test-resources/alfresco/templates</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>src/main/templates</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                            <resource>
+                                                <directory>${project.build.directory}/i18n-resources/templates</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>prepareTest-copyModuleWebScripts</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/test-resources/alfresco/templates/webscripts</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>src/main/webscripts</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                            <resource>
+                                                <directory>${project.build.directory}/i18n-resources/webscripts</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>prepareTest-copyModuleSiteWebScripts</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/test-resources/alfresco/site-webscripts</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>src/main/site-webscripts</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                            <resource>
+                                                <directory>${project.build.directory}/i18n-resources/site-webscripts</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>de.acosix.maven</groupId>
+                            <artifactId>i18n-resources-plugin</artifactId>
+                            <configuration>
+                                <sourceDirectory>${basedir}/src/main</sourceDirectory>
+                                <outputDirectory>${project.build.directory}/i18n-resources</outputDirectory>
+                                <includes>
+                                    <include>messages/*.properties</include>
+                                    <include>messages/**/*.properties</include>
+                                    <include>webscripts/*.properties</include>
+                                    <include>webscripts/**/*.properties</include>
+                                    <include>site-webscripts/*.properties</include>
+                                    <include>site-webscripts/**/*.properties</include>
+                                    <include>templates/*.properties</include>
+                                    <include>templates/**/*.properties</include>
+                                    <include>webapp/*.properties</include>
+                                    <include>webapp/**/*.properties</include>
+                                </includes>
+                                <copyForLocales>
+                                    <copyForLocale>en</copyForLocale>
+                                </copyForLocales>
+                                <validationDirectories>
+                                    <validationDirectory>${basedir}/src/main</validationDirectory>
+                                    <validationDirectory>${project.build.directory}/i18n-resources</validationDirectory>
+                                </validationDirectories>
+                                <requiredLocales>
+                                    <requiredLocale>de</requiredLocale>
+                                    <requiredLocale>en</requiredLocale>
+                                </requiredLocales>
+                                <failOnMissingLocaleBundles>true</failOnMissingLocaleBundles>
+                                <failOnInconsistentMessageKeys>true</failOnInconsistentMessageKeys>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>duplicateI18nResources</goal>
+                                        <goal>validateI18nResources</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>de.thetaphi</groupId>
+                        <artifactId>forbiddenapis</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>de.acosix.maven</groupId>
+                        <artifactId>i18n-resources-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.alfresco.maven.plugin</groupId>
+                        <artifactId>alfresco-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 
         <profile>
             <id>BuildInstallableJAR</id>
@@ -804,7 +945,7 @@
         </profile>
 
         <profile>
-            <id>Has Webapp</id>
+            <id>HasWebapp</id>
             <activation>
                 <file>
                     <exists>src/main/webapp</exists>
@@ -812,11 +953,19 @@
             </activation>
 
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/webapp</directory>
+                        <excludes>
+                            <exclude>**/*</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
                 <pluginManagement>
                     <plugins>
                         <plugin>
                             <groupId>de.acosix.maven</groupId>
-                            <artifactId>jshint-maven-plugin</artifactId>
+                            <artifactId>jshint-plugin</artifactId>
                             <executions>
                                 <execution>
                                     <id>Validate Webapp</id>
@@ -857,11 +1006,20 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <groupId>de.acosix.maven</groupId>
+                        <artifactId>jshint-plugin</artifactId>
+                    </plugin>
+
+                    <!-- running yuicompressor is optional - relevant only for Share -->
+                </plugins>
             </build>
         </profile>
 
         <profile>
-            <id>Has Repository WebScripts</id>
+            <id>HasRepositoryWebScripts</id>
             <activation>
                 <file>
                     <exists>src/main/webscripts</exists>
@@ -869,11 +1027,19 @@
             </activation>
 
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/webscripts</directory>
+                        <excludes>
+                            <exclude>**/*</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
                 <pluginManagement>
                     <plugins>
                         <plugin>
                             <groupId>de.acosix.maven</groupId>
-                            <artifactId>jshint-maven-plugin</artifactId>
+                            <artifactId>jshint-plugin</artifactId>
                             <executions>
                                 <execution>
                                     <id>Validate Repo WebScripts</id>
@@ -890,11 +1056,18 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <groupId>de.acosix.maven</groupId>
+                        <artifactId>jshint-plugin</artifactId>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
 
         <profile>
-            <id>Has Surf WebScripts</id>
+            <id>HasSurfWebScripts</id>
             <activation>
                 <file>
                     <exists>src/main/site-webscripts</exists>
@@ -902,11 +1075,19 @@
             </activation>
 
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/site-webscripts</directory>
+                        <excludes>
+                            <exclude>**/*</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
                 <pluginManagement>
                     <plugins>
                         <plugin>
                             <groupId>de.acosix.maven</groupId>
-                            <artifactId>jshint-maven-plugin</artifactId>
+                            <artifactId>jshint-plugin</artifactId>
                             <executions>
                                 <execution>
                                     <id>Validate Site WebScripts</id>
@@ -923,11 +1104,18 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <groupId>de.acosix.maven</groupId>
+                        <artifactId>jshint-plugin</artifactId>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
 
         <profile>
-            <id>Has Share Templates</id>
+            <id>HasShareTemplates</id>
             <activation>
                 <file>
                     <exists>src/main/templates</exists>
@@ -935,11 +1123,19 @@
             </activation>
 
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/templates</directory>
+                        <excludes>
+                            <exclude>**/*</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
                 <pluginManagement>
                     <plugins>
                         <plugin>
                             <groupId>de.acosix.maven</groupId>
-                            <artifactId>jshint-maven-plugin</artifactId>
+                            <artifactId>jshint-plugin</artifactId>
                             <executions>
                                 <execution>
                                     <id>Validate Share Templates</id>
@@ -956,25 +1152,11 @@
                         </plugin>
                     </plugins>
                 </pluginManagement>
-            </build>
-        </profile>
 
-        <profile>
-            <!-- TODO Rename and adapt readmes in specific modules -->
-            <id>run-integration-tests</id>
-
-            <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <groupId>de.acosix.maven</groupId>
+                        <artifactId>jshint-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
@@ -1073,9 +1255,6 @@
                     <name>docker.tests.enabled</name>
                     <value>true</value>
                 </property>
-                <file>
-                    <exists>module.properties</exists>
-                </file>
             </activation>
 
             <build>
@@ -1111,170 +1290,24 @@
                                 </execution>
                             </executions>
                         </plugin>
+
+                        <plugin>
+                            <artifactId>maven-failsafe-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>integration-test</goal>
+                                        <goal>verify</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
                     </plugins>
                 </pluginManagement>
 
                 <plugins>
                     <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>RunIntegrationTestsWithArquillian</id>
-
-            <activation>
-                <file>
-                    <exists>src/test/resources/arquillian.xml</exists>
-                </file>
-            </activation>
-
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jboss.arquillian.container</groupId>
-                        <artifactId>arquillian-tomcat-embedded-7</artifactId>
-                        <version>1.2.0-SNAPSHOT.Final</version>
-                        <scope>test</scope>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>org.jboss.arquillian.testenricher</groupId>
-                                <artifactId>arquillian-testenricher-cdi</artifactId>
-                            </exclusion>
-                        </exclusions>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>org.apache.tomcat.embed</groupId>
-                        <artifactId>tomcat-embed-core</artifactId>
-                        <version>7.0.94</version>
-                        <scope>test</scope>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>org.apache.tomcat.embed</groupId>
-                        <artifactId>tomcat-embed-jasper</artifactId>
-                        <version>7.0.94</version>
-                        <scope>test</scope>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>org.apache.tomcat.embed</groupId>
-                        <artifactId>tomcat-embed-logging-juli</artifactId>
-                        <version>7.0.94</version>
-                        <scope>test</scope>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>org.eclipse.jdt.core.compiler</groupId>
-                        <artifactId>ecj</artifactId>
-                        <version>4.2.2</version>
-                        <scope>test</scope>
-                    </dependency>
-
-                </dependencies>
-            </dependencyManagement>
-
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-tomcat-embedded-7</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                    <artifactId>tomcat-embed-core</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                    <artifactId>tomcat-embed-jasper</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                    <artifactId>tomcat-embed-logging-juli</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.eclipse.jdt.core.compiler</groupId>
-                    <artifactId>ecj</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-                    <scope>test</scope>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.jboss.arquillian.junit</groupId>
-                    <artifactId>arquillian-junit-container</artifactId>
-                    <scope>test</scope>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.jboss.arquillian.extension</groupId>
-                    <artifactId>arquillian-rest-client-api</artifactId>
-                    <scope>test</scope>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.jboss.arquillian.extension</groupId>
-                    <artifactId>arquillian-rest-client-impl-3x</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.jboss.resteasy</groupId>
-                    <artifactId>resteasy-jackson-provider</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                    <artifactId>shrinkwrap-resolver-depchain</artifactId>
-                    <scope>test</scope>
-                    <type>pom</type>
-                </dependency>
-
-            </dependencies>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <execution>
-                                <id>Copy installable JAR for use in Arquillian tests</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <tasks>
-                                        <copy file="${project.build.directory}/${project.build.finalName}-installable.jar"
-                                            tofile="${project.build.directory}/test-classes/installable-${project.artifactId}.jar" />
-                                    </tasks>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                        <artifactId>shrinkwrap-resolver-maven-plugin</artifactId>
-                        <version>2.2.0</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>propagate-execution-context</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <artifactId>maven-failsafe-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
@@ -1287,5 +1320,6 @@
         <module>5.0.d</module>
         <module>5.2.g</module>
         <module>6.0.7</module>
+        <module>6.1.2</module>
     </modules>
 </project>

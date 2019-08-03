@@ -19,15 +19,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
-        <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
+        <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>de.acosix.alfresco.maven.module.parent-6.0.7</artifactId>
+    <artifactId>de.acosix.alfresco.maven.project.parent-6.0.7</artifactId>
     <packaging>pom</packaging>
 
-    <name>Acosix Alfresco 6.0 Module Parent</name>
-    <description>Parent POM for extension modules based on Alfresco 6.0.7-ga</description>
+    <name>Acosix Alfresco 6.0.7 GA Project Parent</name>
+    <description>Parent POM for projects based on Alfresco 6.0.7-ga</description>
 
     <licenses>
         <license>
@@ -71,7 +71,7 @@
         <alfresco.repository.version>6.55</alfresco.repository.version>
         <alfresco.remote-api.version>6.38</alfresco.remote-api.version>
         <alfresco.jlan.version>7.1</alfresco.jlan.version>
-        <alfresco.share-services.version>6.0.b</alfresco.share-services.version>
+        <alfresco.share-services.version>${share.distribution.version}</alfresco.share-services.version>
 
         <spring.version>5.0.4.RELEASE</spring.version>
         <surf.groupId>org.alfresco.surf</surf.groupId>
@@ -94,10 +94,26 @@
         <docker.tests.searchSubsystem>solr6</docker.tests.searchSubsystem>
         <docker.tests.searchPort>8983</docker.tests.searchPort>
         <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
+
+        <war.alfresco.artifactId>content-services-community</war.alfresco.artifactId>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>${war.alfresco.artifactId}</artifactId>
+                <version>${alfresco.distribution.version}</version>
+                <type>war</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>${war.share.artifactId}</artifactId>
+                <version>${share.distribution.version}</version>
+                <type>war</type>
+            </dependency>
 
             <dependency>
                 <groupId>org.alfresco</groupId>
@@ -214,7 +230,14 @@
 
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>share</artifactId>
+                <artifactId>alfresco-share-services</artifactId>
+                <version>${alfresco.share-services.version}</version>
+                <type>amp</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>${war.share.artifactId}</artifactId>
                 <version>${share.distribution.version}</version>
                 <classifier>classes</classifier>
                 <scope>provided</scope>

@@ -19,15 +19,15 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
-        <artifactId>de.acosix.alfresco.maven.module.parent</artifactId>
+        <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>de.acosix.alfresco.maven.module.parent-5.2.g</artifactId>
+    <artifactId>de.acosix.alfresco.maven.project.parent-5.2.g</artifactId>
     <packaging>pom</packaging>
 
-    <name>Acosix Alfresco 5.2.g Module Parent</name>
-    <description>Parent POM for extension modules based on Alfresco 5.2.g</description>
+    <name>Acosix Alfresco 5.2.g Project Parent</name>
+    <description>Parent POM for projects based on Alfresco 5.2.g</description>
 
     <licenses>
         <license>
@@ -67,6 +67,7 @@
         <share.distribution.version>5.2.f</share.distribution.version>
 
         <alfresco.core.version>6.13</alfresco.core.version>
+        <alfresco.share-services.version>${share.distribution.version}</alfresco.share-services.version>
 
         <spring.version>3.2.17.RELEASE</spring.version>
         <slf4j.version>1.7.21</slf4j.version>
@@ -74,10 +75,27 @@
         <surf.version>6.13</surf.version>
 
         <logback.version>1.2.3</logback.version>
+
+        <war.alfresco.artifactId>alfresco-platform</war.alfresco.artifactId>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>${war.alfresco.artifactId}</artifactId>
+                <version>${alfresco.distribution.version}</version>
+                <type>war</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>${war.share.artifactId}</artifactId>
+                <version>${share.distribution.version}</version>
+                <type>war</type>
+            </dependency>
+
             <dependency>
                 <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-platform-distribution</artifactId>
@@ -88,35 +106,14 @@
 
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-remote-api</artifactId>
-                <version>${alfresco.distribution.version}</version>
+                <artifactId>alfresco-core</artifactId>
+                <version>${alfresco.core.version}</version>
                 <scope>provided</scope>
                 <!-- exclude broken / irrelevant transitive dependencies -->
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework.social</groupId>
                         <artifactId>*</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.openoffice</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.artofsolving</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                    <!-- can mess with tests using a Servlet 3.0 container -->
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -158,8 +155,8 @@
 
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-core</artifactId>
-                <version>${alfresco.core.version}</version>
+                <artifactId>alfresco-remote-api</artifactId>
+                <version>${alfresco.distribution.version}</version>
                 <scope>provided</scope>
                 <!-- exclude broken / irrelevant transitive dependencies -->
                 <exclusions>
@@ -167,12 +164,48 @@
                         <groupId>org.springframework.social</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.openoffice</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.artofsolving</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <!-- can mess with tests using a Servlet 3.0 container -->
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>share</artifactId>
+                <artifactId>alfresco-share-services</artifactId>
+                <version>${alfresco.share-services.version}</version>
+                <classifier>classes</classifier>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-share-services</artifactId>
+                <version>${alfresco.share-services.version}</version>
+                <type>amp</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
+                <artifactId>${war.share.artifactId}</artifactId>
                 <version>${share.distribution.version}</version>
                 <classifier>classes</classifier>
                 <scope>provided</scope>
