@@ -72,7 +72,7 @@
         <maven.jar.version>3.1.2</maven.jar.version>
         <maven.toolchain.version>3.0.0</maven.toolchain.version>
         <maven.forbiddenapis.version>2.6</maven.forbiddenapis.version>
-        <maven.assembly.version>3.1.2</maven.assembly.version>
+        <maven.assembly.version>3.1.1</maven.assembly.version>
         <maven.war.version>3.2.3</maven.war.version>
         <maven.alfresco.version>1.1.1</maven.alfresco.version>
         <maven.findbugs.version>3.0.4</maven.findbugs.version>
