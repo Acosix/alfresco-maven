@@ -86,6 +86,7 @@
         <docker.tests.repositoryBaseImage></docker.tests.repositoryBaseImage>
         <docker.tests.repositoryWebappPath></docker.tests.repositoryWebappPath>
         <docker.tests.repositoryStartupWaitTime>180000</docker.tests.repositoryStartupWaitTime>
+        <docker.tests.repositoryVersionSpecificJavaOpts></docker.tests.repositoryVersionSpecificJavaOpts>
         <docker.tests.skipShareImageBuild>true</docker.tests.skipShareImageBuild>
         <docker.tests.shareBaseImage></docker.tests.shareBaseImage>
         <docker.tests.shareWebappPath></docker.tests.shareWebappPath>
@@ -376,6 +377,12 @@
                     <configuration>
                         <sourceDirectory>src/test/docker</sourceDirectory>
                         <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+                        <volumes>
+                            <volume>
+                                <name>${moduleId}-repository-test-contentstore</name>
+                                <driver>local</driver>
+                            </volume>
+                        </volumes>
                         <images>
                             <image>
                                 <name>postgres:11.4</name>
@@ -411,6 +418,7 @@
                                     <hostname>repository</hostname>
                                     <env>
                                         <JAVA_OPTS><![CDATA[
+                                            ${docker.tests.repositoryVersionSpecificJavaOpts}
                                             -Ddb.driver=org.postgresql.Driver
                                             -Ddb.username=alfresco
                                             -Ddb.password=alfresco
@@ -432,6 +440,11 @@
                                         <name>${moduleId}-test</name>
                                         <alias>repository</alias>
                                     </network>
+                                    <volumes>
+                                        <bind>
+                                            <volume>${moduleId}-repository-test-contentstore:/usr/local/tomcat/alf_data</volume>
+                                        </bind>
+                                    </volumes>
                                     <dependsOn>
                                         <container>postgres</container>
                                     </dependsOn>
@@ -1260,6 +1273,29 @@
             <build>
                 <pluginManagement>
                     <plugins>
+
+                        <plugin>
+                            <artifactId>maven-resources-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>processIntegrationTestDockerResources</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/docker</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>src/test/docker</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
                         <plugin>
                             <groupId>io.fabric8</groupId>
                             <artifactId>docker-maven-plugin</artifactId>
