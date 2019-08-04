@@ -379,6 +379,10 @@
                         <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                         <volumes>
                             <volume>
+                                <name>${moduleId}-postgresql-test</name>
+                                <driver>local</driver>
+                            </volume>
+                            <volume>
                                 <name>${moduleId}-repository-test-contentstore</name>
                                 <driver>local</driver>
                             </volume>
@@ -400,6 +404,11 @@
                                         <name>${moduleId}-test</name>
                                         <alias>postgres</alias>
                                     </network>
+                                    <volumes>
+                                        <bind>
+                                            <volume>${moduleId}-postgresql-test:/var/lib/postgresql/data</volume>
+                                        </bind>
+                                    </volumes>
                                 </run>
                             </image>
                             <image>
