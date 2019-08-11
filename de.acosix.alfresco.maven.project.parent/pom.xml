@@ -87,10 +87,13 @@
         <docker.tests.repositoryWebappPath></docker.tests.repositoryWebappPath>
         <docker.tests.repositoryStartupWaitTime>180000</docker.tests.repositoryStartupWaitTime>
         <docker.tests.repositoryVersionSpecificJavaOpts></docker.tests.repositoryVersionSpecificJavaOpts>
+        <docker.tests.repositoryPort>8082</docker.tests.repositoryPort>
         <docker.tests.skipShareImageBuild>true</docker.tests.skipShareImageBuild>
         <docker.tests.shareBaseImage></docker.tests.shareBaseImage>
         <docker.tests.shareWebappPath></docker.tests.shareWebappPath>
         <docker.tests.shareStartupWaitTime>90000</docker.tests.shareStartupWaitTime>
+        <docker.tests.shareVersionSpecificJavaOpts></docker.tests.shareVersionSpecificJavaOpts>
+        <docker.tests.sharePort>8182</docker.tests.sharePort>
         <docker.tests.searchBaseImage></docker.tests.searchBaseImage>
         <docker.tests.searchStartupWaitTime>30000</docker.tests.searchStartupWaitTime>
         <docker.tests.skipShareImage>true</docker.tests.skipShareImage>
@@ -422,6 +425,7 @@
                                         <descriptorRef>${docker.tests.repositoryDescriptorRef}</descriptorRef>
                                         <descriptor>${docker.tests.repositoryDescriptor}</descriptor>
                                     </assembly>
+                                    <dockerFile>${docker.tests.repositoryDockerFile}</dockerFile>
                                 </build>
                                 <run>
                                     <hostname>repository</hostname>
@@ -439,10 +443,16 @@
                                             -Dindex.subsystem.name=${docker.tests.searchSubsystem}
                                             -Dcsrf.filter.enabled=false
                                             -Xms1g -Xmx1g
+                                            -XX:+UseG1GC
+                                            -XX:+ParallelRefProcEnabled
+                                            -XX:+UseStringDeduplication
+                                            -XX:+ScavengeBeforeFullGC
+                                            -XX:+DisableExplicitGC
+                                            -XX:+AlwaysPreTouch
                                         ]]></JAVA_OPTS>
                                     </env>
                                     <ports>
-                                        <port>8082:8080</port>
+                                        <port>${docker.tests.repositoryPort}:8080</port>
                                     </ports>
                                     <network>
                                         <mode>custom</mode>
@@ -459,7 +469,7 @@
                                     </dependsOn>
                                     <wait>
                                         <http>
-                                            <url>http://localhost:8082/alfresco/favicon.ico</url>
+                                            <url>http://localhost:${docker.tests.repositoryPort}/alfresco/favicon.ico</url>
                                             <method>GET</method>
                                             <status>200</status>
                                         </http>
@@ -467,7 +477,56 @@
                                     </wait>
                                 </run>
                             </image>
-                            <!-- TODO Share test image -->
+                            <image>
+                                <name>maven-share-test</name>
+                                <alias>share</alias>
+                                <build>
+                                    <from>${docker.tests.shareBaseImage}</from>
+                                    <skip>${docker.tests.skipShareImageBuild}</skip>
+                                    <assembly>
+                                        <targetDir>${docker.tests.shareWebappPath}</targetDir>
+                                        <descriptorRef>${docker.tests.shareDescriptorRef}</descriptorRef>
+                                        <descriptor>${docker.tests.shareDescriptor}</descriptor>
+                                    </assembly>
+                                    <dockerFile>${docker.tests.shareDockerFile}</dockerFile>
+                                </build>
+                                <run>
+                                    <hostname>share</hostname>
+                                    <env>
+                                        <REPO_HOST>repository</REPO_HOST>
+                                        <REPO_PORT>8080</REPO_PORT>
+                                        <CATALINA_OPTS><![CDATA[
+                                            ${docker.tests.shareVersionSpecificJavaOpts}
+                                            -Xms512m -Xmx512m
+                                            -XX:+UseG1GC
+                                            -XX:+ParallelRefProcEnabled
+                                            -XX:+UseStringDeduplication
+                                            -XX:+ScavengeBeforeFullGC
+                                            -XX:+DisableExplicitGC
+                                            -XX:+AlwaysPreTouch
+                                        ]]></CATALINA_OPTS>
+                                    </env>
+                                    <ports>
+                                        <port>${docker.tests.sharePort}:8080</port>
+                                    </ports>
+                                    <network>
+                                        <mode>custom</mode>
+                                        <name>${moduleId}-test</name>
+                                        <alias>share</alias>
+                                    </network>
+                                    <dependsOn>
+                                        <container>repository</container>
+                                    </dependsOn>
+                                    <wait>
+                                        <http>
+                                            <url>http://localhost:${docker.tests.sharePort}/share/res/favicon.ico</url>
+                                            <method>GET</method>
+                                            <status>200</status>
+                                        </http>
+                                        <time>${docker.tests.shareStartupWaitTime}</time>
+                                    </wait>
+                                </run>
+                            </image>
                             <image>
                                 <name>${docker.tests.searchBaseImage}</name>
                                 <alias>search</alias>
@@ -1228,6 +1287,20 @@
         </profile>
 
         <profile>
+            <id>HasSpecificRepositoryDockerITDockerFile</id>
+
+            <activation>
+                <file>
+                    <exists>src/test/docker/Repository-Dockerfile</exists>
+                </file>
+            </activation>
+
+            <properties>
+                <docker.tests.repositoryDockerFile>Repository-Dockerfile</docker.tests.repositoryDockerFile>
+            </properties>
+        </profile>
+
+        <profile>
             <id>shareDockerITDefaults</id>
 
             <activation>
@@ -1267,6 +1340,20 @@
 
             <properties>
                 <docker.tests.shareDescriptor>share-it.xml</docker.tests.shareDescriptor>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>HasSpecificShareDockerITDockerFile</id>
+
+            <activation>
+                <file>
+                    <exists>src/test/docker/Share-Dockerfile</exists>
+                </file>
+            </activation>
+
+            <properties>
+                <docker.tests.shareDockerFile>Share-Dockerfile</docker.tests.shareDockerFile>
             </properties>
         </profile>
 
