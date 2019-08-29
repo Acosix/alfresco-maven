@@ -20,7 +20,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.project.parent-6.0.7</artifactId>
@@ -92,7 +92,7 @@
         <docker.tests.shareWebappPath>/usr/local/tomcat/webapps/share</docker.tests.shareWebappPath>
         <docker.tests.searchBaseImage>alfresco/alfresco-search-services:1.1.1</docker.tests.searchBaseImage>
         <docker.tests.searchSubsystem>solr6</docker.tests.searchSubsystem>
-        <docker.tests.searchPort>8983</docker.tests.searchPort>
+        <docker.tests.internalSearchPort>8983</docker.tests.internalSearchPort>
         <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
 
         <war.alfresco.artifactId>content-services-community</war.alfresco.artifactId>
