@@ -419,7 +419,7 @@
                                 </run>
                             </image>
                             <image>
-                                <name>maven-repository-test</name>
+                                <name>${moduleId}-repository-test</name>
                                 <alias>repository</alias>
                                 <build>
                                     <from>${docker.tests.repositoryBaseImage}</from>
@@ -485,7 +485,7 @@
                                 </run>
                             </image>
                             <image>
-                                <name>maven-share-test</name>
+                                <name>${moduleId}-share-test</name>
                                 <alias>share</alias>
                                 <build>
                                     <from>${docker.tests.shareBaseImage}</from>
