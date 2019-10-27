@@ -71,6 +71,7 @@
         <alfresco.repository.version>7.43</alfresco.repository.version>
         <alfresco.remote-api.version>7.35</alfresco.remote-api.version>
         <alfresco.jlan.version>7.1</alfresco.jlan.version>
+        <alfresco.lucene.version>6.2</alfresco.lucene.version>
         <alfresco.share-services.version>${share.distribution.version}</alfresco.share-services.version>
 
         <spring.version>5.1.3.RELEASE</spring.version>
@@ -82,6 +83,9 @@
         <surf.share.core.version>6.20</surf.share.core.version>
         <surf.safe.webscripts.version>6.20</surf.safe.webscripts.version>
         <surf.safe.core.version>6.20</surf.safe.core.version>
+
+        <lucene.version>2.4.1</lucene.version>
+
         <slf4j.version>1.7.25</slf4j.version>
 
         <logback.version>1.2.3</logback.version>
@@ -227,6 +231,13 @@
 
             <dependency>
                 <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-legacy-lucene</artifactId>
+                <version>${alfresco.lucene.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-share-services</artifactId>
                 <version>${alfresco.share-services.version}</version>
                 <classifier>classes</classifier>
@@ -259,6 +270,40 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-core</artifactId>
+                <version>${lucene.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-analyzers</artifactId>
+                <version>${lucene.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-regex</artifactId>
+                <version>${lucene.version}</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jakarta-regexp</groupId>
+                        <artifactId>jakarta-regexp</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-snowball</artifactId>
+                <version>${lucene.version}</version>
                 <scope>provided</scope>
             </dependency>
 

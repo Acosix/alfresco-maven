@@ -11,7 +11,7 @@
                 <packaging>amp</packaging>
                 <language>java</language>
                 <addedToClasspath>false</addedToClasspath>
-                <includesDependencies>true</includesDependencies>
+                <includesDependencies>false</includesDependencies>
             </configuration>
         </component>
 

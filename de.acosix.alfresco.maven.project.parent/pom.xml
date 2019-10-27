@@ -104,6 +104,7 @@
         <docker.tests.skipSearchImage>true</docker.tests.skipSearchImage>
         <docker.tests.searchSubsystem></docker.tests.searchSubsystem>
         <docker.tests.searchPort>8282</docker.tests.searchPort>
+        <docker.tests.internalSearchPort></docker.tests.internalSearchPort>
         <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
 
         <war.alfresco.artifactId>alfresco</war.alfresco.artifactId>
