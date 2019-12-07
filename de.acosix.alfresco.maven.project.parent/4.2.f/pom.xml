@@ -295,4 +295,18 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <plugins>
+
+            <plugin>
+                <!-- enforcer is irrelevant for the parent POM itself -->
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
 </project>

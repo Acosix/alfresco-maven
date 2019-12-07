@@ -62,20 +62,21 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
 
+        <maven.versions.version>2.7</maven.versions.version>
         <maven.enforcer.version>1.4.1</maven.enforcer.version>
         <maven.clean.version>3.1.0</maven.clean.version>
         <maven.resources.version>3.1.0</maven.resources.version>
         <maven.dependency.version>3.1.1</maven.dependency.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
-        <maven.source.version>3.1.0</maven.source.version>
+        <maven.source.version>3.2.0</maven.source.version>
         <maven.javadoc.version>3.1.1</maven.javadoc.version>
-        <maven.jar.version>3.1.2</maven.jar.version>
+        <maven.jar.version>3.2.0</maven.jar.version>
         <maven.toolchain.version>3.0.0</maven.toolchain.version>
-        <maven.forbiddenapis.version>2.6</maven.forbiddenapis.version>
-        <maven.assembly.version>3.1.1</maven.assembly.version>
+        <maven.forbiddenapis.version>2.7</maven.forbiddenapis.version>
+        <maven.assembly.version>3.2.0</maven.assembly.version>
         <maven.war.version>3.2.3</maven.war.version>
         <maven.alfresco.version>1.1.1</maven.alfresco.version>
-        <maven.findbugs.version>3.0.4</maven.findbugs.version>
+        <maven.findbugs.version>3.0.5</maven.findbugs.version>
         <maven.surefire.version>2.22.2</maven.surefire.version>
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
         <maven.install.version>2.5.2</maven.install.version>
@@ -85,18 +86,18 @@
 
         <maven.acosix.jshint.version>1.1.0</maven.acosix.jshint.version>
         <maven.acosix.i18n.version>1.0.4</maven.acosix.i18n.version>
-        
+
         <maven.alchim.yuicompressor.version>1.5.1</maven.alchim.yuicompressor.version>
 
         <maven.oss.staging.version>1.6.8</maven.oss.staging.version>
 
-        <maven.plugin.version>3.5</maven.plugin.version>
-        <maven.plugin.api.version>${maven.plugin.version}.0</maven.plugin.api.version>
-        <maven.artifact.version>${maven.plugin.version}.0</maven.artifact.version>
+        <maven.plugin.version>3.6.0</maven.plugin.version>
+        <maven.plugin.api.version>${maven.plugin.version}</maven.plugin.api.version>
+        <maven.artifact.version>${maven.plugin.version}</maven.artifact.version>
         <maven.archiver.version>3.3.0</maven.archiver.version>
         <plexus.archiver.version>${maven.plugin.version}</plexus.archiver.version>
 
-        <fabric8io.docker.version>0.30.0</fabric8io.docker.version>
+        <fabric8io.docker.version>0.31.0</fabric8io.docker.version>
 
         <junit.version>4.12</junit.version>
 
@@ -172,6 +173,14 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${maven.versions.version}</version>
+                    <configuration>
+                        <generateBackupPoms>false</generateBackupPoms>
+                    </configuration>
+                </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -338,13 +347,13 @@
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>${maven.deploy.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>${maven.helper.version}</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.codehaus.gmaven</groupId>
                     <artifactId>groovy-maven-plugin</artifactId>

@@ -68,6 +68,7 @@
 
         <alfresco.repo.core.version>7.5</alfresco.repo.core.version>
         <alfresco.share.core.version>6.15</alfresco.share.core.version>
+        <alfresco.safe.core.version>6.15</alfresco.safe.core.version>
 
         <alfresco.data-model.version>8.25</alfresco.data-model.version>
         <alfresco.repository.version>7.43</alfresco.repository.version>
@@ -324,6 +325,20 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <!-- enforcer is irrelevant for the parent POM itself -->
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
 
     <profiles>
         <profile>
