@@ -1084,7 +1084,9 @@
                                     <configuration>
                                         <excludes>
                                             <exclude>**/*.lib.js</exclude>
+                                            <exclude>**/*.min.js</exclude>
                                             <exclude>**/*.css</exclude>
+                                            <exclude>**/*.min.css</exclude>
                                         </excludes>
                                         <sourceDirectory>${project.basedir}/src/main/webapp</sourceDirectory>
                                         <outputDirectory>${project.build.directory}/web</outputDirectory>
