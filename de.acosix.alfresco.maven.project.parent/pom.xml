@@ -438,7 +438,7 @@
                                     <env>
                                         <JAVA_OPTS><![CDATA[
                                             ${docker.tests.repositoryVersionSpecificJavaOpts}
-                                            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repositoryDebugPort}
+                                            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.repositoryDebugPort}
                                             -Ddb.driver=org.postgresql.Driver
                                             -Ddb.username=alfresco
                                             -Ddb.password=alfresco
@@ -506,7 +506,7 @@
                                         <REPO_PORT>8080</REPO_PORT>
                                         <CATALINA_OPTS><![CDATA[
                                             ${docker.tests.shareVersionSpecificJavaOpts}
-                                            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.shareDebugPort}
+                                            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.shareDebugPort}
                                             -Xms512m -Xmx512m
                                             -XX:+UseG1GC
                                             -XX:+ParallelRefProcEnabled
