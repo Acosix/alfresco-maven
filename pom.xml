@@ -101,6 +101,8 @@
 
         <junit.version>4.12</junit.version>
 
+        <maven.forbiddenapis.targetVersion>${maven.compiler.target}</maven.forbiddenapis.targetVersion>
+
         <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
     </properties>
 
@@ -221,10 +223,6 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.version}</version>
-                    <configuration>
-                        <source>${maven.compiler.target}</source>
-                        <target>${maven.compiler.target}</target>
-                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -298,6 +296,7 @@
                         <failOnUnsupportedJava>false</failOnUnsupportedJava>
                         <failOnMissingClasses>false</failOnMissingClasses>
                         <failOnUnresolvableSignatures>false</failOnUnresolvableSignatures>
+                        <targetVersion>${maven.forbiddenapis.targetVersion}</targetVersion>
                         <bundledSignatures>
                             <bundledSignature>jdk-unsafe</bundledSignature>
                             <bundledSignature>jdk-deprecated</bundledSignature>
