@@ -87,14 +87,14 @@
         <docker.tests.repositoryBaseImage></docker.tests.repositoryBaseImage>
         <docker.tests.repositoryWebappPath></docker.tests.repositoryWebappPath>
         <docker.tests.repositoryStartupWaitTime>180000</docker.tests.repositoryStartupWaitTime>
-        <docker.tests.repositoryVersionSpecificJavaOpts></docker.tests.repositoryVersionSpecificJavaOpts>
+        <docker.tests.repositoryVersionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.repositoryDebugPort}</docker.tests.repositoryVersionSpecificJavaOpts>
         <docker.tests.repositoryPort>8082</docker.tests.repositoryPort>
         <docker.tests.repositoryDebugPort>8083</docker.tests.repositoryDebugPort>
         <docker.tests.skipShareImageBuild>true</docker.tests.skipShareImageBuild>
         <docker.tests.shareBaseImage></docker.tests.shareBaseImage>
         <docker.tests.shareWebappPath></docker.tests.shareWebappPath>
         <docker.tests.shareStartupWaitTime>90000</docker.tests.shareStartupWaitTime>
-        <docker.tests.shareVersionSpecificJavaOpts></docker.tests.shareVersionSpecificJavaOpts>
+        <docker.tests.shareVersionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.shareDebugPort}</docker.tests.shareVersionSpecificJavaOpts>
         <docker.tests.sharePort>8182</docker.tests.sharePort>
         <docker.tests.shareDebugPort>8183</docker.tests.shareDebugPort>
         <docker.tests.searchBaseImage></docker.tests.searchBaseImage>
@@ -438,7 +438,6 @@
                                     <env>
                                         <JAVA_OPTS><![CDATA[
                                             ${docker.tests.repositoryVersionSpecificJavaOpts}
-                                            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.repositoryDebugPort}
                                             -Ddb.driver=org.postgresql.Driver
                                             -Ddb.username=alfresco
                                             -Ddb.password=alfresco
@@ -506,7 +505,6 @@
                                         <REPO_PORT>8080</REPO_PORT>
                                         <CATALINA_OPTS><![CDATA[
                                             ${docker.tests.shareVersionSpecificJavaOpts}
-                                            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.shareDebugPort}
                                             -Xms512m -Xmx512m
                                             -XX:+UseG1GC
                                             -XX:+ParallelRefProcEnabled
