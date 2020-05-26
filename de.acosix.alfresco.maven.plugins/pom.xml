@@ -21,7 +21,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.3.1-SNAPSHOT</version>
+        <version>1.3.1</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.plugins</artifactId>
