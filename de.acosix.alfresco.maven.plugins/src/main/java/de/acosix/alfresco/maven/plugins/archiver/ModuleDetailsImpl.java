@@ -1,10 +1,15 @@
 package de.acosix.alfresco.maven.plugins.archiver;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.codehaus.plexus.archiver.ArchiverException;
@@ -45,6 +50,10 @@ public class ModuleDetailsImpl implements ModuleDetails
 
     private final List<ModuleDependency> dependencies = new ArrayList<>();
 
+    private final Date installDate;
+
+    private final ModuleInstallState installState;
+
     /**
      * @param id
      *            module id
@@ -64,6 +73,9 @@ public class ModuleDetailsImpl implements ModuleDetails
 
         this.repoVersionMin = VERSION_ZERO;
         this.repoVersionMax = VERSION_BIG;
+
+        this.installDate = null;
+        this.installState = ModuleInstallState.UNKNOWN;
     }
 
     /**
@@ -149,6 +161,42 @@ public class ModuleDetailsImpl implements ModuleDetails
 
         this.dependencies.addAll(extractDependencies(trimmedProperties));
         this.editions.addAll(extractEditions(trimmedProperties));
+
+        if (trimmedProperties.getProperty(PROP_INSTALL_DATE) != null)
+        {
+            final String installDateStr = trimmedProperties.getProperty(PROP_INSTALL_DATE);
+            try
+            {
+                final DateFormat df = new SimpleDateFormat("YYYY-MM-dd'T'hh:mm:ss.SSSXXX", Locale.ENGLISH);
+                df.setTimeZone(TimeZone.getTimeZone("UTC"));
+                this.installDate = df.parse(installDateStr);
+            }
+            catch (final Throwable e)
+            {
+                throw new ArchiverException("Unable to parse install date: " + PROP_INSTALL_DATE + ", " + installDateStr, e);
+            }
+        }
+        else
+        {
+            this.installDate = null;
+        }
+
+        if (trimmedProperties.getProperty(PROP_INSTALL_STATE) != null)
+        {
+            final String installStateStr = trimmedProperties.getProperty(PROP_INSTALL_STATE);
+            try
+            {
+                this.installState = ModuleInstallState.valueOf(installStateStr);
+            }
+            catch (final Throwable e)
+            {
+                throw new ArchiverException("Unable to parse install state: " + PROP_INSTALL_STATE + ", " + installStateStr, e);
+            }
+        }
+        else
+        {
+            this.installState = ModuleInstallState.UNKNOWN;
+        }
 
         if (missingProperties.size() > 0)
         {
@@ -257,6 +305,24 @@ public class ModuleDetailsImpl implements ModuleDetails
     public List<ModuleDependency> getDependencies()
     {
         return new ArrayList<>(this.dependencies);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Date getInstallDate()
+    {
+        return this.installDate != null ? new Date(this.installDate.getTime()) : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ModuleInstallState getInstallState()
+    {
+        return this.installState;
     }
 
     /**

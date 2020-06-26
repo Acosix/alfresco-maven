@@ -1,5 +1,6 @@
 package de.acosix.alfresco.maven.plugins.archiver;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -102,6 +103,20 @@ public interface ModuleDetails
      * @return Returns a list of module dependencies that must be present for this module
      */
     List<ModuleDependency> getDependencies();
+
+    /**
+     * Get the modules install date
+     *
+     * @return module install date or <tt>null</tt> if it has not been set
+     */
+    Date getInstallDate();
+
+    /**
+     * Get the modules install state
+     *
+     * @return the modules install state
+     */
+    ModuleInstallState getInstallState();
 
     /**
      *

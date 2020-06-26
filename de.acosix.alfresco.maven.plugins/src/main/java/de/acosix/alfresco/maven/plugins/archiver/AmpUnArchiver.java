@@ -19,11 +19,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.TimeZone;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
@@ -104,7 +110,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
     };
 
     // encoding is not exposed via a getter in base class so need to duplicate it
-    private String encoding = "UTF8";
+    private String encoding = StandardCharsets.UTF_8.name();
 
     private final ThreadLocal<Properties> fileMappingProperties = new ThreadLocal<>();
 
@@ -385,6 +391,24 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
         if (effectiveEntryName != null && !effectiveEntryName.isEmpty())
         {
             super.extractFile(srcF, dir, compressedInputStream, effectiveEntryName, entryDate, isDirectory, mode, symlinkDestination);
+
+            // add install details
+            if (entryName.equals(MODULE_PROPERTIES))
+            {
+                final DateFormat df = new SimpleDateFormat("YYYY-MM-dd'T'hh:mm:ss.SSSXXX", Locale.ENGLISH);
+                df.setTimeZone(TimeZone.getTimeZone("UTC"));
+                final String nowIso = df.format(new Date());
+
+                final StringBuilder suffix = new StringBuilder(2 * 48);
+                suffix.append(System.lineSeparator());
+                suffix.append(ModuleDetails.PROP_INSTALL_STATE).append("=").append(ModuleInstallState.INSTALLED.name());
+                suffix.append(System.lineSeparator());
+                suffix.append(ModuleDetails.PROP_INSTALL_DATE).append("=").append(nowIso);
+                suffix.append(System.lineSeparator());
+
+                final byte[] bytes = suffix.toString().getBytes(StandardCharsets.UTF_8);
+                Files.write(dir.toPath().resolve(effectiveEntryName), bytes, StandardOpenOption.APPEND);
+            }
         }
         else
         {
