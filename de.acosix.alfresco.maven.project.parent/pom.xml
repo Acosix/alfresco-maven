@@ -20,7 +20,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.3.2</version>
+        <version>1.3.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
@@ -924,12 +924,11 @@
         </profile>
 
         <profile>
-            <id>BuildInstallableJAR</id>
+            <id>BuildDefaultInstallableJAR</id>
             <activation>
-                <property>
-                    <name>assembly.build.skipInstallableJar</name>
-                    <value>!true</value>
-                </property>
+                <file>
+                    <missing>src/main/assembly/installable-jar.xml</missing>
+                </file>
             </activation>
 
             <build>
@@ -946,9 +945,10 @@
                                     </goals>
                                     <configuration>
                                         <descriptorRefs>
-                                            <descriptorRef>installable-jar</descriptorRef>
+                                            <descriptorRef>default-installable-jar</descriptorRef>
                                         </descriptorRefs>
                                         <escapeString>\</escapeString>
+                                        <skipAssembly>${assembly.build.skipInstallableJar}</skipAssembly>
                                         <attach>${assembly.attach.installableJar}</attach>
                                     </configuration>
                                 </execution>
@@ -960,7 +960,43 @@
         </profile>
 
         <profile>
-            <id>HasNoSpecificAMPDescriptor</id>
+            <id>BuildCustomInstallableJAR</id>
+            <activation>
+                <file>
+                    <exists>src/main/assembly/installable-jar.xml</exists>
+                </file>
+            </activation>
+
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-assembly-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>buildInstallableJAR</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>single</goal>
+                                    </goals>
+                                    <configuration>
+                                        <descriptors>
+                                            <descriptor>src/main/assembly/installable-jar.xml</descriptor>
+                                        </descriptors>
+                                        <escapeString>\</escapeString>
+                                        <skipAssembly>${assembly.build.skipInstallableJar}</skipAssembly>
+                                        <attach>${assembly.attach.installableJar}</attach>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>BuildDefaultAMP</id>
             <activation>
                 <file>
                     <missing>src/main/assembly/amp.xml</missing>
@@ -997,7 +1033,7 @@
         </profile>
 
         <profile>
-            <id>HasSpecificAMPDescriptor</id>
+            <id>BuildCustomAMP</id>
             <activation>
                 <file>
                     <exists>src/main/assembly/amp.xml</exists>
