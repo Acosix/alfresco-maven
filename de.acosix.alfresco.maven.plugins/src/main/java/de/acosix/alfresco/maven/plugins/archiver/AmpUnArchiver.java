@@ -127,9 +127,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
     }
 
     /**
-     * Sets the encoding to assume for file names and comments.
-     *
-     * Set to <code>native-encoding</code> if you want your platform's native encoding, defaults to UTF8.
+     * {@inheritDoc}
      */
     @Override
     public void setEncoding(String encoding)
@@ -150,6 +148,9 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
         return this.encoding;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate() throws ArchiverException
     {
@@ -157,6 +158,9 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
         this.validateAlfrescoModuleMetadata();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void validate(final String path, final File outputDirectory) throws ArchiverException
     {
@@ -240,7 +244,12 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
             {
                 this.validateAlfrescoModuleAgainstManifest(md, manifest);
             }
-            // else: nothing to validate - unpack a generic, non-Alfresco scope
+            else
+            {
+                this.getLogger().debug(
+                        "Module cannot be validated before unpacking as neither version.properties nor manifest can be found in context "
+                                + destContext);
+            }
 
             final List<ModuleDependency> dependencies = md.getDependencies();
             if (!dependencies.isEmpty())
@@ -253,7 +262,8 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
     protected void validateAlfrescoModuleAgainstVersionProperties(final ModuleDetails md, final Properties versionProperties)
     {
-        this.getLogger().debug("Validating module details " + md + " against version properties " + versionProperties);
+        this.getLogger().debug("Validating " + md + " against version properties " + versionProperties);
+
         final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(versionProperties.getProperty("version.major"));
         stringBuilder.append(".");
@@ -271,7 +281,8 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
     protected void validateAlfrescoModuleAgainstManifest(final ModuleDetails md, final Manifest manifest)
     {
-        this.getLogger().debug("Validating module details " + md + " against manifest " + manifest);
+        this.getLogger().debug("Validating " + md + " against manifest " + manifest);
+
         final Attributes mainAttributes = manifest.getMainAttributes();
         final String manifestVersionStr = mainAttributes.getValue(MANIFEST_SPECIFICATION_VERSION);
         final String edition = mainAttributes.getValue(MANIFEST_IMPLEMENTATION_TITLE);
@@ -357,6 +368,8 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
         if (destDirectory != null)
         {
+            this.getLogger().debug("Unpacking " + sourceFile + " into directory " + destDirectory);
+
             final Properties moduleProperties = this.loadMetaFile(sourceFile, MODULE_PROPERTIES, PROPERTIES_READER);
             final ModuleDetails md = new ModuleDetailsImpl(moduleProperties);
             final Properties fileMappingProperties = this.getOrCreateDefaultFileMappings(sourceFile);
@@ -381,6 +394,9 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void extractFile(final File srcF, final File dir, final InputStream compressedInputStream, final String entryName,
             final Date entryDate, final boolean isDirectory, final Integer mode, final String symlinkDestination)
@@ -390,11 +406,14 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
         if (effectiveEntryName != null && !effectiveEntryName.isEmpty())
         {
+            this.getLogger().debug("Extracting " + effectiveEntryName);
+
             super.extractFile(srcF, dir, compressedInputStream, effectiveEntryName, entryDate, isDirectory, mode, symlinkDestination);
 
-            // add install details
             if (entryName.equals(MODULE_PROPERTIES))
             {
+                this.getLogger().debug("Appending installation details to unpacked module.properties");
+
                 final DateFormat df = new SimpleDateFormat("YYYY-MM-dd'T'hh:mm:ss.SSSXXX", Locale.ENGLISH);
                 df.setTimeZone(TimeZone.getTimeZone("UTC"));
                 final String nowIso = df.format(new Date());
@@ -444,6 +463,9 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
         {
             effectiveEntryName = effectiveEntryName.substring(1);
         }
+
+        this.getLogger().debug("Using effective entry name " + effectiveEntryName + " for base entry name " + entryName);
+
         return effectiveEntryName;
     }
 
@@ -458,6 +480,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
         if (Boolean.parseBoolean(fileMappingProperties.getProperty("include.default", "false")))
         {
+            this.getLogger().debug("Expanding include.default=true in file mappings");
             fileMappingProperties.put("/config", "/WEB-INF/classes");
             fileMappingProperties.put("/lib", "/WEB-INF/lib");
             fileMappingProperties.put("/licenses", "/WEB-INF/licenses");
@@ -473,6 +496,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
     protected <T> T loadMetaFile(final File context, final String relativePath, final FileReader<T> reader) throws ArchiverException
     {
+        this.getLogger().debug("Attempting to resolve meta file" + relativePath + " in context " + context);
         T meta = null;
         try
         {
@@ -486,6 +510,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
                         try (InputStream is = archiveCandidate.getInputStream(zae))
                         {
                             meta = reader.readFile(is);
+                            this.getLogger().debug("Succesfully read meta file" + relativePath + " from context " + context);
                         }
                     }
                 }
@@ -498,6 +523,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
                     try (InputStream is = new FileInputStream(propertiesFile))
                     {
                         meta = reader.readFile(is);
+                        this.getLogger().debug("Succesfully read meta file" + relativePath + " from context " + context);
                     }
                 }
             }
