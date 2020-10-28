@@ -62,17 +62,17 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
 
-        <maven.versions.version>2.7</maven.versions.version>
+        <maven.versions.version>2.8.1</maven.versions.version>
         <maven.enforcer.version>1.4.1</maven.enforcer.version>
         <maven.clean.version>3.1.0</maven.clean.version>
         <maven.resources.version>3.1.0</maven.resources.version>
-        <maven.dependency.version>3.1.1</maven.dependency.version>
+        <maven.dependency.version>3.1.2</maven.dependency.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
-        <maven.source.version>3.2.0</maven.source.version>
-        <maven.javadoc.version>3.1.1</maven.javadoc.version>
+        <maven.source.version>3.2.1</maven.source.version>
+        <maven.javadoc.version>3.2.0</maven.javadoc.version>
         <maven.jar.version>3.2.0</maven.jar.version>
         <maven.toolchain.version>3.0.0</maven.toolchain.version>
-        <maven.forbiddenapis.version>2.7</maven.forbiddenapis.version>
+        <maven.forbiddenapis.version>3.1</maven.forbiddenapis.version>
         <maven.assembly.version>3.2.0</maven.assembly.version>
         <maven.war.version>3.2.3</maven.war.version>
         <maven.alfresco.version>1.1.1</maven.alfresco.version>
