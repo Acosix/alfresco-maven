@@ -496,7 +496,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
     protected <T> T loadMetaFile(final File context, final String relativePath, final FileReader<T> reader) throws ArchiverException
     {
-        this.getLogger().debug("Attempting to resolve meta file" + relativePath + " in context " + context);
+        this.getLogger().debug("Attempting to resolve meta file " + relativePath + " in context " + context);
         T meta = null;
         try
         {
@@ -510,7 +510,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
                         try (InputStream is = archiveCandidate.getInputStream(zae))
                         {
                             meta = reader.readFile(is);
-                            this.getLogger().debug("Succesfully read meta file" + relativePath + " from context " + context);
+                            this.getLogger().debug("Succesfully read meta file " + relativePath + " from context " + context);
                         }
                     }
                 }
