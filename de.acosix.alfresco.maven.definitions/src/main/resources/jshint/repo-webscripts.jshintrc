@@ -61,6 +61,7 @@
         "webprojects": false,
         "workflow": false,
         "siteService" : false,
-        "preferenceService" : false
+        "preferenceService" : false,
+        "taggingService" : false
     }
 }
