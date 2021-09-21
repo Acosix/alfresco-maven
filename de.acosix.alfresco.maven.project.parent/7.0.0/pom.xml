@@ -23,11 +23,11 @@
         <version>1.4.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>de.acosix.alfresco.maven.project.parent-6.0.7</artifactId>
+    <artifactId>de.acosix.alfresco.maven.project.parent-7.0.0</artifactId>
     <packaging>pom</packaging>
 
-    <name>Acosix Alfresco 6.0.7 GA Project Parent</name>
-    <description>Parent POM for projects based on Alfresco 6.0.7-ga</description>
+    <name>Acosix Alfresco 7.0.0 Project Parent</name>
+    <description>Parent POM for projects based on Alfresco 7.0.0</description>
 
     <licenses>
         <license>
@@ -60,37 +60,51 @@
     </developers>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.11</maven.compiler.source>
+        <maven.compiler.target>1.11</maven.compiler.target>
 
-        <alfresco.distribution.version>6.0.7-ga</alfresco.distribution.version>
-        <share.distribution.version>6.0.b</share.distribution.version>
+        <maven.compiler.release>11</maven.compiler.release>
+        <maven.forbiddenapis.targetVersion>11</maven.forbiddenapis.targetVersion>
 
-        <alfresco.core.version>7.3</alfresco.core.version>
-        <alfresco.data-model.version>8.8</alfresco.data-model.version>
-        <alfresco.repository.version>6.55</alfresco.repository.version>
-        <alfresco.remote-api.version>6.38</alfresco.remote-api.version>
+        <alfresco.distribution.version>8.423</alfresco.distribution.version>
+        <share.distribution.version>7.0.0</share.distribution.version>
+
+        <alfresco.repo.core.version>8.423</alfresco.repo.core.version>
+        <alfresco.share.core.version>8.393</alfresco.share.core.version>
+        <alfresco.safe.core.version>8.393</alfresco.safe.core.version>
+
+        <alfresco.data-model.version>8.423</alfresco.data-model.version>
+        <alfresco.repository.version>8.423</alfresco.repository.version>
+        <alfresco.remote-api.version>8.423</alfresco.remote-api.version>
         <alfresco.jlan.version>7.1</alfresco.jlan.version>
         <alfresco.share-services.version>${share.distribution.version}</alfresco.share-services.version>
 
-        <spring.version>5.0.4.RELEASE</spring.version>
+        <spring.version>5.3.3</spring.version>
         <surf.groupId>org.alfresco.surf</surf.groupId>
-        <surf.repo.webscripts.version>6.19</surf.repo.webscripts.version>
-        <surf.repo.core.version>6.20</surf.repo.core.version>
-        <surf.share.webscripts.version>6.20</surf.share.webscripts.version>
-        <surf.share.api.version>6.11</surf.share.api.version>
-        <surf.share.core.version>6.20</surf.share.core.version>
-        <surf.safe.webscripts.version>6.19</surf.safe.webscripts.version>
-        <surf.safe.core.version>6.19</surf.safe.core.version>
-        <slf4j.version>1.7.24</slf4j.version>
+        <surf.repo.webscripts.version>8.18</surf.repo.webscripts.version>
+        <surf.repo.core.version>8.18</surf.repo.core.version>
+        <surf.share.webscripts.version>8.18</surf.share.webscripts.version>
+        <surf.share.api.version>8.9</surf.share.api.version>
+        <surf.share.core.version>8.18</surf.share.core.version>
+        <surf.safe.webscripts.version>8.18</surf.safe.webscripts.version>
+        <surf.safe.core.version>8.18</surf.safe.core.version>
 
-        <logback.version>1.2.3</logback.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <activemq.version>5.16.1</activemq.version>
 
-        <docker.tests.repositoryBaseImage>alfresco/alfresco-content-repository-community:6.0.7-ga</docker.tests.repositoryBaseImage>
+        <logback.version>1.2.6</logback.version>
+
+        <docker.tests.repositoryBaseImage>alfresco/alfresco-content-repository-community:7.0.0</docker.tests.repositoryBaseImage>
         <docker.tests.repositoryWebappPath>/usr/local/tomcat/webapps/alfresco</docker.tests.repositoryWebappPath>
-        <docker.tests.shareBaseImage>alfresco/alfresco-share:6.0.b</docker.tests.shareBaseImage>
+        <!-- different debugger address for Java 11 -->
+        <!-- need ACS keystore config -->
+        <!-- do not require ActiveMQ instance for integration tests (requires projects to include the activemq-broker JAR via repository-it.xml) -->
+        <!-- Note: unfortunately, newer Java versions (in Alfresco Docker images) fail on \n in cmd line invocation, so this needs to be on a single line -->
+        <docker.tests.repositoryVersionSpecificJavaOpts><![CDATA[-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repositoryDebugPort} -Dencryption.keystore.type=JCEKS -Dencryption.cipherAlgorithm=DESede/CBC/PKCS5Padding -Dencryption.keyAlgorithm=DESede -Dencryption.keystore.location=/usr/local/tomcat/shared/classes/alfresco/extension/keystore/keystore -Dmetadata-keystore.password=mp6yc0UD9e -Dmetadata-keystore.aliases=metadata -Dmetadata-keystore.metadata.password=oKIWzVdEdA -Dmetadata-keystore.metadata.algorithm=DESede -Dmessaging.broker.url=vm://localhost?broker.persistent=false]]></docker.tests.repositoryVersionSpecificJavaOpts>
+        <docker.tests.shareVersionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.shareDebugPort}</docker.tests.shareVersionSpecificJavaOpts>
+        <docker.tests.shareBaseImage>alfresco/alfresco-share:7.0.0</docker.tests.shareBaseImage>
         <docker.tests.shareWebappPath>/usr/local/tomcat/webapps/share</docker.tests.shareWebappPath>
-        <docker.tests.searchBaseImage>alfresco/alfresco-search-services:1.1.1</docker.tests.searchBaseImage>
+        <docker.tests.searchBaseImage>alfresco/alfresco-search-services:2.0.0.1</docker.tests.searchBaseImage>
         <docker.tests.searchSubsystem>solr6</docker.tests.searchSubsystem>
         <docker.tests.internalSearchPort>8983</docker.tests.internalSearchPort>
         <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
@@ -113,20 +127,6 @@
                 <artifactId>${war.share.artifactId}</artifactId>
                 <version>${share.distribution.version}</version>
                 <type>war</type>
-            </dependency>
-
-            <dependency>
-                <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-core</artifactId>
-                <version>${alfresco.core.version}</version>
-                <scope>provided</scope>
-                <!-- exclude broken / irrelevant transitive dependencies -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.social</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -222,6 +222,13 @@
 
             <dependency>
                 <groupId>org.alfresco</groupId>
+                <artifactId>alfresco-legacy-lucene</artifactId>
+                <version>${alfresco.lucene.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-share-services</artifactId>
                 <version>${alfresco.share-services.version}</version>
                 <classifier>classes</classifier>
@@ -257,6 +264,40 @@
                 <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-core</artifactId>
+                <version>${lucene.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-analyzers</artifactId>
+                <version>${lucene.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-regex</artifactId>
+                <version>${lucene.version}</version>
+                <scope>provided</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jakarta-regexp</groupId>
+                        <artifactId>jakarta-regexp</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.lucene</groupId>
+                <artifactId>lucene-snowball</artifactId>
+                <version>${lucene.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
             <!-- prepare libraries for logging in local tests -->
             <dependency>
                 <groupId>ch.qos.logback</groupId>
@@ -285,10 +326,58 @@
                 <version>${slf4j.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- relevant to support vm: transport for non-AMQ-Docker setup -->
+            <!-- transitive dependencies are already part of ACS -->
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-broker</artifactId>
+                <version>${activemq.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>*</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compiler.target}</source>
+                        <target>${maven.compiler.target}</target>
+                        <release>${maven.compiler.release}</release>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <argLine>
+                            --illegal-access=permit
+                        </argLine>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <configuration>
+                        <argLine>
+                            --illegal-access=permit
+                        </argLine>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
         <plugins>
 
             <plugin>
@@ -316,6 +405,20 @@
             <!-- fix (some) dependencies specifically for Repository tier extension projects -->
             <dependencyManagement>
                 <dependencies>
+
+                    <dependency>
+                        <groupId>org.alfresco</groupId>
+                        <artifactId>alfresco-core</artifactId>
+                        <version>${alfresco.repo.core.version}</version>
+                        <scope>provided</scope>
+                        <!-- exclude broken / irrelevant transitive dependencies -->
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.springframework.social</groupId>
+                                <artifactId>*</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
 
                     <dependency>
                         <groupId>${surf.groupId}</groupId>
@@ -361,6 +464,20 @@
             <!-- fix (some) dependencies specifically for Share tier extension projects -->
             <dependencyManagement>
                 <dependencies>
+
+                    <dependency>
+                        <groupId>org.alfresco</groupId>
+                        <artifactId>alfresco-core</artifactId>
+                        <version>${alfresco.share.core.version}</version>
+                        <scope>provided</scope>
+                        <!-- exclude broken / irrelevant transitive dependencies -->
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.springframework.social</groupId>
+                                <artifactId>*</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
 
                     <dependency>
                         <groupId>${surf.groupId}</groupId>

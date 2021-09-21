@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- 
- Copyright 2016 - 2020 Acosix GmbH
+ Copyright 2016 - 2021 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -429,26 +429,8 @@
                                     <skip>${docker.tests.skipRepositoryImage}</skip>
                                     <hostname>repository</hostname>
                                     <env>
-                                        <JAVA_OPTS><![CDATA[
-                                            ${docker.tests.repositoryVersionSpecificJavaOpts}
-                                            -Ddb.driver=org.postgresql.Driver
-                                            -Ddb.username=alfresco
-                                            -Ddb.password=alfresco
-                                            -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
-                                            -Dsolr.host=search
-                                            -Dsolr.port=${docker.tests.internalSearchPort}
-                                            -Dsolr.secureComms=none
-                                            -Dsolr.base.url=${docker.tests.searchBaseUrl}
-                                            -Dindex.subsystem.name=${docker.tests.searchSubsystem}
-                                            -Dcsrf.filter.enabled=false
-                                            -Xms1g -Xmx1g
-                                            -XX:+UseG1GC
-                                            -XX:+ParallelRefProcEnabled
-                                            -XX:+UseStringDeduplication
-                                            -XX:+ScavengeBeforeFullGC
-                                            -XX:+DisableExplicitGC
-                                            -XX:+AlwaysPreTouch
-                                        ]]></JAVA_OPTS>
+                                        <!-- Note: unfortunately, newer Java versions (in Alfresco Docker images) fail on \n in cmd line invocation, so this needs to be on a single line -->
+                                        <JAVA_OPTS><![CDATA[-Xms1g -Xmx1g -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+ScavengeBeforeFullGC -XX:+DisableExplicitGC -XX:+AlwaysPreTouch ${docker.tests.repositoryVersionSpecificJavaOpts} -Ddb.driver=org.postgresql.Driver -Ddb.username=alfresco -Ddb.password=alfresco -Ddb.url=jdbc:postgresql://postgres:5432/alfresco -Dsolr.host=search -Dsolr.port=${docker.tests.internalSearchPort} -Dsolr.secureComms=none -Dsolr.base.url=${docker.tests.searchBaseUrl} -Dindex.subsystem.name=${docker.tests.searchSubsystem} -Dcsrf.filter.enabled=false]]></JAVA_OPTS>
                                     </env>
                                     <ports>
                                         <port>${docker.tests.repositoryPort}:8080</port>
@@ -496,16 +478,7 @@
                                     <env>
                                         <REPO_HOST>repository</REPO_HOST>
                                         <REPO_PORT>8080</REPO_PORT>
-                                        <CATALINA_OPTS><![CDATA[
-                                            ${docker.tests.shareVersionSpecificJavaOpts}
-                                            -Xms512m -Xmx512m
-                                            -XX:+UseG1GC
-                                            -XX:+ParallelRefProcEnabled
-                                            -XX:+UseStringDeduplication
-                                            -XX:+ScavengeBeforeFullGC
-                                            -XX:+DisableExplicitGC
-                                            -XX:+AlwaysPreTouch
-                                        ]]></CATALINA_OPTS>
+                                        <CATALINA_OPTS><![CDATA[-Xms512m -Xmx512m -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+ScavengeBeforeFullGC -XX:+DisableExplicitGC -XX:+AlwaysPreTouch ${docker.tests.shareVersionSpecificJavaOpts}]]></CATALINA_OPTS>
                                     </env>
                                     <ports>
                                         <port>${docker.tests.sharePort}:8080</port>
@@ -1538,5 +1511,6 @@
         <module>6.0.7</module>
         <module>6.1.2</module>
         <module>6.2.0</module>
+        <module>7.0.0</module>
     </modules>
 </project>

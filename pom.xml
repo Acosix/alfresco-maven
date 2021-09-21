@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
- Copyright 2016 - 2020 Acosix GmbH
+ Copyright 2016 - 2021 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -97,7 +97,7 @@
         <maven.archiver.version>3.3.0</maven.archiver.version>
         <plexus.archiver.version>${maven.plugin.version}</plexus.archiver.version>
 
-        <fabric8io.docker.version>0.31.0</fabric8io.docker.version>
+        <fabric8io.docker.version>0.37.0</fabric8io.docker.version>
 
         <junit.version>4.12</junit.version>
 
