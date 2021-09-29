@@ -100,10 +100,7 @@
         <docker.tests.repositoryWebappPath>/usr/local/tomcat/webapps/alfresco</docker.tests.repositoryWebappPath>
         <!-- different debugger address for Java 11 -->
         <!-- do not require ActiveMQ instance for integration tests -->
-        <docker.tests.repositoryVersionSpecificJavaOpts><![CDATA[
-            -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repositoryDebugPort}
-            -Dmessaging.broker.url=vm://localhost?broker.persistent=false
-        ]]></docker.tests.repositoryVersionSpecificJavaOpts>
+        <docker.tests.repositoryVersionSpecificJavaOpts><![CDATA[-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repositoryDebugPort} -Dmessaging.broker.url=vm://localhost?broker.persistent=false]]></docker.tests.repositoryVersionSpecificJavaOpts>
         <docker.tests.shareVersionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.shareDebugPort}</docker.tests.shareVersionSpecificJavaOpts>
         <docker.tests.shareBaseImage>alfresco/alfresco-share:6.2.0</docker.tests.shareBaseImage>
         <docker.tests.shareWebappPath>/usr/local/tomcat/webapps/share</docker.tests.shareWebappPath>

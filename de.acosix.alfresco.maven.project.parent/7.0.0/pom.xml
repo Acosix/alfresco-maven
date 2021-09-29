@@ -99,7 +99,6 @@
         <!-- different debugger address for Java 11 -->
         <!-- need ACS keystore config -->
         <!-- do not require ActiveMQ instance for integration tests (requires projects to include the activemq-broker JAR via repository-it.xml) -->
-        <!-- Note: unfortunately, newer Java versions (in Alfresco Docker images) fail on \n in cmd line invocation, so this needs to be on a single line -->
         <docker.tests.repositoryVersionSpecificJavaOpts><![CDATA[-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repositoryDebugPort} -Dencryption.keystore.type=JCEKS -Dencryption.cipherAlgorithm=DESede/CBC/PKCS5Padding -Dencryption.keyAlgorithm=DESede -Dencryption.keystore.location=/usr/local/tomcat/shared/classes/alfresco/extension/keystore/keystore -Dmetadata-keystore.password=mp6yc0UD9e -Dmetadata-keystore.aliases=metadata -Dmetadata-keystore.metadata.password=oKIWzVdEdA -Dmetadata-keystore.metadata.algorithm=DESede -Dmessaging.broker.url=vm://localhost?broker.persistent=false]]></docker.tests.repositoryVersionSpecificJavaOpts>
         <docker.tests.shareVersionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.shareDebugPort}</docker.tests.shareVersionSpecificJavaOpts>
         <docker.tests.shareBaseImage>alfresco/alfresco-share:7.0.0</docker.tests.shareBaseImage>

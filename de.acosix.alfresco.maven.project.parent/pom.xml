@@ -106,6 +106,7 @@
         <docker.tests.searchPort>8282</docker.tests.searchPort>
         <docker.tests.internalSearchPort></docker.tests.internalSearchPort>
         <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
+        <docker.tests.skipActiveMQImage>false</docker.tests.skipActiveMQImage>
 
         <war.alfresco.artifactId>alfresco</war.alfresco.artifactId>
         <war.share.artifactId>share</war.share.artifactId>
@@ -430,7 +431,7 @@
                                     <hostname>repository</hostname>
                                     <env>
                                         <!-- Note: unfortunately, newer Java versions (in Alfresco Docker images) fail on \n in cmd line invocation, so this needs to be on a single line -->
-                                        <JAVA_OPTS><![CDATA[-Xms1g -Xmx1g -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+ScavengeBeforeFullGC -XX:+DisableExplicitGC -XX:+AlwaysPreTouch ${docker.tests.repositoryVersionSpecificJavaOpts} -Ddb.driver=org.postgresql.Driver -Ddb.username=alfresco -Ddb.password=alfresco -Ddb.url=jdbc:postgresql://postgres:5432/alfresco -Dsolr.host=search -Dsolr.port=${docker.tests.internalSearchPort} -Dsolr.secureComms=none -Dsolr.base.url=${docker.tests.searchBaseUrl} -Dindex.subsystem.name=${docker.tests.searchSubsystem} -Dcsrf.filter.enabled=false]]></JAVA_OPTS>
+                                        <JAVA_OPTS><![CDATA[-Xms2g -Xmx2g -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+ScavengeBeforeFullGC -XX:+DisableExplicitGC -XX:+AlwaysPreTouch ${docker.tests.repositoryVersionSpecificJavaOpts} -Ddb.driver=org.postgresql.Driver -Ddb.username=alfresco -Ddb.password=alfresco -Ddb.url=jdbc:postgresql://postgres:5432/alfresco -Dsolr.host=search -Dsolr.port=${docker.tests.internalSearchPort} -Dsolr.secureComms=none -Dsolr.base.url=${docker.tests.searchBaseUrl} -Dindex.subsystem.name=${docker.tests.searchSubsystem} -Dcsrf.filter.enabled=false]]></JAVA_OPTS>
                                     </env>
                                     <ports>
                                         <port>${docker.tests.repositoryPort}:8080</port>
@@ -514,6 +515,7 @@
                                         <SOLR_SOLR_HOST>search</SOLR_SOLR_HOST>
                                         <SOLR_CREATE_ALFRESCO_DEFAULTS>alfresco,archive</SOLR_CREATE_ALFRESCO_DEFAULTS>
                                         <SOLR_JAVA_MEM>-Xms512M -Xmx512M</SOLR_JAVA_MEM>
+                                        <ALFRESCO_SECURE_COMMS>none</ALFRESCO_SECURE_COMMS>
                                     </env>
                                     <ports>
                                         <port>${docker.tests.searchPort}:${docker.tests.internalSearchPort}</port>
