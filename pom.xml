@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.acosix.alfresco.maven</groupId>
     <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-    <version>1.4.1</version>
+    <version>1.5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>
@@ -95,9 +95,9 @@
         <maven.plugin.api.version>3.8.4</maven.plugin.api.version>
         <maven.artifact.version>3.8.4</maven.artifact.version>
         <maven.archiver.version>3.5.1</maven.archiver.version>
-        <plexus.archiver.version>${maven.plugin.version}</plexus.archiver.version>
+        <plexus.archiver.version>4.2.6</plexus.archiver.version>
 
-        <fabric8io.docker.version>0.37.0</fabric8io.docker.version>
+        <fabric8io.docker.version>0.38.0</fabric8io.docker.version>
 
         <junit.version>4.13.2</junit.version>
 
