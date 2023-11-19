@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- 
- Copyright 2016 - 2021 Acosix GmbH
+ Copyright 2016 - 2023 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -110,6 +110,9 @@
         <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
 
         <war.alfresco.artifactId>content-services-community</war.alfresco.artifactId>
+
+        <!-- plugin is incomatible with Java 11+ -->
+        <quality.findBugs.skip>true</quality.findBugs.skip>
     </properties>
 
     <dependencyManagement>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 - 2021 Acosix GmbH
+ * Copyright 2016 - 2023 Acosix GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +38,8 @@ import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.zip.AbstractZipUnArchiver;
+import org.codehaus.plexus.components.io.filemappers.FileMapper;
+import org.codehaus.plexus.components.io.fileselectors.FileSelector;
 
 /**
  *
@@ -104,8 +106,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
         @Override
         public Manifest readFile(final InputStream is) throws IOException
         {
-            final Manifest m = new Manifest(is);
-            return m;
+            return new Manifest(is);
         }
     };
 
@@ -155,7 +156,15 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
     protected void validate() throws ArchiverException
     {
         super.validate();
-        this.validateAlfrescoModuleMetadata();
+
+        final File destFile = this.getDestFile();
+        if (destFile != null)
+        {
+            // unpack INTO another (existing?) file - might be WAR install
+            throw new ArchiverException("Unpacking into a file is not supported");
+        }
+
+        this.validateAlfrescoModuleMetadata(getDestDirectory());
     }
 
     /**
@@ -183,43 +192,17 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
             throw new ArchiverException("The source file " + sourceFile + " doesn't exist.");
         }
 
-        File destDirectory = this.getDestDirectory();
-        File destFile = this.getDestFile();
-
-        if (destDirectory == null && destFile == null)
+        if (outputDirectory == null)
         {
             throw new ArchiverException("The destination isn't defined.");
         }
 
-        if (destDirectory != null && destFile != null)
-        {
-            throw new ArchiverException("You must choose between a destination directory and a destination file.");
-        }
-
-        if (destDirectory != null && !destDirectory.isDirectory())
-        {
-            this.setDestFile(destDirectory);
-            this.setDestDirectory(null);
-            destFile = destDirectory;
-            destDirectory = null;
-        }
-
-        if (destFile != null && destFile.isDirectory())
-        {
-            this.setDestDirectory(destFile);
-            this.setDestFile(null);
-            destDirectory = destFile;
-            destFile = null;
-        }
-
-        this.validateAlfrescoModuleMetadata();
+        this.validateAlfrescoModuleMetadata(outputDirectory);
     }
 
-    protected void validateAlfrescoModuleMetadata() throws ArchiverException
+    protected void validateAlfrescoModuleMetadata(final File outputDirectory) throws ArchiverException
     {
         final File sourceFile = this.getSourceFile();
-
-        final File destDirectory = this.getDestDirectory();
         final File destFile = this.getDestFile();
 
         final Properties moduleProperties = this.loadMetaFile(sourceFile, MODULE_PROPERTIES, PROPERTIES_READER);
@@ -229,7 +212,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
         }
         final ModuleDetails md = new ModuleDetailsImpl(moduleProperties);
 
-        final File destContext = destDirectory != null && destDirectory.isDirectory() ? destDirectory
+        final File destContext = outputDirectory != null && outputDirectory.isDirectory() ? outputDirectory
                 : (destFile != null && destFile.exists() ? destFile : null);
         if (destContext != null)
         {
@@ -247,8 +230,8 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
             else
             {
                 this.getLogger().debug(
-                        "Module cannot be validated before unpacking as neither version.properties nor manifest can be found in context "
-                                + destContext);
+                        "Module cannot be validated before unpacking as neither version.properties nor manifest can be found in context {}",
+                        destContext);
             }
 
             final List<ModuleDependency> dependencies = md.getDependencies();
@@ -262,7 +245,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
     protected void validateAlfrescoModuleAgainstVersionProperties(final ModuleDetails md, final Properties versionProperties)
     {
-        this.getLogger().debug("Validating " + md + " against version properties " + versionProperties);
+        this.getLogger().debug("Validating {} against version properties {}", md, versionProperties);
 
         final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(versionProperties.getProperty("version.major"));
@@ -281,7 +264,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
     protected void validateAlfrescoModuleAgainstManifest(final ModuleDetails md, final Manifest manifest)
     {
-        this.getLogger().debug("Validating " + md + " against manifest " + manifest);
+        this.getLogger().debug("Validating {} against manifest {}", md, manifest);
 
         final Attributes mainAttributes = manifest.getMainAttributes();
         final String manifestVersionStr = mainAttributes.getValue(MANIFEST_SPECIFICATION_VERSION);
@@ -359,38 +342,29 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
      * {@inheritDoc}
      */
     @Override
-    protected void execute() throws ArchiverException
+    protected void execute(final String path, final File outputDirectory) throws ArchiverException
     {
+        adaptFileSelectorAndMappers();
+
         final File sourceFile = this.getSourceFile();
 
-        final File destDirectory = this.getDestDirectory();
-        final File destFile = this.getDestFile();
+        this.getLogger().debug("Unpacking {} into directory {}", sourceFile, outputDirectory);
 
-        if (destDirectory != null)
+        final Properties moduleProperties = this.loadMetaFile(sourceFile, MODULE_PROPERTIES, PROPERTIES_READER);
+        final ModuleDetails md = new ModuleDetailsImpl(moduleProperties);
+        final Properties fileMappingProperties = this.getOrCreateDefaultFileMappings(sourceFile);
+
+        this.fileMappingProperties.set(fileMappingProperties);
+        this.moduleDetails.set(md);
+        try
         {
-            this.getLogger().debug("Unpacking " + sourceFile + " into directory " + destDirectory);
-
-            final Properties moduleProperties = this.loadMetaFile(sourceFile, MODULE_PROPERTIES, PROPERTIES_READER);
-            final ModuleDetails md = new ModuleDetailsImpl(moduleProperties);
-            final Properties fileMappingProperties = this.getOrCreateDefaultFileMappings(sourceFile);
-
-            this.fileMappingProperties.set(fileMappingProperties);
-            this.moduleDetails.set(md);
-            try
-            {
-                // regular unpack
-                super.execute();
-            }
-            finally
-            {
-                this.moduleDetails.remove();
-                this.fileMappingProperties.remove();
-            }
+            // regular unpack
+            super.execute(path, outputDirectory);
         }
-        else if (destFile != null)
+        finally
         {
-            // unpack INTO another (existing?) file - might be WAR install
-            throw new ArchiverException("Unpacking into a file is not supported yet");
+            this.moduleDetails.remove();
+            this.fileMappingProperties.remove();
         }
     }
 
@@ -398,23 +372,20 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
      * {@inheritDoc}
      */
     @Override
-    protected void extractFile(final File srcF, final File dir, final InputStream compressedInputStream, final String entryName,
-            final Date entryDate, final boolean isDirectory, final Integer mode, final String symlinkDestination)
-            throws IOException, ArchiverException
+    protected void extractFile(final File src, final File dir, final InputStream compressedInputStream, final String entryName,
+            final Date entryDate, final boolean isDirectory, final Integer mode, final String symlinkDestination,
+            final FileMapper[] fileMapper) throws IOException, ArchiverException
     {
-        final String effectiveEntryName = this.mapModuleEntryName(entryName);
+        super.extractFile(src, dir, compressedInputStream, entryName, entryDate, isDirectory, mode, symlinkDestination, fileMapper);
 
-        if (effectiveEntryName != null && !effectiveEntryName.isEmpty())
+        if (entryName.equals(MODULE_PROPERTIES))
         {
-            this.getLogger().debug("Extracting " + effectiveEntryName);
-
-            super.extractFile(srcF, dir, compressedInputStream, effectiveEntryName, entryDate, isDirectory, mode, symlinkDestination);
-
-            if (entryName.equals(MODULE_PROPERTIES))
+            final String mappedModuleEntryName = mapModuleEntryName(entryName, true);
+            if (mappedModuleEntryName != null)
             {
                 this.getLogger().debug("Appending installation details to unpacked module.properties");
 
-                final DateFormat df = new SimpleDateFormat("YYYY-MM-dd'T'hh:mm:ss.SSSXXX", Locale.ENGLISH);
+                final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSXXX", Locale.ENGLISH);
                 df.setTimeZone(TimeZone.getTimeZone("UTC"));
                 final String nowIso = df.format(new Date());
 
@@ -426,16 +397,12 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
                 suffix.append(System.lineSeparator());
 
                 final byte[] bytes = suffix.toString().getBytes(StandardCharsets.UTF_8);
-                Files.write(dir.toPath().resolve(effectiveEntryName), bytes, StandardOpenOption.APPEND);
+                Files.write(dir.toPath().resolve(mappedModuleEntryName), bytes, StandardOpenOption.APPEND);
             }
-        }
-        else
-        {
-            this.getLogger().debug("Entry " + entryName + " will not be unpacked as it is not covered by any file mapping");
         }
     }
 
-    protected String mapModuleEntryName(final String entryName)
+    protected String mapModuleEntryName(final String entryName, final boolean log)
     {
         String effectiveEntryName = null;
         String prefix = entryName;
@@ -449,8 +416,11 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
             if (mapping != null)
             {
                 effectiveEntryName = mapping.substring(1, mapping.length()) + entryName.substring(prefix.length(), entryName.length());
-                this.getLogger().debug(
-                        "Mapped entry " + entryName + " to " + effectiveEntryName + " via configured mapping /" + prefix + "=" + mapping);
+                if (log)
+                {
+                    this.getLogger().debug("Mapped entry {} to {} via configured mapping /{}={}", entryName, effectiveEntryName, prefix,
+                            mapping);
+                }
                 break;
             }
         }
@@ -463,8 +433,15 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
         {
             effectiveEntryName = effectiveEntryName.substring(1);
         }
+        if (effectiveEntryName != null && effectiveEntryName.trim().isEmpty())
+        {
+            effectiveEntryName = null;
+        }
 
-        this.getLogger().debug("Using effective entry name " + effectiveEntryName + " for base entry name " + entryName);
+        if (log)
+        {
+            this.getLogger().debug("Using effective entry name {} for base entry name {}", effectiveEntryName, entryName);
+        }
 
         return effectiveEntryName;
     }
@@ -496,7 +473,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
 
     protected <T> T loadMetaFile(final File context, final String relativePath, final FileReader<T> reader) throws ArchiverException
     {
-        this.getLogger().debug("Attempting to resolve meta file " + relativePath + " in context " + context);
+        this.getLogger().debug("Attempting to resolve meta file {} in context {}", relativePath, context);
         T meta = null;
         try
         {
@@ -510,7 +487,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
                         try (InputStream is = archiveCandidate.getInputStream(zae))
                         {
                             meta = reader.readFile(is);
-                            this.getLogger().debug("Succesfully read meta file " + relativePath + " from context " + context);
+                            this.getLogger().debug("Succesfully read meta file {} from context {}", relativePath, context);
                         }
                     }
                 }
@@ -523,7 +500,7 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
                     try (InputStream is = new FileInputStream(propertiesFile))
                     {
                         meta = reader.readFile(is);
-                        this.getLogger().debug("Succesfully read meta file" + relativePath + " from context " + context);
+                        this.getLogger().debug("Succesfully read meta file {} from context {}", relativePath, context);
                     }
                 }
             }
@@ -533,5 +510,26 @@ public class AmpUnArchiver extends AbstractZipUnArchiver
             throw new ArchiverException("Error loading file " + relativePath + " from " + context.getAbsolutePath(), ioex);
         }
         return meta;
+    }
+
+    private void adaptFileSelectorAndMappers()
+    {
+        FileSelector[] fileSelectors = getFileSelectors();
+        FileSelector[] effectiveFileSelectors = new FileSelector[fileSelectors != null ? (fileSelectors.length + 1) : 1];
+        if (fileSelectors != null)
+        {
+            System.arraycopy(fileSelectors, 0, effectiveFileSelectors, 0, fileSelectors.length);
+        }
+        effectiveFileSelectors[effectiveFileSelectors.length - 1] = fileInfo -> this.mapModuleEntryName(fileInfo.getName(), true) != null;
+        setFileSelectors(effectiveFileSelectors);
+
+        FileMapper[] fileMappers = getFileMappers();
+        FileMapper[] effectiveFileMappers = new FileMapper[fileMappers != null ? (fileMappers.length + 1) : 1];
+        if (fileMappers != null)
+        {
+            System.arraycopy(fileMappers, 0, effectiveFileMappers, 0, fileMappers.length);
+        }
+        effectiveFileMappers[effectiveFileMappers.length - 1] = s -> mapModuleEntryName(s, false);
+        setFileMappers(effectiveFileMappers);
     }
 }
