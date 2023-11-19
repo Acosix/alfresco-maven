@@ -63,6 +63,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
+        <!-- version from parent POM not compatible with JDK8 -->
+        <resteasy.version>5.0.9.Final</resteasy.version>
+
         <alfresco.distribution.version>5.0.d</alfresco.distribution.version>
         <share.distribution.version>5.0.d</share.distribution.version>
         <spring.version>3.2.10.RELEASE</spring.version>
