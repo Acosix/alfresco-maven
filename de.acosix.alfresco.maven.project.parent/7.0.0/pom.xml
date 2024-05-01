@@ -224,13 +224,6 @@
 
             <dependency>
                 <groupId>org.alfresco</groupId>
-                <artifactId>alfresco-legacy-lucene</artifactId>
-                <version>${alfresco.lucene.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.alfresco</groupId>
                 <artifactId>alfresco-share-services</artifactId>
                 <version>${alfresco.share-services.version}</version>
                 <classifier>classes</classifier>
@@ -263,40 +256,6 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-core</artifactId>
-                <version>${lucene.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-analyzers</artifactId>
-                <version>${lucene.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-regex</artifactId>
-                <version>${lucene.version}</version>
-                <scope>provided</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>jakarta-regexp</groupId>
-                        <artifactId>jakarta-regexp</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.lucene</groupId>
-                <artifactId>lucene-snowball</artifactId>
-                <version>${lucene.version}</version>
                 <scope>provided</scope>
             </dependency>
 

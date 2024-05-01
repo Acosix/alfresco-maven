@@ -1383,6 +1383,43 @@
             </activation>
 
             <build>
+                <resources>
+                    <resource>
+                        <directory>src/test/docker</directory>
+                        <targetPath>${project.build.directory}/docker</targetPath>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>*</include>
+                            <include>**/*</include>
+                        </includes>
+                        <excludes>
+                            <exclude>*.js</exclude>
+                            <exclude>**/*.js</exclude>
+                            <exclude>*.ftl</exclude>
+                            <exclude>**/*.ftl</exclude>
+                            <exclude>*.keystore</exclude>
+                            <exclude>**/*.keystore</exclude>
+                            <exclude>*.jks</exclude>
+                            <exclude>**/*.jks</exclude>
+                        </excludes>
+                    </resource>
+                    <resource>
+                        <directory>src/test/docker</directory>
+                        <targetPath>${project.build.directory}/docker</targetPath>
+                        <filtering>false</filtering>
+                        <includes>
+                            <include>*.js</include>
+                            <include>**/*.js</include>
+                            <include>*.ftl</include>
+                            <include>**/*.ftl</include>
+                            <include>*.keystore</include>
+                            <include>**/*.keystore</include>
+                            <include>*.jks</include>
+                            <include>**/*.jks</include>
+                        </includes>
+                    </resource>
+                </resources>
+
                 <pluginManagement>
                     <plugins>
                         <plugin>
@@ -1416,28 +1453,6 @@
                                         <source>
                                             project.properties["docker.tests.host.name"] = InetAddress.getLocalHost().getHostName().toLowerCase(Locale.ENGLISH)
                                         </source>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-
-                        <plugin>
-                            <artifactId>maven-resources-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>processIntegrationTestDockerResources</id>
-                                    <phase>generate-test-resources</phase>
-                                    <goals>
-                                        <goal>copy-resources</goal>
-                                    </goals>
-                                    <configuration>
-                                        <outputDirectory>${project.build.directory}/docker</outputDirectory>
-                                        <resources>
-                                            <resource>
-                                                <directory>src/test/docker</directory>
-                                                <filtering>true</filtering>
-                                            </resource>
-                                        </resources>
                                     </configuration>
                                 </execution>
                             </executions>
@@ -1516,5 +1531,6 @@
         <module>6.2.0</module>
         <module>7.0.0</module>
         <module>7.4.0</module>
+        <module>23.1.0</module>
     </modules>
 </project>
