@@ -61,6 +61,7 @@
         <!-- Everything will be built for Java 8 by default -->
         <!-- Note: using 11 or newer fails during AMP assembly -->
         <java.version>8</java.version>
+        <toolchain.jdk.version>${java.version}</toolchain.jdk.version>
 
         <maven.versions.version>2.16.1</maven.versions.version>
         <maven.enforcer.version>3.6.1</maven.enforcer.version>
@@ -295,7 +296,7 @@
                     <configuration>
                         <toolchains>
                             <jdk>
-                                <version>${java.version}</version>
+                                <version>${toolchain.jdk.version}</version>
                             </jdk>
                         </toolchains>
                     </configuration>
