@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
- Copyright 2016 - 2024 Acosix GmbH
+ Copyright 2016 - 2025 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.acosix.alfresco.maven</groupId>
     <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>
@@ -58,59 +58,56 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Target Java 8 to support builds from 5.0d upwards - backports to earlier versions no longer supported -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- Everything will be built for Java 8 by default -->
+        <!-- Note: using 11 or newer fails during AMP assembly -->
+        <java.version>8</java.version>
 
         <maven.versions.version>2.16.1</maven.versions.version>
-        <maven.enforcer.version>3.4.1</maven.enforcer.version>
-        <maven.clean.version>3.3.2</maven.clean.version>
+        <maven.enforcer.version>3.6.1</maven.enforcer.version>
+        <maven.clean.version>3.5.0</maven.clean.version>
         <maven.resources.version>3.3.1</maven.resources.version>
-        <maven.dependency.version>3.6.1</maven.dependency.version>
-        <maven.compiler.version>3.11.0</maven.compiler.version>
-        <maven.source.version>3.3.0</maven.source.version>
-        <maven.javadoc.version>3.6.0</maven.javadoc.version>
-        <maven.jar.version>3.3.0</maven.jar.version>
-        <maven.toolchain.version>3.1.0</maven.toolchain.version>
+        <maven.dependency.version>3.8.1</maven.dependency.version>
+        <maven.compiler.version>3.14.0</maven.compiler.version>
+        <maven.source.version>3.3.1</maven.source.version>
+        <maven.javadoc.version>3.11.2</maven.javadoc.version>
+        <maven.jar.version>3.4.2</maven.jar.version>
+        <maven.toolchain.version>3.2.0</maven.toolchain.version>
         <maven.forbiddenapis.version>3.7</maven.forbiddenapis.version>
-        <maven.assembly.version>3.6.0</maven.assembly.version>
+        <maven.assembly.version>3.7.1</maven.assembly.version>
         <maven.war.version>3.4.0</maven.war.version>
         <!-- yes, this is old, but still relevant to add AMP support for assembly -->
         <maven.alfresco.version>1.1.1</maven.alfresco.version>
         <maven.findbugs.version>3.0.5</maven.findbugs.version>
-        <maven.surefire.version>3.2.1</maven.surefire.version>
-        <maven.failsafe.version>3.2.1</maven.failsafe.version>
-        <maven.install.version>3.1.1</maven.install.version>
-        <maven.deploy.version>3.1.1</maven.deploy.version>
-        <maven.helper.version>3.4.0</maven.helper.version>
+        <maven.surefire.version>3.5.3</maven.surefire.version>
+        <maven.failsafe.version>3.5.3</maven.failsafe.version>
+        <maven.install.version>3.1.4</maven.install.version>
+        <maven.gpg.version>3.2.8</maven.gpg.version>
+        <maven.deploy.version>3.1.4</maven.deploy.version>
+        <!-- we use the Sonatype plugin for deploy -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.helper.version>3.6.1</maven.helper.version>
         <maven.gmaven.version>2.1.1</maven.gmaven.version>
 
-        <maven.acosix.jshint.version>1.1.0</maven.acosix.jshint.version>
-        <maven.acosix.i18n.version>1.0.4</maven.acosix.i18n.version>
+        <maven.acosix.jshint.version>1.2.0-SNAPSHOT</maven.acosix.jshint.version>
+        <maven.acosix.i18n.version>1.1.0-SNAPSHOT</maven.acosix.i18n.version>
 
         <maven.alchim.yuicompressor.version>1.5.1</maven.alchim.yuicompressor.version>
 
-        <maven.oss.staging.version>1.6.13</maven.oss.staging.version>
+        <maven.sonatype.central.version>0.8.0</maven.sonatype.central.version>
 
-        <maven.plugin.version>3.10.1</maven.plugin.version>
-        <maven.plugin.api.version>3.8.4</maven.plugin.api.version>
-        <maven.artifact.version>3.8.4</maven.artifact.version>
-        <maven.archiver.version>3.6.1</maven.archiver.version>
-        <plexus.archiver.version>4.8.0</plexus.archiver.version>
-
-        <fabric8io.docker.version>0.43.4</fabric8io.docker.version>
+        <maven.plugin.version>3.15.1</maven.plugin.version>
+        <maven.plugin.api.version>3.9.11</maven.plugin.api.version>
+        <maven.artifact.version>3.9.11</maven.artifact.version>
+        <maven.archiver.version>3.6.3</maven.archiver.version>
+        <plexus.archiver.version>4.10.0</plexus.archiver.version>
 
         <junit.version>4.13.2</junit.version>
-
-        <maven.forbiddenapis.targetVersion>${maven.compiler.target}</maven.forbiddenapis.targetVersion>
-
-        <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
     </properties>
 
     <repositories>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>central-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -132,8 +129,8 @@
 
     <pluginRepositories>
         <pluginRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>central-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -153,12 +150,12 @@
 
     <distributionManagement>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>central</id>
+            <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -224,6 +221,14 @@
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.version}</version>
+                    <configuration>
+                        <release>${java.version}</release>
+                        <!-- legacy if compiled with JDK 8 javac -->
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <parameters>true</parameters>
+                        <debuglevel>lines,vars,source</debuglevel>
+                    </configuration>
                 </plugin>
 
                 <plugin>
@@ -235,6 +240,12 @@
                             <goals>
                                 <goal>jar-no-fork</goal>
                             </goals>
+                            <configuration>
+                                <!-- strangely the default without the includes also contains JS/CSS files -->
+                                <includes>
+                                    <include>**/*.java</include>
+                                </includes>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -283,7 +294,7 @@
                     <configuration>
                         <toolchains>
                             <jdk>
-                                <version>${maven.compiler.target}</version>
+                                <version>${java.version}</version>
                             </jdk>
                         </toolchains>
                     </configuration>
@@ -297,7 +308,7 @@
                         <failOnUnsupportedJava>false</failOnUnsupportedJava>
                         <failOnMissingClasses>false</failOnMissingClasses>
                         <failOnUnresolvableSignatures>false</failOnUnresolvableSignatures>
-                        <targetVersion>${maven.forbiddenapis.targetVersion}</targetVersion>
+                        <targetVersion>1.${java.version}</targetVersion>
                         <bundledSignatures>
                             <bundledSignature>jdk-unsafe</bundledSignature>
                             <bundledSignature>jdk-deprecated</bundledSignature>
@@ -317,18 +328,6 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>${maven.oss.staging.version}</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <serverId>ossrh</serverId>
-                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                    </configuration>
-                </plugin>
-
-                <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${maven.surefire.version}</version>
                 </plugin>
@@ -341,6 +340,25 @@
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>${maven.install.version}</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven.gpg.version}</version>
+                    <configuration>
+                        <useAgent>false</useAgent>
+                        <keyname>${gpg.keyname}</keyname>
+                        <passphraseServerId>${gpg.keyname}</passphraseServerId>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>
@@ -358,6 +376,18 @@
                     <groupId>org.codehaus.gmaven</groupId>
                     <artifactId>groovy-maven-plugin</artifactId>
                     <version>${maven.gmaven.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>${maven.sonatype.central.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <deploymentName>central.sonatype.com</deploymentName>
+                        <autoPublish>true</autoPublish>
+                        <waitUntil>published</waitUntil>
+                    </configuration>
                 </plugin>
 
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
@@ -407,6 +437,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
@@ -441,21 +476,6 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <configuration>
-                            <useAgent>false</useAgent>
-                            <keyname>${gpg.keyname}</keyname>
-                            <passphraseServerId>${gpg.keyname}</passphraseServerId>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
