@@ -73,6 +73,7 @@
         <maven.jar.version>3.4.2</maven.jar.version>
         <maven.toolchain.version>3.2.0</maven.toolchain.version>
         <maven.forbiddenapis.version>3.7</maven.forbiddenapis.version>
+        <maven.forbiddenapis.targetVersion>1.${java.version}</maven.forbiddenapis.targetVersion>
         <maven.assembly.version>3.7.1</maven.assembly.version>
         <maven.war.version>3.4.0</maven.war.version>
         <!-- yes, this is old, but still relevant to add AMP support for assembly -->
@@ -308,7 +309,7 @@
                         <failOnUnsupportedJava>false</failOnUnsupportedJava>
                         <failOnMissingClasses>false</failOnMissingClasses>
                         <failOnUnresolvableSignatures>false</failOnUnresolvableSignatures>
-                        <targetVersion>1.${java.version}</targetVersion>
+                        <targetVersion>${maven.forbiddenapis.targetVersion}</targetVersion>
                         <bundledSignatures>
                             <bundledSignature>jdk-unsafe</bundledSignature>
                             <bundledSignature>jdk-deprecated</bundledSignature>
