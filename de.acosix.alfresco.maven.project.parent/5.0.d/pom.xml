@@ -60,9 +60,6 @@
     </developers>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
         <!-- version from parent POM not compatible with JDK8 -->
         <resteasy.version>5.0.9.Final</resteasy.version>
 

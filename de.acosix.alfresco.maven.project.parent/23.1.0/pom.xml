@@ -60,11 +60,8 @@
     </developers>
 
     <properties>
-        <maven.compiler.source>1.17</maven.compiler.source>
-        <maven.compiler.target>1.17</maven.compiler.target>
-
-        <maven.compiler.release>17</maven.compiler.release>
-        <maven.forbiddenapis.targetVersion>17</maven.forbiddenapis.targetVersion>
+        <java.version>17</java.version>
+        <maven.forbiddenapis.targetVersion>${java.version}</maven.forbiddenapis.targetVersion>
 
         <alfresco.distribution.version>23.1.0.255</alfresco.distribution.version>
         <share.distribution.version>23.1.0.269</share.distribution.version>
