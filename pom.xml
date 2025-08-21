@@ -60,8 +60,14 @@
 
         <!-- Everything will be built for Java 8 by default -->
         <!-- Note: using 11 or newer fails during AMP assembly -->
+        <!-- distinct exec (runtime via toolchain) + target (cross-compilation) -->
         <java.version>8</java.version>
-        <toolchain.jdk.version>${java.version}</toolchain.jdk.version>
+        <java.version.exec>${java.version}</java.version.exec>
+        <java.version.target>${java.version}</java.version.target>
+        <toolchain.jdk.version>${java.version.exec}</toolchain.jdk.version>
+        <maven.compiler.release>${java.version.target}</maven.compiler.release>
+        <maven.compiler.source>${java.version.target}</maven.compiler.source>
+        <maven.compiler.target>${java.version.target}</maven.compiler.target>
 
         <maven.versions.version>2.16.1</maven.versions.version>
         <maven.enforcer.version>3.6.1</maven.enforcer.version>
@@ -74,7 +80,7 @@
         <maven.jar.version>3.4.2</maven.jar.version>
         <maven.toolchain.version>3.2.0</maven.toolchain.version>
         <maven.forbiddenapis.version>3.7</maven.forbiddenapis.version>
-        <maven.forbiddenapis.targetVersion>1.${java.version}</maven.forbiddenapis.targetVersion>
+        <maven.forbiddenapis.targetVersion>${java.version.target}</maven.forbiddenapis.targetVersion>
         <maven.assembly.version>3.7.1</maven.assembly.version>
         <maven.war.version>3.4.0</maven.war.version>
         <!-- yes, this is old, but still relevant to add AMP support for assembly -->
@@ -224,10 +230,6 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.version}</version>
                     <configuration>
-                        <release>${java.version}</release>
-                        <!-- legacy if compiled with JDK 8 javac -->
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
                         <parameters>true</parameters>
                         <debuglevel>lines,vars,source</debuglevel>
                     </configuration>
@@ -470,6 +472,21 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>java-8-forbidden-api</id>
+            
+            <activation>
+                <property>
+                    <name>java.version.target</name>
+                    <value>8</value>
+                </property>
+            </activation>
+            
+            <properties>
+                <maven.forbiddenapis.targetVersion>1.${java.version.target}</maven.forbiddenapis.targetVersion>
+            </properties>
         </profile>
 
         <profile>

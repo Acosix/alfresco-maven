@@ -74,7 +74,7 @@
         <maven.acosix.definitions.version>1.6.0-SNAPSHOT</maven.acosix.definitions.version>
         <maven.acosix.plugins.version>1.6.0-SNAPSHOT</maven.acosix.plugins.version>
 
-        <resteasy.version>6.2.5.Final</resteasy.version>
+        <resteasy.version>6.2.12.Final</resteasy.version>
 
         <assembly.build.skipAmp>false</assembly.build.skipAmp>
         <assembly.build.skipInstallableJar>false</assembly.build.skipInstallableJar>

@@ -61,7 +61,6 @@
 
     <properties>
         <java.version>11</java.version>
-        <maven.forbiddenapis.targetVersion>${java.version}</maven.forbiddenapis.targetVersion>
 
         <alfresco.distribution.version>8.423</alfresco.distribution.version>
         <share.distribution.version>7.0.0</share.distribution.version>
