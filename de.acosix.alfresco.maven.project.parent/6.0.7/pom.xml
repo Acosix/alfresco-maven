@@ -86,14 +86,15 @@
 
         <logback.version>1.2.3</logback.version>
 
-        <docker.tests.repositoryBaseImage>alfresco/alfresco-content-repository-community:6.0.7-ga</docker.tests.repositoryBaseImage>
-        <docker.tests.repositoryWebappPath>/usr/local/tomcat/webapps/alfresco</docker.tests.repositoryWebappPath>
-        <docker.tests.shareBaseImage>alfresco/alfresco-share:6.0.b</docker.tests.shareBaseImage>
-        <docker.tests.shareWebappPath>/usr/local/tomcat/webapps/share</docker.tests.shareWebappPath>
-        <docker.tests.searchBaseImage>alfresco/alfresco-search-services:1.1.1</docker.tests.searchBaseImage>
-        <docker.tests.searchSubsystem>solr6</docker.tests.searchSubsystem>
-        <docker.tests.internalSearchPort>8983</docker.tests.internalSearchPort>
-        <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
+        <docker.tests.repository.base>alfresco/alfresco-content-repository-community:6.0.7-ga</docker.tests.repository.base>
+        <docker.tests.repository.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.repository.debugPort}</docker.tests.repository.versionSpecificJavaOpts>
+        <docker.tests.repository.preRun></docker.tests.repository.preRun>
+        <docker.tests.repository.postRun></docker.tests.repository.postRun>
+        <docker.tests.repository.chown.mask>root:root</docker.tests.repository.chown.mask>
+        <docker.tests.share.base>alfresco/alfresco-share:6.0.b</docker.tests.share.base>
+        <docker.tests.share.webappPath>/usr/local/tomcat/webapps/share</docker.tests.share.webappPath>
+        <docker.tests.share.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.share.debugPort}</docker.tests.share.versionSpecificJavaOpts>
+        <docker.tests.search.base>alfresco/alfresco-search-services:1.1.1</docker.tests.search.base>
 
         <war.alfresco.artifactId>content-services-community</war.alfresco.artifactId>
     </properties>

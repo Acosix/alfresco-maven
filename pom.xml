@@ -95,6 +95,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.helper.version>3.6.1</maven.helper.version>
         <maven.gmaven.version>2.1.1</maven.gmaven.version>
+        <maven.exec.version>3.5.0</maven.exec.version>
 
         <maven.acosix.jshint.version>1.2.0-SNAPSHOT</maven.acosix.jshint.version>
         <maven.acosix.i18n.version>1.1.0-SNAPSHOT</maven.acosix.i18n.version>
@@ -311,7 +312,7 @@
                     <configuration>
                         <failOnUnsupportedJava>false</failOnUnsupportedJava>
                         <failOnMissingClasses>false</failOnMissingClasses>
-                        <failOnUnresolvableSignatures>false</failOnUnresolvableSignatures>
+                        <ignoreSignaturesOfMissingClasses>false</ignoreSignaturesOfMissingClasses>
                         <targetVersion>${maven.forbiddenapis.targetVersion}</targetVersion>
                         <bundledSignatures>
                             <bundledSignature>jdk-unsafe</bundledSignature>
@@ -380,6 +381,13 @@
                     <groupId>org.codehaus.gmaven</groupId>
                     <artifactId>groovy-maven-plugin</artifactId>
                     <version>${maven.gmaven.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${maven.exec.version}</version>
+                    <extensions>true</extensions>
                 </plugin>
 
                 <plugin>

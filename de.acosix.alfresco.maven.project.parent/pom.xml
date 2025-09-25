@@ -82,31 +82,42 @@
         <assembly.attach.installableJar>true</assembly.attach.installableJar>
 
         <docker.tests.enabled>false</docker.tests.enabled>
-        <docker.tests.skipRepositoryImage>true</docker.tests.skipRepositoryImage>
-        <docker.tests.skipRepositoryImageBuild>true</docker.tests.skipRepositoryImageBuild>
-        <docker.tests.repositoryBaseImage></docker.tests.repositoryBaseImage>
-        <docker.tests.repositoryWebappPath></docker.tests.repositoryWebappPath>
-        <docker.tests.repositoryStartupWaitTime>180000</docker.tests.repositoryStartupWaitTime>
-        <docker.tests.repositoryVersionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.repositoryDebugPort}</docker.tests.repositoryVersionSpecificJavaOpts>
-        <docker.tests.repositoryPort>8082</docker.tests.repositoryPort>
-        <docker.tests.repositoryDebugPort>8083</docker.tests.repositoryDebugPort>
-        <docker.tests.skipShareImageBuild>true</docker.tests.skipShareImageBuild>
-        <docker.tests.shareBaseImage></docker.tests.shareBaseImage>
-        <docker.tests.shareWebappPath></docker.tests.shareWebappPath>
-        <docker.tests.shareStartupWaitTime>90000</docker.tests.shareStartupWaitTime>
-        <docker.tests.shareVersionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.shareDebugPort}</docker.tests.shareVersionSpecificJavaOpts>
-        <docker.tests.sharePort>8182</docker.tests.sharePort>
-        <docker.tests.shareDebugPort>8183</docker.tests.shareDebugPort>
-        <docker.tests.searchBaseImage></docker.tests.searchBaseImage>
-        <docker.tests.searchStartupWaitTime>30000</docker.tests.searchStartupWaitTime>
-        <docker.tests.skipShareImage>true</docker.tests.skipShareImage>
-        <docker.tests.skipShareImageBuild>true</docker.tests.skipShareImageBuild>
-        <docker.tests.skipSearchImage>true</docker.tests.skipSearchImage>
-        <docker.tests.searchSubsystem></docker.tests.searchSubsystem>
-        <docker.tests.searchPort>8282</docker.tests.searchPort>
-        <docker.tests.internalSearchPort></docker.tests.internalSearchPort>
-        <docker.tests.searchBaseUrl>/solr</docker.tests.searchBaseUrl>
-        <docker.tests.skipActiveMQImage>false</docker.tests.skipActiveMQImage>
+        <docker.tests.down.skip>false</docker.tests.down.skip>
+
+        <docker.tests.postgresql.image>postgres:16</docker.tests.postgresql.image>
+
+        <docker.tests.repository.base></docker.tests.repository.base>
+        <docker.tests.repository.tomcatPath>/usr/local/tomcat</docker.tests.repository.tomcatPath>
+        <docker.tests.repository.dataPath>${docker.tests.repository.tomcatPath}/alf_data</docker.tests.repository.dataPath>
+        <docker.tests.repository.webappPath>${docker.tests.repository.tomcatPath}/webapps/alfresco</docker.tests.repository.webappPath>
+        <docker.tests.repository.mmtPath>${docker.tests.repository.tomcatPath}/alfresco-mmt</docker.tests.repository.mmtPath>
+        <docker.tests.repository.ampPath>${docker.tests.repository.tomcatPath}/amps</docker.tests.repository.ampPath>
+        <docker.tests.repository.chown.mask>alfresco:Alfresco</docker.tests.repository.chown.mask>
+        <docker.tests.repository.versionSpecificJavaOpts><![CDATA[-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repository.debugPort} -Dencryption.keystore.type=JCEKS -Dencryption.cipherAlgorithm=DESede/CBC/PKCS5Padding -Dencryption.keyAlgorithm=DESede -Dencryption.keystore.location=${docker.tests.repository.tomcatPath}/shared/classes/alfresco/extension/keystore/keystore -Dmetadata-keystore.password=mp6yc0UD9e -Dmetadata-keystore.aliases=metadata -Dmetadata-keystore.metadata.password=oKIWzVdEdA -Dmetadata-keystore.metadata.algorithm=DESede]]></docker.tests.repository.versionSpecificJavaOpts>
+        <docker.tests.repository.port>8082</docker.tests.repository.port>
+        <docker.tests.repository.debugPort>8083</docker.tests.repository.debugPort>
+        <!-- non-empty default to prevent all dependencies from being copied-->
+        <docker.tests.repository.dependency.artifactIds>none</docker.tests.repository.dependency.artifactIds>
+        <docker.tests.repository.preRun>USER root</docker.tests.repository.preRun>
+        <docker.tests.repository.postRun>USER alfresco</docker.tests.repository.postRun>
+
+        <docker.tests.share.base></docker.tests.share.base>
+        <docker.tests.share.tomcatPath>/usr/local/tomcat</docker.tests.share.tomcatPath>
+        <docker.tests.share.webappPath>${docker.tests.share.tomcatPath}/webapps/share</docker.tests.share.webappPath>
+        <docker.tests.share.mmtPath>${docker.tests.share.tomcatPath}/alfresco-mmt</docker.tests.share.mmtPath>
+        <docker.tests.share.ampPath>${docker.tests.share.tomcatPath}/share_amps</docker.tests.share.ampPath>
+        <docker.tests.share.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.share.debugPort}</docker.tests.share.versionSpecificJavaOpts>
+        <docker.tests.share.port>8182</docker.tests.share.port>
+        <docker.tests.share.debugPort>8183</docker.tests.share.debugPort>
+        <!-- non-empty default to prevent all dependencies from being copied-->
+        <docker.tests.share.dependency.artifactIds>none</docker.tests.share.dependency.artifactIds>
+
+        <docker.tests.search.base></docker.tests.search.base>
+        <docker.tests.search.subsystem>solr6</docker.tests.search.subsystem>
+        <docker.tests.search.port>8282</docker.tests.search.port>
+        <docker.tests.search.internalHost>search</docker.tests.search.internalHost>
+        <docker.tests.search.internalPort>8983</docker.tests.search.internalPort>
+        <docker.tests.search.baseUrl>/solr</docker.tests.search.baseUrl>
 
         <war.alfresco.artifactId>alfresco</war.alfresco.artifactId>
         <war.share.artifactId>share</war.share.artifactId>
@@ -1081,6 +1092,476 @@
             </build>
         </profile>
 
+        <profile>
+            <id>skip-integration-tests-explicit</id>
+
+            <activation>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>false</value>
+                </property>
+            </activation>
+
+            <properties>
+                <skipITs>true</skipITs>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>skip-integration-tests-implicit</id>
+
+            <activation>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>!true</value>
+                </property>
+                <file>
+                    <missing>src/test/docker/docker-compose.yaml</missing>
+                </file>
+            </activation>
+
+            <properties>
+                <skipITs>true</skipITs>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>docker-integration-tests-general</id>
+
+            <activation>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>!false</value>
+                </property>
+                <file>
+                    <exists>src/test/docker/docker-compose.yaml</exists>
+                </file>
+            </activation>
+
+            <build>
+
+                <pluginManagement>
+                    <plugins>
+
+                        <plugin>
+                            <artifactId>maven-resources-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>prepareDockerIT</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/docker</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>src/test/docker</directory>
+                                                <filtering>true</filtering>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>exec-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>buildDockerBeforeIT</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>exec</goal>
+                                    </goals>
+                                    <configuration>
+                                        <executable>docker</executable>
+                                        <arguments>
+                                            <argument>compose</argument>
+                                            <argument>-f</argument>
+                                            <argument>${project.build.directory}/docker/docker-compose.yaml</argument>
+                                            <argument>build</argument>
+                                        </arguments>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>startDockerBeforeIT</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>exec</goal>
+                                    </goals>
+                                    <configuration>
+                                        <executable>docker</executable>
+                                        <arguments>
+                                            <argument>compose</argument>
+                                            <argument>-f</argument>
+                                            <argument>${project.build.directory}/docker/docker-compose.yaml</argument>
+                                            <argument>up</argument>
+                                            <argument>-d</argument>
+                                            <argument>--wait</argument>
+                                        </arguments>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>stopDockerAfterIT</id>
+                                    <phase>post-integration-test</phase>
+                                    <goals>
+                                        <goal>exec</goal>
+                                    </goals>
+                                    <configuration>
+                                        <skip>${docker.tests.down.skip}</skip>
+                                        <executable>docker</executable>
+                                        <arguments>
+                                            <argument>compose</argument>
+                                            <argument>-f</argument>
+                                            <argument>${project.build.directory}/docker/docker-compose.yaml</argument>
+                                            <argument>down</argument>
+                                        </arguments>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                    </plugins>
+                </pluginManagement>
+
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                    </plugin>
+
+                </plugins>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>docker-integration-tests-general-image</id>
+
+            <activation>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>!false</value>
+                </property>
+                <file>
+                    <exists>src/test/docker/Dockerfile</exists>
+                </file>
+            </activation>
+
+            <build>
+
+                <pluginManagement>
+                    <plugins>
+
+                        <plugin>
+                            <artifactId>maven-dependency-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>copyDockerITDependencies</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-dependencies</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/docker</outputDirectory>
+                                        <includeTypes>amp,jar</includeTypes>
+                                        <includeScope>test</includeScope>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <artifactId>maven-resources-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>copyDockerITBuildArtifacts</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/docker</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>${project.build.directory}</directory>
+                                                <filtering>false</filtering>
+                                                <includes>
+                                                    <include>${project.build.finalName}.amp</include>
+                                                    <include>${project.build.finalName}-installable.jar</include>
+                                                </includes>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                    </plugins>
+                </pluginManagement>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>docker-integration-tests-repository-image</id>
+
+            <activation>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>!false</value>
+                </property>
+                <file>
+                    <exists>src/test/docker/repository/Dockerfile</exists>
+                </file>
+            </activation>
+
+            <build>
+
+                <pluginManagement>
+                    <plugins>
+
+                        <plugin>
+                            <artifactId>maven-dependency-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>copyDockerITRepoDependencies</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-dependencies</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/docker/repository</outputDirectory>
+                                        <includeTypes>amp,jar</includeTypes>
+                                        <includeArtifactIds>${docker.tests.repository.dependency.artifactIds}</includeArtifactIds>
+                                        <includeScope>test</includeScope>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <artifactId>maven-resources-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>copyDockerITRepoBuildArtifacts</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/docker/repository</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>${project.build.directory}</directory>
+                                                <filtering>false</filtering>
+                                                <includes>
+                                                    <include>${project.build.finalName}.amp</include>
+                                                    <include>${project.build.finalName}-installable.jar</include>
+                                                </includes>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                    </plugins>
+                </pluginManagement>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>docker-integration-tests-share-image</id>
+
+            <activation>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>!false</value>
+                </property>
+                <file>
+                    <exists>src/test/docker/share/Dockerfile</exists>
+                </file>
+            </activation>
+
+            <build>
+
+                <pluginManagement>
+                    <plugins>
+
+                        <plugin>
+                            <artifactId>maven-dependency-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>copyDockerITShareDependencies</id>
+                                    <phase>generate-test-resources</phase>
+                                    <goals>
+                                        <goal>copy-dependencies</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/docker/share</outputDirectory>
+                                        <includeTypes>amp,jar</includeTypes>
+                                        <includeArtifactIds>${docker.tests.share.dependency.artifactIds}</includeArtifactIds>
+                                        <includeScope>test</includeScope>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <plugin>
+                            <artifactId>maven-resources-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>copyDockerITShareBuildArtifacts</id>
+                                    <phase>pre-integration-test</phase>
+                                    <goals>
+                                        <goal>copy-resources</goal>
+                                    </goals>
+                                    <configuration>
+                                        <outputDirectory>${project.build.directory}/docker/share</outputDirectory>
+                                        <resources>
+                                            <resource>
+                                                <directory>${project.build.directory}</directory>
+                                                <filtering>false</filtering>
+                                                <includes>
+                                                    <include>${project.build.finalName}.amp</include>
+                                                    <include>${project.build.finalName}-installable.jar</include>
+                                                </includes>
+                                            </resource>
+                                        </resources>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                    </plugins>
+                </pluginManagement>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>docker-integration-tests-clean-if-compose-present</id>
+
+            <activation>
+                <file>
+                    <exists>target/docker/docker-compose.yaml</exists>
+                </file>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <build>
+
+                <pluginManagement>
+                    <plugins>
+
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>exec-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>cleanDockerIT</id>
+                                    <phase>pre-clean</phase>
+                                    <goals>
+                                        <goal>exec</goal>
+                                    </goals>
+                                    <configuration>
+                                        <executable>docker</executable>
+                                        <arguments>
+                                            <argument>compose</argument>
+                                            <argument>-f</argument>
+                                            <argument>${project.build.directory}/docker/docker-compose.yaml</argument>
+                                            <argument>down</argument>
+                                        </arguments>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                    </plugins>
+                </pluginManagement>
+
+            </build>
+        </profile>
+
+        <profile>
+            <id>docker-integration-tests-purge-if-compose-present</id>
+
+            <activation>
+                <file>
+                    <exists>target/docker/docker-compose.yaml</exists>
+                </file>
+                <!-- cannot check property test.docker.enable here - each type of activation condition can be used only once -->
+                <!-- but if target/docker/docker-compose.yaml exists, it must have been set/used before -->
+                <property>
+                    <name>purge</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <build>
+
+                <pluginManagement>
+                    <plugins>
+
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>exec-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>cleanDockerIT</id>
+                                    <phase>pre-clean</phase>
+                                    <goals>
+                                        <goal>exec</goal>
+                                    </goals>
+                                    <configuration>
+                                        <executable>docker</executable>
+                                        <arguments>
+                                            <argument>compose</argument>
+                                            <argument>-f</argument>
+                                            <argument>${project.build.directory}/docker/docker-compose.yaml</argument>
+                                            <argument>down</argument>
+                                            <argument>-v</argument>
+                                            <argument>--rmi</argument>
+                                            <argument>local</argument>
+                                        </arguments>
+                                    </configuration>
+                                </execution>
+                                <execution>
+                                    <id>stopDockerAfterIT</id>
+                                    <phase>post-integration-test</phase>
+                                    <goals>
+                                        <goal>exec</goal>
+                                    </goals>
+                                    <configuration>
+                                        <skip>${docker.tests.down.skip}</skip>
+                                        <executable>docker</executable>
+                                        <arguments>
+                                            <argument>compose</argument>
+                                            <argument>-f</argument>
+                                            <argument>${project.build.directory}/docker/docker-compose.yaml</argument>
+                                            <argument>down</argument>
+                                            <argument>-v</argument>
+                                            <argument>--rmi</argument>
+                                            <argument>local</argument>
+                                        </arguments>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                    </plugins>
+                </pluginManagement>
+
+            </build>
+        </profile>
     </profiles>
 
     <modules>
