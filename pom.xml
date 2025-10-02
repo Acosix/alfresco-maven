@@ -95,7 +95,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.helper.version>3.6.1</maven.helper.version>
         <maven.gmaven.version>2.1.1</maven.gmaven.version>
-        <maven.exec.version>3.5.0</maven.exec.version>
+        <maven.exec.version>3.5.1</maven.exec.version>
 
         <maven.acosix.jshint.version>1.2.0-SNAPSHOT</maven.acosix.jshint.version>
         <maven.acosix.i18n.version>1.1.0-SNAPSHOT</maven.acosix.i18n.version>
@@ -204,7 +204,7 @@
                             <configuration>
                                 <rules>
                                     <requireMavenVersion>
-                                        <version>[3.5,)</version>
+                                        <version>[3.9,)</version>
                                     </requireMavenVersion>
                                 </rules>
                             </configuration>
@@ -340,6 +340,14 @@
                 <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>

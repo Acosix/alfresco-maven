@@ -1108,24 +1108,6 @@
         </profile>
 
         <profile>
-            <id>skip-integration-tests-implicit</id>
-
-            <activation>
-                <property>
-                    <name>docker.tests.enabled</name>
-                    <value>!true</value>
-                </property>
-                <file>
-                    <missing>src/test/docker/docker-compose.yaml</missing>
-                </file>
-            </activation>
-
-            <properties>
-                <skipITs>true</skipITs>
-            </properties>
-        </profile>
-
-        <profile>
             <id>docker-integration-tests-general</id>
 
             <activation>
@@ -1158,6 +1140,28 @@
                                             <resource>
                                                 <directory>src/test/docker</directory>
                                                 <filtering>true</filtering>
+                                                <excludes>
+                                                    <exclude>**/*.keystore</exclude>
+                                                    <exclude>**/*.jks</exclude>
+                                                    <exclude>**/*.jceks</exclude>
+                                                    <exclude>**/*.p12</exclude>
+
+                                                    <exclude>**/*.png</exclude>
+                                                    <exclude>**/*.bmp</exclude>
+                                                </excludes>
+                                            </resource>
+                                            <resource>
+                                                <directory>src/test/docker</directory>
+                                                <filtering>false</filtering>
+                                                <includes>
+                                                    <include>**/*.keystore</include>
+                                                    <include>**/*.jks</include>
+                                                    <include>**/*.jceks</include>
+                                                    <include>**/*.p12</include>
+
+                                                    <include>**/*.png</include>
+                                                    <include>**/*.bmp</include>
+                                                </includes>
                                             </resource>
                                         </resources>
                                     </configuration>
@@ -1448,13 +1452,13 @@
             <id>docker-integration-tests-clean-if-compose-present</id>
 
             <activation>
+                <property>
+                    <name>docker.tests.enabled</name>
+                    <value>!false</value>
+                </property>
                 <file>
                     <exists>target/docker/docker-compose.yaml</exists>
                 </file>
-                <property>
-                    <name>docker.tests.enabled</name>
-                    <value>true</value>
-                </property>
             </activation>
 
             <build>
@@ -1495,15 +1499,15 @@
             <id>docker-integration-tests-purge-if-compose-present</id>
 
             <activation>
-                <file>
-                    <exists>target/docker/docker-compose.yaml</exists>
-                </file>
                 <!-- cannot check property test.docker.enable here - each type of activation condition can be used only once -->
                 <!-- but if target/docker/docker-compose.yaml exists, it must have been set/used before -->
                 <property>
                     <name>purge</name>
                     <value>true</value>
                 </property>
+                <file>
+                    <exists>target/docker/docker-compose.yaml</exists>
+                </file>
             </activation>
 
             <build>
