@@ -95,7 +95,7 @@
         <logback.version>1.2.3</logback.version>
 
         <docker.tests.repository.base>alfresco/alfresco-content-repository-community:6.1.2-ga</docker.tests.repository.base>
-        <docker.tests.repository.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repository.debugPort}</docker.tests.repository.versionSpecificJavaOpts>
+        <docker.tests.repository.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repository.debugInternalPort}</docker.tests.repository.versionSpecificJavaOpts>
         <docker.tests.repository.preRun></docker.tests.repository.preRun>
         <docker.tests.repository.postRun></docker.tests.repository.postRun>
         <docker.tests.repository.chown.mask>root:root</docker.tests.repository.chown.mask>

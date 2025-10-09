@@ -87,13 +87,13 @@
         <logback.version>1.2.3</logback.version>
 
         <docker.tests.repository.base>alfresco/alfresco-content-repository-community:6.0.7-ga</docker.tests.repository.base>
-        <docker.tests.repository.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.repository.debugPort}</docker.tests.repository.versionSpecificJavaOpts>
+        <docker.tests.repository.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.repository.debugInternalPort}</docker.tests.repository.versionSpecificJavaOpts>
         <docker.tests.repository.preRun></docker.tests.repository.preRun>
         <docker.tests.repository.postRun></docker.tests.repository.postRun>
         <docker.tests.repository.chown.mask>root:root</docker.tests.repository.chown.mask>
         <docker.tests.share.base>alfresco/alfresco-share:6.0.b</docker.tests.share.base>
         <docker.tests.share.webappPath>/usr/local/tomcat/webapps/share</docker.tests.share.webappPath>
-        <docker.tests.share.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.share.debugPort}</docker.tests.share.versionSpecificJavaOpts>
+        <docker.tests.share.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${docker.tests.share.debugInternalPort}</docker.tests.share.versionSpecificJavaOpts>
         <docker.tests.search.base>alfresco/alfresco-search-services:1.1.1</docker.tests.search.base>
 
         <war.alfresco.artifactId>content-services-community</war.alfresco.artifactId>

@@ -93,9 +93,10 @@
         <docker.tests.repository.mmtPath>${docker.tests.repository.tomcatPath}/alfresco-mmt</docker.tests.repository.mmtPath>
         <docker.tests.repository.ampPath>${docker.tests.repository.tomcatPath}/amps</docker.tests.repository.ampPath>
         <docker.tests.repository.chown.mask>alfresco:Alfresco</docker.tests.repository.chown.mask>
-        <docker.tests.repository.versionSpecificJavaOpts><![CDATA[-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repository.debugPort} -Dencryption.keystore.type=JCEKS -Dencryption.cipherAlgorithm=DESede/CBC/PKCS5Padding -Dencryption.keyAlgorithm=DESede -Dencryption.keystore.location=${docker.tests.repository.tomcatPath}/shared/classes/alfresco/extension/keystore/keystore -Dmetadata-keystore.password=mp6yc0UD9e -Dmetadata-keystore.aliases=metadata -Dmetadata-keystore.metadata.password=oKIWzVdEdA -Dmetadata-keystore.metadata.algorithm=DESede]]></docker.tests.repository.versionSpecificJavaOpts>
+        <docker.tests.repository.versionSpecificJavaOpts><![CDATA[-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.repository.debugInternalPort} -Dencryption.keystore.type=JCEKS -Dencryption.cipherAlgorithm=DESede/CBC/PKCS5Padding -Dencryption.keyAlgorithm=DESede -Dencryption.keystore.location=${docker.tests.repository.tomcatPath}/shared/classes/alfresco/extension/keystore/keystore -Dmetadata-keystore.password=mp6yc0UD9e -Dmetadata-keystore.aliases=metadata -Dmetadata-keystore.metadata.password=oKIWzVdEdA -Dmetadata-keystore.metadata.algorithm=DESede]]></docker.tests.repository.versionSpecificJavaOpts>
         <docker.tests.repository.port>8082</docker.tests.repository.port>
         <docker.tests.repository.debugPort>8083</docker.tests.repository.debugPort>
+        <docker.tests.repository.debugInternalPort>8888</docker.tests.repository.debugInternalPort>
         <!-- non-empty default to prevent all dependencies from being copied-->
         <docker.tests.repository.dependency.artifactIds>none</docker.tests.repository.dependency.artifactIds>
         <docker.tests.repository.preRun>USER root</docker.tests.repository.preRun>
@@ -106,9 +107,10 @@
         <docker.tests.share.webappPath>${docker.tests.share.tomcatPath}/webapps/share</docker.tests.share.webappPath>
         <docker.tests.share.mmtPath>${docker.tests.share.tomcatPath}/alfresco-mmt</docker.tests.share.mmtPath>
         <docker.tests.share.ampPath>${docker.tests.share.tomcatPath}/share_amps</docker.tests.share.ampPath>
-        <docker.tests.share.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.share.debugPort}</docker.tests.share.versionSpecificJavaOpts>
+        <docker.tests.share.versionSpecificJavaOpts>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:${docker.tests.share.debugInternalPort}</docker.tests.share.versionSpecificJavaOpts>
         <docker.tests.share.port>8182</docker.tests.share.port>
         <docker.tests.share.debugPort>8183</docker.tests.share.debugPort>
+        <docker.tests.share.debugInternalPort>8888</docker.tests.share.debugInternalPort>
         <!-- non-empty default to prevent all dependencies from being copied-->
         <docker.tests.share.dependency.artifactIds>none</docker.tests.share.dependency.artifactIds>
 
