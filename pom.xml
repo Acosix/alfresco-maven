@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.acosix.alfresco.maven</groupId>
     <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.6.0</version>
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>
@@ -91,18 +91,19 @@
         <maven.install.version>3.1.4</maven.install.version>
         <maven.gpg.version>3.2.8</maven.gpg.version>
         <maven.deploy.version>3.1.4</maven.deploy.version>
-        <!-- we use the Sonatype plugin for deploy -->
-        <maven.deploy.skip>true</maven.deploy.skip>
         <maven.helper.version>3.6.1</maven.helper.version>
         <maven.gmaven.version>2.1.1</maven.gmaven.version>
         <maven.exec.version>3.5.1</maven.exec.version>
 
-        <maven.acosix.jshint.version>1.2.0-SNAPSHOT</maven.acosix.jshint.version>
-        <maven.acosix.i18n.version>1.1.0-SNAPSHOT</maven.acosix.i18n.version>
+        <maven.acosix.jshint.version>1.2.0</maven.acosix.jshint.version>
+        <maven.acosix.i18n.version>1.1.0</maven.acosix.i18n.version>
 
         <maven.alchim.yuicompressor.version>1.5.1</maven.alchim.yuicompressor.version>
 
-        <maven.sonatype.central.version>0.8.0</maven.sonatype.central.version>
+        <!-- we use the Sonatype plugin for deploy -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+
+        <maven.sonatype.central.version>0.9.0</maven.sonatype.central.version>
 
         <maven.plugin.version>3.15.1</maven.plugin.version>
         <maven.plugin.api.version>3.9.11</maven.plugin.api.version>

@@ -20,7 +20,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.6.0-SNAPSHOT</version>
+        <version>1.6.0</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
@@ -71,8 +71,8 @@
 
         <moduleId>${project.artifactId}</moduleId>
 
-        <maven.acosix.definitions.version>1.6.0-SNAPSHOT</maven.acosix.definitions.version>
-        <maven.acosix.plugins.version>1.6.0-SNAPSHOT</maven.acosix.plugins.version>
+        <maven.acosix.definitions.version>1.6.0</maven.acosix.definitions.version>
+        <maven.acosix.plugins.version>1.6.0</maven.acosix.plugins.version>
 
         <resteasy.version>6.2.12.Final</resteasy.version>
 
@@ -1148,6 +1148,11 @@
                                                     <exclude>**/*.jceks</exclude>
                                                     <exclude>**/*.p12</exclude>
 
+                                                    <exclude>**/*.jar</exclude>
+                                                    <exclude>**/*.ear</exclude>
+                                                    <exclude>**/*.war</exclude>
+                                                    <exclude>**/*.zip</exclude>
+
                                                     <exclude>**/*.png</exclude>
                                                     <exclude>**/*.bmp</exclude>
                                                 </excludes>
@@ -1160,6 +1165,11 @@
                                                     <include>**/*.jks</include>
                                                     <include>**/*.jceks</include>
                                                     <include>**/*.p12</include>
+
+                                                    <include>**/*.jar</include>
+                                                    <include>**/*.ear</include>
+                                                    <include>**/*.war</include>
+                                                    <include>**/*.zip</include>
 
                                                     <include>**/*.png</include>
                                                     <include>**/*.bmp</include>

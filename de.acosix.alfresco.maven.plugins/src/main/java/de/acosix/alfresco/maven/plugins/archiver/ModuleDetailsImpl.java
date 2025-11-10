@@ -85,8 +85,6 @@ public class ModuleDetailsImpl implements ModuleDetails
      *
      * @param properties
      *            the set of properties
-     * @param log
-     *            logger
      */
     public ModuleDetailsImpl(final Properties properties)
     {
