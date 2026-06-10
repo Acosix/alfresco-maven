@@ -23,11 +23,11 @@
         <version>1.6.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>de.acosix.alfresco.maven.project.parent-7.0.0</artifactId>
+    <artifactId>de.acosix.alfresco.maven.project.parent-25.1.0</artifactId>
     <packaging>pom</packaging>
 
-    <name>Acosix Alfresco 7.0.0 Project Parent</name>
-    <description>Parent POM for projects based on Alfresco 7.0.0</description>
+    <name>Acosix Alfresco 25.1.0 Project Parent</name>
+    <description>Parent POM for projects based on Alfresco 25.1.0</description>
 
     <licenses>
         <license>
@@ -60,39 +60,40 @@
     </developers>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
 
-        <alfresco.distribution.version>8.423</alfresco.distribution.version>
-        <share.distribution.version>7.0.0</share.distribution.version>
+        <alfresco.distribution.version>25.1.0.71</alfresco.distribution.version>
+        <share.distribution.version>25.1.0.56</share.distribution.version>
 
-        <alfresco.repo.core.version>8.423</alfresco.repo.core.version>
-        <alfresco.share.core.version>8.393</alfresco.share.core.version>
-        <alfresco.safe.core.version>8.393</alfresco.safe.core.version>
+        <alfresco.repo.core.version>${alfresco.distribution.version}</alfresco.repo.core.version>
+        <alfresco.share.core.version>25.1.0.71</alfresco.share.core.version>
+        <alfresco.safe.core.version>25.1.0.71</alfresco.safe.core.version>
 
-        <alfresco.data-model.version>8.423</alfresco.data-model.version>
-        <alfresco.repository.version>8.423</alfresco.repository.version>
-        <alfresco.remote-api.version>8.423</alfresco.remote-api.version>
-        <alfresco.jlan.version>7.1</alfresco.jlan.version>
-        <alfresco.share-services.version>${share.distribution.version}</alfresco.share-services.version>
+        <alfresco.data-model.version>${alfresco.distribution.version}</alfresco.data-model.version>
+        <alfresco.repository.version>${alfresco.distribution.version}</alfresco.repository.version>
+        <alfresco.remote-api.version>${alfresco.distribution.version}</alfresco.remote-api.version>
+        <alfresco.jlan.version>7.5</alfresco.jlan.version>
+        <alfresco.share-services.version>${alfresco.distribution.version}</alfresco.share-services.version>
 
-        <spring.version>5.3.3</spring.version>
+        <spring.version>6.2.2</spring.version>
         <surf.groupId>org.alfresco.surf</surf.groupId>
-        <surf.repo.webscripts.version>8.18</surf.repo.webscripts.version>
-        <surf.repo.core.version>8.18</surf.repo.core.version>
-        <surf.share.webscripts.version>8.18</surf.share.webscripts.version>
-        <surf.share.api.version>8.9</surf.share.api.version>
-        <surf.share.core.version>8.18</surf.share.core.version>
-        <surf.safe.webscripts.version>8.18</surf.safe.webscripts.version>
-        <surf.safe.core.version>8.18</surf.safe.core.version>
+        <surf.repo.webscripts.version>10.0</surf.repo.webscripts.version>
+        <surf.repo.core.version>10.0</surf.repo.core.version>
+        <surf.share.webscripts.version>10.0</surf.share.webscripts.version>
+        <surf.share.api.version>10.0</surf.share.api.version>
+        <surf.share.core.version>10.0</surf.share.core.version>
+        <surf.safe.webscripts.version>10.0</surf.safe.webscripts.version>
+        <surf.safe.core.version>10.0</surf.safe.core.version>
 
-        <slf4j.version>1.7.30</slf4j.version>
-        <activemq.version>5.16.1</activemq.version>
+        <slf4j.version>2.0.16</slf4j.version>
+        <log4j.version>2.24.3</log4j.version>
+        <activemq.version>5.18.6</activemq.version>
 
-        <logback.version>1.2.6</logback.version>
+        <logback.version>1.5.6</logback.version>
 
-        <docker.tests.repository.base>alfresco/alfresco-content-repository-community:7.0.0</docker.tests.repository.base>
-        <docker.tests.share.base>alfresco/alfresco-share:7.0.0</docker.tests.share.base>
-        <docker.tests.search.base>alfresco/alfresco-search-services:2.0.0.1</docker.tests.search.base>
+        <docker.tests.repository.base>alfresco/alfresco-content-repository-community:25.1.0</docker.tests.repository.base>
+        <docker.tests.share.base>alfresco/alfresco-share:25.1.0</docker.tests.share.base>
+        <docker.tests.search.base>alfresco/alfresco-search-services:2.0.15</docker.tests.search.base>
 
         <war.alfresco.artifactId>content-services-community</war.alfresco.artifactId>
 
@@ -156,12 +157,8 @@
                     </exclusion>
                     <!-- can mess with tests using a Servlet 3.0 container -->
                     <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
+                        <groupId>jakarta.servlet</groupId>
+                        <artifactId>jakarta.servlet-api</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -189,14 +186,10 @@
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
-                    <!-- can mess with tests using a Servlet 3.0 container -->
+                    <!-- can mess with tests -->
                     <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
+                        <groupId>jakarta.servlet</groupId>
+                        <artifactId>jakarta.servlet-api</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -232,9 +225,9 @@
             </dependency>
 
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>3.0.1</version>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>5.0.0</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -255,22 +248,15 @@
 
             <dependency>
                 <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.slf4j</groupId>
                 <artifactId>jcl-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>log4j-over-slf4j</artifactId>
-                <version>${slf4j.version}</version>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>${log4j.version}</version>
                 <scope>test</scope>
             </dependency>
 

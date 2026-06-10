@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
- Copyright 2016 - 2025 Acosix GmbH
+ Copyright 2016 - 2026 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.acosix.alfresco.maven</groupId>
     <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-    <version>1.6.0</version>
+    <version>1.6.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Acosix Alfresco Maven Parent</name>
     <description>Parent POM for Acosix Alfresco Maven Support</description>

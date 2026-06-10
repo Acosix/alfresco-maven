@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- 
- Copyright 2016 - 2025 Acosix GmbH
+ Copyright 2016 - 2026 Acosix GmbH
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
     <parent>
         <groupId>de.acosix.alfresco.maven</groupId>
         <artifactId>de.acosix.alfresco.maven.parent</artifactId>
-        <version>1.6.0</version>
+        <version>1.6.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>de.acosix.alfresco.maven.project.parent</artifactId>
@@ -71,8 +71,8 @@
 
         <moduleId>${project.artifactId}</moduleId>
 
-        <maven.acosix.definitions.version>1.6.0</maven.acosix.definitions.version>
-        <maven.acosix.plugins.version>1.6.0</maven.acosix.plugins.version>
+        <maven.acosix.definitions.version>1.6.1-SNAPSHOT</maven.acosix.definitions.version>
+        <maven.acosix.plugins.version>1.6.1-SNAPSHOT</maven.acosix.plugins.version>
 
         <resteasy.version>6.2.12.Final</resteasy.version>
 
@@ -1589,5 +1589,7 @@
         <module>7.0.0</module>
         <module>7.4.0</module>
         <module>23.1.0</module>
+        <module>25.1.0</module>
+        <module>26.1.0</module>
     </modules>
 </project>
